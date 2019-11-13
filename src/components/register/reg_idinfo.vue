@@ -6,11 +6,11 @@
             <article><span class="must"></span>证件照片</article>
             <aside>
                 <van-uploader :after-read="onReadId1" class="idInfo">
-                    <img :src="getImg('/img/id1.jpg')" alt ref="idinfo1" />
+                    <img :src="getImg('/images/id1.jpg')" alt ref="idinfo1" />
                 </van-uploader>
 
                 <van-uploader :after-read="onReadId2" class="idInfo">
-                    <img :src="getImg('/img/id2.jpg')" alt ref="idinfo2" />
+                    <img :src="getImg('/images/id2.jpg')" alt ref="idinfo2" />
                 </van-uploader>
             </aside>
         </section>
@@ -19,7 +19,7 @@
             <article><span class="must"></span>采集照片</article>
             <aside>
                 <van-uploader :after-read="onReadId3" class="idInfo">
-                    <img :src="getImg('/img/id3.jpg')" alt ref="idinfo3" />
+                    <img :src="getImg('/images/id3.jpg')" alt ref="idinfo3" />
                 </van-uploader>
             </aside>
         </section>

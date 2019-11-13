@@ -1,6 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import register from './register'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import find from './find';
+import register from './register';
+import comvote from './comvote';
 
 Vue.use(Vuex)
 
@@ -12,6 +14,8 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    register
+    find,
+    register,
+    comvote
   }
 })
