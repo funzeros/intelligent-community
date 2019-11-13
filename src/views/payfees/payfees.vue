@@ -21,7 +21,7 @@
       />
     </van-dropdown-menu>
     <!-- 底部内容 -->
-    <div class="center">
+    <div class="center" style="z-index:1000">
       <p>2019年{{nowmonth}}</p>
       <ul>
         <li v-for="item of nodelist " :key="item.id" @click="paydetail(item.id)">
@@ -167,6 +167,7 @@ export default {
   top: 40px;
 }
 .center {
+  z-index: 1000;
   overflow: scroll;
   width: 90%;
   position: absolute;
