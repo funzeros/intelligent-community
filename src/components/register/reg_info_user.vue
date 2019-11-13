@@ -8,7 +8,7 @@
     <van-cell-group>
       <!-- 用户名 -->
       <div class="must">
-      <van-field style="margin-bottom:15px" @input="setusernm"  clearable label="用户名" placeholder="请输入" v-model="username"></van-field>
+      <van-field style="margin-bottom:15px"  @input="setusernm"  clearable label="用户名" placeholder="请输入" v-model="username"></van-field>
       </div>
       <!-- 姓名 -->
       <div class="must">
@@ -24,7 +24,7 @@
       <user_card class="delta"></user_card>
       </div>
       <!-- 证件号码 -->
-      <van-field  clearable label="证件号码" @input="setidnum" placeholder="请输入" v-model="idnum"
+      <van-field  clearable label="证件号码"  @input="setidnum" placeholder="请输入" v-model="idnum"
       style="border-top:none;margin-bottom:15px"></van-field>
       <!--  -->
       <!-- 民族 -->
@@ -47,7 +47,8 @@ export default {
       nextflag:false,
       username:'',
       idnum:'',
-      name:''
+      name:'',
+      idlock:true,
     };
   },
   computed:{
@@ -58,7 +59,18 @@ export default {
     // 点击下一步进行验证
     next() {
       if(this.nextflag){
-        this.$store.state.register.stepcount++;
+          let unmlock=/^[a-zA-Z]\w{3,11}$/.test(this.$store.state.register.username); //用户名正则
+          let namelock=/^[\u4e00-\u9fa5]{2,4}$/.test(this.$store.state.register.name) ; //姓名正则
+            if(!unmlock){
+                this.$toast('用户名由字母开头，4-12个数字字母下划线组合');
+            }
+            if(!namelock){
+                this.$toast('姓名格式为2-4个汉字');
+            }
+          this.veridnum();
+        if((!this.$store.state.register.idnum||this.idlock)&&unmlock&&namelock){
+          this.$store.state.register.stepcount++;
+        }
       }else{
         this.$toast('必填项不能为空');
       }
@@ -75,13 +87,19 @@ export default {
     setusernm(){
       this.$store.state.register.username=this.username;
     },
-    setnm(){
-      this.$store.state.register.name=this.name;
+    setnm(){ 
+      this.$store.state.register.name=this.name;   //将信息存到状态管理
 
     },
     setidnum(){
       this.$store.state.register.idnum=this.idnum;
-
+    
+    },
+    veridnum(){
+      this.idlock=/^[0-9]{17}[0-9xX]$/.test(this.$store.state.register.idnum); //身份号码正则
+      if(this.$store.state.register.idnum&&!this.idlock){
+          this.$toast('身份证格式不正确，请输入18位身份证号码');
+      } 
     },
     onClickLeft(){
         // console.log(100);

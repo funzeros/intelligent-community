@@ -71,6 +71,7 @@ export default{
         username:'',
         name:'',
         sex:'男',
+        sexid:0, //性别ID
         idtype:'身份证',
         idnum:'',
         nation:'汉族'

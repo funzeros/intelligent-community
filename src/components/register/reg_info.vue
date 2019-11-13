@@ -110,8 +110,8 @@ export default {
             let flag =
                 /\d/g.test(this.pwd.trim()) &&
                 /[a-zA-Z]/g.test(this.pwd.trim());
-            let bool = flag && /^[0-9a-zA-Z]{8,}$/.test(this.pwd.trim());
-            this.pwd_msg = bool ? "" : "请输入8位数字与字母的组合";
+            let bool = flag && /^[0-9a-zA-Z]{8,20}$/.test(this.pwd);
+            this.pwd_msg = bool ? "" : "请输入8-20位数字与字母的组合";
             this.pwd_flag = bool ? true : false;
         },
         check_sec_pwd() {

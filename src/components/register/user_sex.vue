@@ -33,6 +33,11 @@ export default {
   methods: {
     onConfirm(value) {
       this.$store.state.register.sex = value;
+      if(value=='男'){
+        this.$store.state.register.sexid=0;
+      }else{
+        this.$store.state.register.sexid=1;
+      }
       this.showPicker = false;
     }
   }
