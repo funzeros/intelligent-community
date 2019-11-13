@@ -189,7 +189,12 @@ export default {
       if(index===6){
         this.$router.push({
         name: "suggestion"
-      });
+      })
+      };
+      if(index===1){
+        this.$router.push({
+        name: "visitor"
+      })
       }
     }
   }

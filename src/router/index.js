@@ -88,6 +88,29 @@ const routes = [
     name: 'informdetail',
     component: () => import('../views/information/community_informdetail.vue')
   },
+   // 访客授权部分
+  {
+    path: '/visitor',
+    name:'visitor',
+    component: () => import("../views/visitor")
+  },
+  // 二维码
+  {
+    path: '/visitor/:id',
+    component: () => import("../views/visitor/QRcode")
+  },
+  // 访客记录
+  {
+    path: '/visrecord',
+    name: 'visrecord',
+    component: () => import("../views/visitor/visRecord")
+  },
+  // 访客记录详情
+  {
+    path:'/visrecord/:id',
+    name:'visdetail',
+     component:()=>import('../views/visitor/visdetail')
+  },
    // 投诉建议
    {
     path: '/suggestion',
@@ -98,7 +121,12 @@ const routes = [
   {
     path: '/suggestion/myedit',
     name: 'myedit',
-    component: () => import('../views/suggestion/suggestion_edit.vue')
+    component: () => import('../views/advice/myrecord')
+  },
+  {
+    path:'/myrecord/:id',
+    name:'reply',
+     component:()=>import('../views/advice/reply'),
   },
   // 投诉建议——人员选择
   {
@@ -114,10 +142,17 @@ const routes = [
   },
   // 生活缴费——缴费记录
   {
-    path:'/life_payment/payment_records',
+    path:'/payfees',
     name:'payment_records',
-    component: () => import('../views/lifepayment/payment_records.vue')
+    component: () => import('../views/payfees/payfees')
   },
+  // 缴费记录-详情
+  {
+    path:'/payfees/:id',
+    name:'paydetail',
+    component: ()=>import('../views/payfees/paydetail')
+  },
+  
   // 生活缴费——立即缴费
   {
     path: '/life_payment/:id',
