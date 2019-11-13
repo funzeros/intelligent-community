@@ -5,6 +5,7 @@ import store from './store'
 // 引入 vant
 import Vant from 'vant';
 import 'vant/lib/index.css';
+import '../public/font/iconfont.css'
 Vue.use(Vant);
 
 Vue.config.productionTip = false

@@ -122,6 +122,9 @@ input::-webkit-input-placeholder {
   height: 40px;
   border: 0px;
 }
+.van-icon {
+    vertical-align: middle;
+}
 /* 图片上传 */
 .uploader {
   padding: 10px 20px;

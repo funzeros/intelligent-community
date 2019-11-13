@@ -1,30 +1,79 @@
+
 <template>
   <div id="main">
     <router-view />
+    <!-- 底部tab导航 -->
     <nav>
-      <li>
-        <router-link to="/main/community">社区</router-link>
-      </li>
-      <li>
-        <router-link to="/main/find">发现</router-link>
-      </li>
-      <li>
-        <router-link to="/main/key">key</router-link>
-      </li>
-      <li>
-        <router-link to="/main/neighborhood">邻里</router-link>
-      </li>
-      <li>
-        <router-link to="/main/mine">我的</router-link>
+      <li v-for="tab of tabs" :key="tab.id"  @click="selTab(tab)">
+        <router-link :to="tab.rounter"  :class="{select: selectTab === tab}" >
+          <span class="iconfont" :class='tab.iconfont' ></span>
+          <span >{{tab.title}}</span>
+        </router-link>
       </li>
     </nav>
   </div>
 </template>
-
+<script>
+export default {
+  data() {
+    const tabs= [
+        {
+          id: "101",
+          rounter: "/main/community",
+          iconfont: "icon-xingqiu-",
+          title: "社区"
+        },
+        {
+          id: "102",
+          rounter: "/main/find",
+          iconfont: "icon-zhinanzhen_o",
+          title: "发现"
+        },
+        {
+          id: "103",
+          rounter: "/main/key",
+          iconfont: "icon-yuechi",
+          title: "key"
+        },
+        {
+          id: "104",
+          rounter: "/main/neighborhood",
+          iconfont: "icon-caidan",
+          title: "邻里"
+        },
+        {
+          id: "105",
+          rounter: "/main/mine",
+          iconfont: "icon-wode",
+          title: "我的"
+        }
+      ];
+    return {
+      tabs,
+      selectTab: tabs[0],
+    };
+  },
+  methods:{
+    selTab(tab) {
+      this.selectTab = tab;
+  }
+  }
+};
+</script>
 <style scoped>
-#main{
+#main {
   height: 100%;
   background-color: #eee;
+}
+/* tab导航图标样式 */
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 24px;
+  display:block;
+}
+/* 选种样式 */
+.select {
+  color:rgb(43, 140, 231);
 }
 nav {
   display: flex;
@@ -54,8 +103,6 @@ nav li a {
   box-sizing: border-box;
 }
 
-
-
 a {
   display: inline-block;
   text-decoration: none;
@@ -64,6 +111,7 @@ a {
 
 li {
   list-style: none;
+  text-align: center;
 }
 
 img {

@@ -8,7 +8,7 @@ export default{
               id: 1,
               text: "小区绿化带有很多垃圾没有清理",
               img: [
-                "http://b-ssl.duitang.com/uploads/item/201509/13/20150913102741_uvnEC.jpeg",
+                "http://img1.imgtn.bdimg.com/it/u=3622845054,993908195&fm=26&gp=0.jpg",
                 "http://b-ssl.duitang.com/uploads/item/201509/13/20150913102741_uvnEC.jpeg",
                 "http://b-ssl.duitang.com/uploads/item/201509/13/20150913102741_uvnEC.jpeg"
               ],

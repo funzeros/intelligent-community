@@ -1,0 +1,44 @@
+{
+  "id": "1507747",
+  "name": "智慧社区",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2451804",
+      "name": "我的",
+      "font_class": "wode",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "5003810",
+      "name": "钥匙",
+      "font_class": "yuechi",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "5122170",
+      "name": "星球",
+      "font_class": "xingqiu-",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "5387848",
+      "name": "指南针_o",
+      "font_class": "zhinanzhen_o",
+      "unicode": "eb70",
+      "unicode_decimal": 60272
+    },
+    {
+      "icon_id": "8940016",
+      "name": "菜单",
+      "font_class": "caidan",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    }
+  ]
+}

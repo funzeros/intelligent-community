@@ -26,7 +26,7 @@
       </van-tab>
       <van-tab title="历史投票">
         <ul>
-          <li v-for="vote of comvotes" v-if="!vote.onGoing" @click="goto(vote)">
+          <li v-for="vote of comvotes" v-if="!vote.onGoing" @click="goto(vote)" >
             <div class="top">
               <div class="title">
                 <p>{{vote.title}}</p>

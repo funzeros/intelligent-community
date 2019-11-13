@@ -4,22 +4,15 @@
       <p>
         <van-icon name="location" />湘云雅苑
       </p>
-      <van-icon name="chat-o" @click="Message()"/>
+      <van-icon name="chat-o" @click="Message()" />
     </header>
-    <van-swipe :autoplay="3000" indicator-color="white">
-      <van-swipe-item>
-        <img src="/images/1.gif" alt />
-      </van-swipe-item>
-      <van-swipe-item>
-        <img src="/images/2.png" alt />
-      </van-swipe-item>
-      <van-swipe-item>
-        <img src="/images/1.gif" alt />
-      </van-swipe-item>
-      <van-swipe-item>
-        <img src="/images/2.png" alt />
+    <!-- 轮播图 -->
+    <van-swipe :autoplay="3000">
+      <van-swipe-item v-for="(image, index) in images" :key="index">
+        <img :src="image" />
       </van-swipe-item>
     </van-swipe>
+    <!--  导航 -->
     <nav>
       <li v-for="(list,index) of lists" :key="list.id" @click="self(index)">
         <img :src="list.src" alt />
@@ -100,7 +93,13 @@ export default {
       start: [],
       end: [],
       startdate: [],
-      startmonth: []
+      startmonth: [],
+      images: [
+        "http://img2.imgtn.bdimg.com/it/u=1244828054,1276986378&fm=26&gp=0.jpg",
+        "http://img1.imgtn.bdimg.com/it/u=2386616178,2067696785&fm=26&gp=0.jpg",
+        "http://img3.imgtn.bdimg.com/it/u=3735972475,1902514362&fm=26&gp=0.jpg",
+        "http://img1.imgtn.bdimg.com/it/u=2386616178,2067696785&fm=26&gp=0.jpg"
+      ]
     };
   },
   computed: {
@@ -169,32 +168,32 @@ export default {
       return this.end;
     }
   },
-  methods:{
-    Message(){
+  methods: {
+    Message() {
       this.$router.push({
         name: "community_message"
       });
     },
     information() {
-       this.$router.push({
+      this.$router.push({
         name: "community_inform"
       });
     },
-    self(index){
-      if(index===2) {
+    self(index) {
+      if (index === 2) {
         this.$router.push({
-        name: "life_payment"
-      });
+          name: "life_payment"
+        });
       }
-      if(index===6){
+      if (index === 6) {
         this.$router.push({
-        name: "suggestion"
-      })
-      };
-      if(index===1){
+          name: "suggestion"
+        });
+      }
+      if (index === 1) {
         this.$router.push({
-        name: "visitor"
-      })
+          name: "visitor"
+        });
       }
     }
   }
@@ -217,12 +216,14 @@ header .van-icon-chat-o {
   font-size: 18px;
   float: right;
 }
+
 .van-swipe {
   height: 163px;
   background-color: #000;
 }
 .van-swipe img {
   height: 163px;
+  width:100%;
 }
 nav {
   background-color: #fff;
