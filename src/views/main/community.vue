@@ -4,7 +4,7 @@
       <p>
         <van-icon name="location" />湘云雅苑
       </p>
-      <van-icon name="chat-o" />
+      <van-icon name="chat-o" @click="Message()"/>
     </header>
     <van-swipe :autoplay="3000" indicator-color="white">
       <van-swipe-item>
@@ -21,12 +21,12 @@
       </van-swipe-item>
     </van-swipe>
     <nav>
-      <li v-for="list of lists">
+      <li v-for="(list,index) of lists" :key="list.id" @click="self(index)">
         <img :src="list.src" alt />
         <p>{{list.text}}</p>
       </li>
     </nav>
-    <div class="notice">
+    <div class="notice" @click="information()">
       <section>
         <img src="/images/notice.png" alt />
         <aside>
@@ -167,6 +167,30 @@ export default {
         this.end[i] = this.end[i][1] + this.end[i][2];
       }
       return this.end;
+    }
+  },
+  methods:{
+    Message(){
+      this.$router.push({
+        name: "community_message"
+      });
+    },
+    information() {
+       this.$router.push({
+        name: "community_inform"
+      });
+    },
+    self(index){
+      if(index===2) {
+        this.$router.push({
+        name: "life_payment"
+      });
+      }
+      if(index===6){
+        this.$router.push({
+        name: "suggestion"
+      });
+      }
     }
   }
 };
