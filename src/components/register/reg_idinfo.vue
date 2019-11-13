@@ -89,8 +89,9 @@ export default {
       this.$refs.idinfo3.src = file.content;
       this.id3_flag = true;
     },
-    submit() {
+    async submit() {
       //提交数据
+      await this.$store.dispatch('register/subRegInfo');//调用axios发送注册数据
       this.$router.push("/login");
     }
   }

@@ -45,7 +45,7 @@ export default {
         this.$router.push({ path:'/register'});
       },
       onClickButtonSubmit: function () {
-        const req1 =  /[a-z]+/;
+        const req1 =  /[a-zA-Z]+/;
         const req2 =/^\w{6,20}$/;
         if(this.username == ''){
           this.$toast("用户名不能为空");
@@ -80,7 +80,9 @@ export default {
       gotoReg() {
           this.$router.push({name:'register'})
       }
-},
+},mounted(){
+    this.username=this.$store.state.register.username;
+}
 
 
 }

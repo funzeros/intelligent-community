@@ -1,3 +1,4 @@
+import axios from "axios";
 
 //  by方珂琛
 
@@ -57,7 +58,7 @@ export default{
             }
         ],//楼栋单元房屋
         // 房屋表单状态选择
-        identity:false,
+        identity:false,//选择身份框展示状态
         stepcash:0,//步骤缓存
         stepcount:0,//下一步步数
         phone:'',//手机号
@@ -74,7 +75,14 @@ export default{
         sexid:0, //性别ID
         idtype:'身份证',
         idnum:'',
-        nation:'汉族'
+        nation:'汉族',
+        carda:'',//身份证正面
+        cartb:'',//身份证背面
+        upic:'',//用户照片
+        cardurla:'',//身份证正面url
+        cardurlb:'',//身份证背面url
+        upicurl:'',//用户照片url
+        phonehas:false
     },
     getters:{
         getPhone:(state)=>{
@@ -90,6 +98,12 @@ export default{
         },
         setPwd(state,pwd){
             state.pwd = pwd;
+        },
+        setphonehas(state,has){
+            state.phonehas=has;
+        },
+        setregflag(state,data){
+            console.log(data);
         }
     },
     actions: {
@@ -98,6 +112,39 @@ export default{
         },
         changePwd(context,pwd){
             context.commit('setPwd',pwd);
+        },
+        async verifyPhone({commit,state}){
+            let data={"phonenum":state.phone};
+            let result= await axios.post('/api/user/verifyphone',data);
+            commit('setphonehas',result.data.has);
+
+        },
+        async subRegInfo({commit,state}){ //提交注册信息
+            let data={  
+                        "identity":state.homeform[0].value,
+                        "area":state.homeform[1].value,
+                        "build":state.homeform[2].value,
+                        "unit":state.homeform[3].value,
+                        "house":state.homeform[4].value,
+                        "phonenum":state.phone,
+                        "password":state.pwd,
+                        "contractStartTime":state.contract_start,
+                        "contractEndTime":state.contract_end,
+                        "contractPicurl":state.coturl,
+                        "username":state.username,
+                        "name":state.name,
+                        "sex":state.sexid,
+                        "idtype":state.idtype,
+                        "idnum":state.idnum,
+                        "nation":state.nation,
+                        "idCardA":state.cardurla,
+                        "idCardB":state.cardurlb,
+                        "uPicurl":state.upicurl
+                    };
+            // let result= await axios.post('/api/user/register',data);
+            // commit('setregflag',result.data);
+            console.log(data);
+
         }
     },
     modules: {

@@ -8,7 +8,9 @@
                 left-icon="contact"
                 v-model="phone"
                 @input="check_phone"
+                @blur="verphone"  
             />
+            <!-- 验证手机号是否注册 -->
         </van-cell-group>
         <div class="err_info">{{phone_msg}}</div>
 
@@ -81,7 +83,7 @@ export default {
             if(this.phone_flag &&
                 this.pwd_flag &&
                 this.sec_pwd_flag &&
-                this.code_flag){
+                this.code_flag&&!this.$store.state.register.phonehas){
                 this.degree='#bbf';
                 }
             //提交按钮是否可用
@@ -89,7 +91,7 @@ export default {
                 this.phone_flag &&
                 this.pwd_flag &&
                 this.sec_pwd_flag &&
-                this.code_flag
+                this.code_flag&&!this.$store.state.register.phonehas
             );
         },
         ...mapGetters(["getPhone", "getPwd"])
@@ -136,6 +138,17 @@ export default {
             // console.log(this.$store.state.register.stepcount)
             let stepcount=this.$store.state.register.stepcount;
             if(stepcount<4)this.$store.state.register.stepcount++;
+        },
+        async verphone(){ //验证手机号是否已注册
+            console.log('准备验证手机号');
+            
+                // this.$store.state.register.phonehas=true;//测试用例
+
+            // await this.$store.dispatch('register/verifyPhone');//调用axios
+            console.log('手机号验证完成');
+            if(this.$store.state.register.phonehas){
+                this.phone_msg = "手机号已经注册";
+            }
         }
     }
 };
