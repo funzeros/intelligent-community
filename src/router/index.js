@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import suggestion from '../views/suggestion/suggestion.vue'
+import store from '../store';
+
 Vue.use(VueRouter);
 
 
@@ -165,6 +167,27 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+//路由守卫
+router.beforeEach((to,from,next)=>{
+  // console.log('to',to);
+  // console.log('from',from);
+  // console.log(store.state.guardflag);
+  console.log(store.state.guardflag)
+  if(store.state.guardflag){//登录标志
+    next();
+  }else{
+    if(from.name==='login'&&to.name==='register'){ //登录转注册
+      next();
+    }else if(from.name===null&&to.name==='login'){ //载入登录
+      next();
+    }else if(from.name==='register'&&to.name==='login'){ //注册转登录
+      next();
+    }else{
+      next('/'); //其他转登录
+    }
+  }
 })
 
 export default router

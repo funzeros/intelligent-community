@@ -73,14 +73,15 @@ export default {
             this.$toast("密码必须包含字母");
             return false;
         }
-    
+        this.$store.state.guardflag=true;
         this.$router.push({path:'/main/community',name:'community'});
       
       },
       gotoReg() {
-           this.$router.push({name:'register'})
+          this.$router.push({name:'register'})
       }
 },
+
 
 }
 

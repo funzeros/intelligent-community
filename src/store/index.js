@@ -14,6 +14,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+      // guardflag:false
+      guardflag:true
   },
   mutations: {
   },
