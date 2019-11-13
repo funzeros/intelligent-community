@@ -54,11 +54,7 @@ nav li a {
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
-  background-color: #eee;
-}
+
 
 a {
   display: inline-block;

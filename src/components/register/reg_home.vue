@@ -75,9 +75,8 @@ export default {
             }
         },
         onClickLeft(){
-            // console.log(100);
-            let stepcount=this.$store.state.register.stepcount;
-            if(stepcount>0)this.$store.state.register.stepcount--;
+            this.$router.go(-1);
+            
         },
         next(){
             if(this.nextflag){

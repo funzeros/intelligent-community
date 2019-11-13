@@ -22,8 +22,8 @@
 
     <div>
       <div class="loginfooter">
-          新用户
-       <span @click="gotoReg">?立即注册</span>
+          新用户?&nbsp;
+       <span  class="reg" @click="gotoReg">立即注册</span>
       </div>
     </div>
   </div>
@@ -74,7 +74,7 @@ export default {
             return false;
         }
     
-        this.$router.push({path:'/home',name:'home'});
+        this.$router.push({path:'/main/community',name:'community'});
       
       },
       gotoReg() {
@@ -113,6 +113,11 @@ export default {
   position: absolute;
   bottom: 10px;
   left: 25%;
+  text-align: center
 }
 
+.reg{
+  text-decoration: underline;
+  color: #7b7;
+}
 </style>
