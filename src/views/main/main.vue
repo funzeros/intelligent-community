@@ -31,7 +31,7 @@ export default {
         },
         {
           id: "103",
-          rounter: "/main/key",
+          rounter: "/key",
           iconfont: "icon-yuechi",
           title: "key"
         },
@@ -88,6 +88,7 @@ nav {
 }
 nav li {
   height: 100%;
+  text-align: center;
   float: left;
 }
 nav li a {
@@ -111,7 +112,6 @@ a {
 
 li {
   list-style: none;
-  text-align: center;
 }
 
 img {

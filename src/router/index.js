@@ -40,12 +40,6 @@ const routes = [
         name: 'find',
         component: () => import('../views/main/find.vue'),
       },
-      // 开门
-      {
-        path: '/main/key',
-        name: 'key',
-        component: () => import('../views/main/key.vue')
-      },
       // 邻里
       {
         path: '/main/neighborhood',
@@ -60,6 +54,12 @@ const routes = [
       },
     ]
   },
+  // 开门
+  {
+    path: '/key',
+    name: 'key',
+    component: () => import('../views/main/key.vue')
+  },
   // 投票
   {
     path: '/comvote',
@@ -72,8 +72,8 @@ const routes = [
     name: 'votedetails',
     component: () => import('../views/comvote/votedetails.vue')
   },
-   // 消息通知
-   {
+  // 消息通知
+  {
     path: '/community_message',
     name: 'community_message',
     component: () => import('../views/message/community_message.vue')
@@ -90,10 +90,10 @@ const routes = [
     name: 'informdetail',
     component: () => import('../views/information/community_informdetail.vue')
   },
-   // 访客授权部分
+  // 访客授权部分
   {
     path: '/visitor',
-    name:'visitor',
+    name: 'visitor',
     component: () => import("../views/visitor")
   },
   // 二维码
@@ -109,12 +109,12 @@ const routes = [
   },
   // 访客记录详情
   {
-    path:'/visrecord/:id',
-    name:'visdetail',
-     component:()=>import('../views/visitor/visdetail')
+    path: '/visrecord/:id',
+    name: 'visdetail',
+    component: () => import('../views/visitor/visdetail')
   },
-   // 投诉建议
-   {
+  // 投诉建议
+  {
     path: '/suggestion',
     name: 'suggestion',
     component: suggestion,
@@ -126,9 +126,9 @@ const routes = [
     component: () => import('../views/advice/myrecord')
   },
   {
-    path:'/myrecord/:id',
-    name:'reply',
-     component:()=>import('../views/advice/reply'),
+    path: '/myrecord/:id',
+    name: 'reply',
+    component: () => import('../views/advice/reply'),
   },
   // 投诉建议——人员选择
   {
@@ -138,23 +138,23 @@ const routes = [
   },
   // 生活缴费
   {
-    path:'/life_payment',
-    name:'life_payment',
+    path: '/life_payment',
+    name: 'life_payment',
     component: () => import('../views/lifepayment/life_payment.vue')
   },
   // 生活缴费——缴费记录
   {
-    path:'/payfees',
-    name:'payment_records',
+    path: '/payfees',
+    name: 'payment_records',
     component: () => import('../views/payfees/payfees')
   },
   // 缴费记录-详情
   {
-    path:'/payfees/:id',
-    name:'paydetail',
-    component: ()=>import('../views/payfees/paydetail')
+    path: '/payfees/:id',
+    name: 'paydetail',
+    component: () => import('../views/payfees/paydetail')
   },
-  
+
   // 生活缴费——立即缴费
   {
     path: '/life_payment/:id',
@@ -170,21 +170,21 @@ const router = new VueRouter({
 })
 
 //路由守卫
-router.beforeEach((to,from,next)=>{
+router.beforeEach((to, from, next) => {
   // console.log('to',to);
   // console.log('from',from);
   // console.log(store.state.guardflag);
   console.log(store.state.guardflag)
-  if(store.state.guardflag){//登录标志
+  if (store.state.guardflag) {//登录标志
     next();
-  }else{
-    if(from.name==='login'&&to.name==='register'){ //登录转注册
+  } else {
+    if (from.name === 'login' && to.name === 'register') { //登录转注册
       next();
-    }else if(from.name===null&&to.name==='login'){ //载入登录
+    } else if (from.name === null && to.name === 'login') { //载入登录
       next();
-    }else if(from.name==='register'&&to.name==='login'){ //注册转登录
+    } else if (from.name === 'register' && to.name === 'login') { //注册转登录
       next();
-    }else{
+    } else {
       next('/'); //其他转登录
     }
   }
