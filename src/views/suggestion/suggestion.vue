@@ -3,65 +3,87 @@
 // 数据：投诉类型
 <template>
   <div>
-    <!-- 标题 -->
-    <van-nav-bar
-      title="投诉建议"
-      left-text="返回"
-      right-text="我的记录"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    ></van-nav-bar>
-    <!-- 类型选择 -->
-    <div class="choosestyle">
-      <p class="style_title">选择类型</p>
-      <ul class="style_list">
-        <li
-          v-for="stylelist of stylelists"
-          @click="selTab(stylelist)"
-          :class="{select: selectTab === stylelist}"
-          :key="stylelist.id"
-        >{{stylelist.name}}</li>
-      </ul>
-    </div>
-    <!-- 选择人员 -->
-    <div class="choosepeople">
-      <div class="people_left">选择人员 （可选）</div>
-      <div class="people_right" @click="selectpeople">
-        请选择人员
-        <van-icon name="arrow" />
+    <div v-if="personshow.select">
+      <!-- 标题 -->
+      <van-nav-bar
+        title="投诉建议"
+        left-text="返回"
+        right-text="我的记录"
+        left-arrow
+        @click-left="onClickLeft"
+        @click-right="onClickRight"
+      ></van-nav-bar>
+      <!-- 类型选择 -->
+      <div class="choosestyle">
+        <p class="style_title">选择类型</p>
+        <ul class="style_list">
+          <li
+            v-for="stylelist of stylelists"
+            @click="selTab(stylelist)"
+            :class="{select: selectTab === stylelist}"
+            :key="stylelist.id"
+          >{{stylelist.name}}</li>
+        </ul>
       </div>
+      <!-- 选择人员 -->
+      <div class="choosepeople">
+        <div class="people_left">选择人员 （可选）</div>
+        <div class="people_right" @click="selectpeople">
+          {{picked}}
+          <van-icon name="arrow" />
+        </div>
+      </div>
+      <!-- 图片上传 -->
+      <div class="uploader">
+        <input type="text" class="describe" placeholder="请描述您想要说的事" />
+
+        <keep-alive>
+          <van-uploader v-model="fileList" multiple :max-count="3" />
+        </keep-alive>
+        <p class="picnumber">可上传3张照片</p>
+      </div>
+      <!-- 提交按钮 -->
+      <div style='width:80%;margin:0 auto'>
+ <button type="submit" class="selectsubmit" @click="submitsuggest">提交</button>
+      </div>
+     
     </div>
-    <!-- 图片上传 -->
-    <div class="uploader">
-      <input type="text" class="describe" placeholder="请描述您想要说的事" />
-      <van-uploader v-model="fileList" multiple :max-count="3" />
-      <p class="picnumber">可上传3张照片</p>
-    </div>
-    <!-- 提交按钮 -->
-    <div style='margin:0 auto;width:80%'><button type="submit" class="selectsubmit">提交</button></div>
+
+    <person_select v-if="personshow.selected" @Iselect="work"></person_select>
   </div>
 </template>
 <script>
+import person_select from "@/components/personselect/person_select.vue";
 export default {
   data() {
-    const stylelists = [
-      { id: "1111", name: "投诉" },
-      { id: "2222", name: "建议" },
-      { id: "3333", name: "表扬" }
-    ];
     return {
-      stylelists,
-      selectTab: stylelists[0],
+      selectTab: this.$store.state.stylelists[0],
       fileList: [],
-      informstyle: []
+      personshow: {
+        select: true,
+        selected: ""
+      }
     };
   },
+  computed: {
+    stylelists() {
+      return this.$store.state.stylelists;
+    },
+    informstyle() {
+      return this.$store.state.informstyle;
+    },
+
+    picked() {
+      return this.$store.state.picked;
+    }
+  },
+
   methods: {
     onClickLeft() {
       this.$router.push({
         name: "community"
       });
+      this.$store.state.picked=''
     },
     onClickRight() {
       this.$router.push({
@@ -69,21 +91,36 @@ export default {
       });
     },
     selectpeople() {
-      this.$router.push({
-        name: "selectperson"
-      });
+      this.personshow.select = false;
+      this.personshow.selected = true;
     },
 
     selTab(stylelist) {
       this.selectTab = stylelist;
-      // 保存投诉类型
+      // 保存投诉类型——传给全局
+
       if (this.informstyle === "") {
         this.informstyle.push(stylelist);
       } else {
         this.informstyle.splice(0, 1, stylelist);
       }
-     // console.log(this.informstyle);
+
+      this.$store.dispatch("suggtype", this.informstyle);
+    },
+    work() {
+      this.personshow.select = true;
+      this.personshow.selected = false;
+    },
+    submitsuggest() {
+     this.$toast.loading({
+        message: "提交中...",
+        forbidClick: true,
+      });
     }
+  },
+
+  components: {
+    person_select
   }
 };
 </script>
@@ -122,9 +159,6 @@ input::-webkit-input-placeholder {
   height: 40px;
   border: 0px;
 }
-.van-icon {
-    vertical-align: middle;
-}
 /* 图片上传 */
 .uploader {
   padding: 10px 20px;
@@ -154,14 +188,16 @@ ul.style_list li {
   width: 90px;
   height: 40px;
   line-height: 40px;
-   text-align:center;
+  text-align:center;
   border: 1px solid rgb(222, 222, 223);
 }
 /* 选中类型样式 */
 ul.style_list li.select {
   color: #fff;
   background-color: rgb(179, 176, 176);
- 
+}
+.van-icon {
+    vertical-align: middle;
 }
 /* 选择列表 */
 .style_list {

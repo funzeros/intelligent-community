@@ -185,6 +185,11 @@ export default {
           name: "life_payment"
         });
       }
+      if(index === 4){
+        this.$router.push({
+           name: "monitor"
+        })
+      }
       if (index === 6) {
         this.$router.push({
           name: "suggestion"

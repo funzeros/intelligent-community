@@ -45,7 +45,7 @@ export default{
 </script>
 <style scoped>
     /* 标题 */
-.register_info .van-nav-bar {
+.van-nav-bar {
   width: 100%;
   height: 72px;
   line-height: 72px;
@@ -73,6 +73,7 @@ export default{
 /* 返回 */
 .van-nav-bar__text {
   color: #000;
+  font-size: 16px;
 }
 /* 主要内容 */
 .center{

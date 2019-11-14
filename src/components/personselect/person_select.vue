@@ -3,7 +3,7 @@
 <template>
   <div>
     <!-- 标题 -->
-    <van-nav-bar title="人员选择" left-text="返回" left-arrow @click-left="onClickLeft"></van-nav-bar>
+    <van-nav-bar title="人员选择" left-text="返回" left-arrow @click-left="Premune"></van-nav-bar>
 
     <!-- 选择主体--保洁部 -->
     <div class="person_one">
@@ -12,7 +12,16 @@
       <van-icon name="arrow-down" @click="selectone" v-if="downone" />
     </div>
     <keep-alive>
-      <person_select_baojie v-if="downone"></person_select_baojie>
+      <div v-show="downone" class="radiowrap">
+        <div class="radio_item">
+          <label for="one">赵康</label>
+          <input type="radio" id="one" value="赵康" v-model="picked" class="single" />
+        </div>
+        <div class="radio_item">
+          <label for="two">李利</label>
+          <input type="radio" id="two" value="李利" v-model="picked" class="single" />
+        </div>
+      </div>
     </keep-alive>
     <!-- 选择主体--清洁部 -->
     <div class="person_one" style="margin-top:0">
@@ -21,62 +30,98 @@
       <van-icon name="arrow-down" @click="selecttwo" v-if="downtwo" />
     </div>
     <keep-alive>
-      <person_select_baojie v-if="downtwo"></person_select_baojie>
+      <div v-show="downtwo" class="radiowrap">
+        <div class="radio_item">
+          <label for="one">张三</label>
+          <input type="radio" id="one" value="张三" v-model="picked" class="single" />
+        </div>
+        <div class="radio_item">
+          <label for="two">李四</label>
+          <input type="radio" id="two" value="李四" v-model="picked" class="single" />
+        </div>
+      </div>
     </keep-alive>
-     <!-- 选择主体--监控室 -->
-    <div class="person_one"  style="margin-top:0">
+    <!-- 选择主体--监控室 -->
+    <div class="person_one" style="margin-top:0">
       <div class="name">监控室</div>
       <van-icon name="arrow" @click="selectthree" v-if="rightthree" />
       <van-icon name="arrow-down" @click="selectthree" v-if="downthree" />
     </div>
     <keep-alive>
-      <person_select_baojie v-if="downthree"></person_select_baojie>
+      <div v-show="downthree" class="radiowrap">
+        <div class="radio_item">
+          <label for="one">杨阳</label>
+          <input type="radio" id="one" value="杨阳" v-model="picked" class="single" />
+        </div>
+        <div class="radio_item">
+          <label for="two">王强</label>
+          <input type="radio" id="two" value="王强" v-model="picked" class="single" />
+        </div>
+      </div>
     </keep-alive>
   </div>
 </template>
 <script>
-import person_select_baojie from "@/components/personselect/person_select_baojie.vue";
-// 引入单选按钮插件
 export default {
   data() {
     return {
       rightone: "ture",
       righttwo: "ture",
-      rightthree:'true',
+      rightthree: "true",
       downone: "",
-      downtwo:'',
-      downthree:''
+      downtwo: "",
+      downthree: "",
+      props: {
+        select: true,
+        selected: ""
+      },
+      picked: ""
     };
   },
+
   methods: {
     selectone() {
       this.rightone = !this.rightone;
       this.downone = !this.downone;
     },
-     selecttwo() {
-        this.righttwo = !this.righttwo;
+    selecttwo() {
+      this.righttwo = !this.righttwo;
       this.downtwo = !this.downtwo;
     },
-      selectthree() {
-        this.rightthree = !this.rightthree;
+    selectthree() {
+      this.rightthree = !this.rightthree;
       this.downthree = !this.downthree;
     },
-    
 
     // 点击返回上一级菜单
-    onClickLeft() {
-      this.$router.push({
-        name: "suggestion"
+    Premune() {
+      this.$emit("Iselect", {
+        select: true,
+        selected: ""
       });
+      this.$store.dispatch("radiosel", this.$data.picked);
     }
-  },
-  components: {
-    person_select_baojie
   }
 };
 </script>
 <style scoped>
+/* 按钮 */
+.single {
+width: 20px;
+height: 20px;
+}
+/* 按钮单行 */
+.radio_item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  position: relative;
+}
 
+/* 单选(2个一组)外边框 */
+.radiowrap {
+  padding: 0px 30px;
+}
 .name {
   font-size: 18px;
 }

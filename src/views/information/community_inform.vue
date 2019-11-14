@@ -83,7 +83,7 @@ export default {
 /* 公告内容 */
 .inform_main {
   margin: 0 10px;
-  height: 45px;
+  height: 58px;
   font-size: 15px;
   color: rgb(146, 145, 145);
   line-height: 26px;

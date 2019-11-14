@@ -229,12 +229,6 @@ const routes = [
         name: 'reply',
         component: () => import('../views/advice/reply'),
     },
-    // 投诉建议——人员选择
-    {
-        path: '/suggestion/selectperson',
-        name: 'selectperson',
-        component: () => import('../views/suggestion/suggestion_select.vue')
-    },
     // 生活缴费
     {
         path: '/life_payment',
@@ -259,6 +253,12 @@ const routes = [
         path: '/life_payment/:id',
         name: 'payment_justpay',
         component: () => import('../views/lifepayment/life_payment_justpay.vue')
+    },
+    // 电子监控
+    {
+        path: '/monitor',
+        name: 'monitor',
+        component: () => import('../views/monitor/index')
     },
 ]
 

@@ -23,7 +23,7 @@
           </div>
 
           <div class="right">
-            <span>
+            <span class="ewmico">
               <img src="@/assets/timg.jpg" alt class="ewmimg" />
               <div class="appstyle">{{item.typein}}</div>
             </span>
@@ -95,7 +95,7 @@ export default {
 </script>
 <style scoped>
 /* 标题 */
-.register_info .van-nav-bar {
+.van-nav-bar {
   width: 100%;
   height: 72px;
   line-height: 72px;
@@ -105,9 +105,7 @@ export default {
 }
 
 /* 标题下划线 */
-.van-hairline--bottom::after {
-  border-bottom-width: 0px;
-}
+
 /* 标题名字 */
 .van-nav-bar__title {
   font-size: 20px;
@@ -125,6 +123,7 @@ export default {
 /* 返回 */
 .van-nav-bar__text {
   color: #000;
+  font-size: 16px;
 }
 /* li */
 ul {
@@ -133,7 +132,7 @@ ul {
 }
 .libox {
   color: #5c5b5b;
-  height: 70px;
+  height: 4.5rem;
   padding: 10px;
   margin: 20px;
   box-shadow: 0px 3px 5px 3.5px #ccc;
@@ -172,5 +171,7 @@ ul {
   width: 34px;
   height: 34px;
   margin: 5px;
+  border-radius: 50%;
 }
+
 </style>

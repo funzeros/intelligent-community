@@ -50,7 +50,7 @@ export default{
 </script>
 <style scoped>
 /* 标题 */
-.register_info .van-nav-bar {
+ .van-nav-bar {
   width: 100%;
   height: 72px;
   line-height: 72px;
@@ -61,7 +61,7 @@ export default{
 
 /* 标题下划线 */
 .van-hairline--bottom::after {
-  border-bottom-width: 0px;
+  /* border-bottom-width: 0px; */
 }
 /* 标题名字 */
 .van-nav-bar__title {
@@ -80,6 +80,7 @@ export default{
 /* 返回 */
 .van-nav-bar__text {
   color: #000;
+  font-size: 16px;
 }
 /* 主要内容 */
 .qrbox{
