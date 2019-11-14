@@ -18,7 +18,7 @@ const mine = {
         {
             path: 'mineindex',
             name: 'mineindex',
-            component: ()=>import('../components/mine/')
+            component: () => import('../components/mine/')
         },
         {
             path: 'userinfo',

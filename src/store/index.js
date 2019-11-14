@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import find from './find';
+import key from './key';
 import register from './register';
 import comvote from './comvote';
 import visitor from "./visitor";//访客预约
@@ -23,6 +24,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+    key,
     find,
     register,
     comvote,
