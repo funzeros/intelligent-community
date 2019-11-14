@@ -5,6 +5,7 @@ import find from './find';
 import register from './register';
 import comvote from './comvote';
 import visitor from "./visitor";//访客预约
+import mine from './mine'
 
 import information from './information';//通知公告
 import life_payment from './life_payment';//生活缴费
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     information,
     life_payment,
     visitor,
-    payfees
+    payfees,
+    mine
   }
 })

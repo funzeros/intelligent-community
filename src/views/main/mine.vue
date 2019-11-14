@@ -1,10 +1,11 @@
 <template>
-  <div id="mine"></div>
+    <router-view></router-view>
 </template>
 
 <script>
 export default {
-  name: "mine",
-  components: {}
 };
 </script>
+
+<style lang="css">
+</style>
