@@ -32,6 +32,7 @@
 
 <script>
 // @ is an alias to /src
+import axios from 'axios';
 import regcotime from '@/components/register/reg_contract_time';
 export default {
   name: "reg_info_ht",
@@ -56,9 +57,12 @@ export default {
       }
       // console.log(101);
     },
-    afterRead(file){//向后端发起图片上传请求
+    async afterRead(file){//向后端发起图片上传请求
       console.log(file);
-      console.log(this.fileList);
+      // console.log(file.content);
+      // console.log(this.fileList);
+      // let data=file.content;
+      // let result= await axios.post('/api/user/conpic',data);
     },
     seltime(title){
       this.$store.state.register.cotime_title=title;

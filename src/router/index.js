@@ -105,7 +105,8 @@ const mine = {
                     component: () => import("../components/mine/houseinfo/changehouse.vue")
                 }
             ]
-        }
+        },
+        
     ]
 }
 
@@ -260,6 +261,22 @@ const routes = [
         name: 'monitor',
         component: () => import('../views/monitor/index')
     },
+     //在线敲门
+     {
+        path: '/knockdoor',
+        name: 'knockdoor',
+        component: () => import('../views/knockdoor/knockdoor.vue')
+    },
+    {
+        path: '/choosehouse/:fid',
+        name: 'choosehouse',
+        component: () => import('../views/knockdoor/choosehouse.vue')
+    },
+    {
+        path: '/chatpage/:hid',
+        name: 'chatpage',
+        component: () => import('../views/knockdoor/chatpage.vue')
+    }
 ]
 
 const router = new VueRouter({

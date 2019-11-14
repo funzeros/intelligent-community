@@ -200,6 +200,11 @@ export default {
           name: "visitor"
         });
       }
+      if (index === 3) {
+        this.$router.push({
+          name: "knockdoor"
+        });
+      }
     }
   }
 };

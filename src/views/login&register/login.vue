@@ -74,6 +74,33 @@ export default {
             return false;
         }
         this.$store.state.guardflag=true;
+
+
+        //敲门测试用例，账号登录绑定门牌号
+         switch(this.username){
+          case 'aaaaaaa': this.$store.state.knockdoor.selfhid='0000';
+          break;
+          case 'bbbbbbb': this.$store.state.knockdoor.selfhid='0001';
+          break;
+          case 'ccccccc': this.$store.state.knockdoor.selfhid='0002';
+          break;
+          case 'ddddddd': this.$store.state.knockdoor.selfhid='0003';
+          break;
+          case 'eeeeeee': this.$store.state.knockdoor.selfhid='0004';
+          break;
+          case 'fffffff': this.$store.state.knockdoor.selfhid='0005';
+          break;
+          case 'ggggggg': this.$store.state.knockdoor.selfhid='0006';
+          break;
+          case 'hhhhhhh': this.$store.state.knockdoor.selfhid='0007';
+          break;
+          case 'iiiiiii': this.$store.state.knockdoor.selfhid='0008';
+          break;
+          default:;
+          break;
+        }
+
+
         this.$router.push({path:'/main/community',name:'community'});
       
       },
