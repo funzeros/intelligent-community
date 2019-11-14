@@ -17,12 +17,37 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-      // guardflag:false
-      guardflag:true
+    // guardflag:false
+    guardflag: true,
+    // 建议数据
+    stylelists: [
+      { id: "1111", name: "投诉" },
+      { id: "2222", name: "建议" },
+      { id: "3333", name: "表扬" }
+    ],
+    informstyle: [],
+    picked: ''
   },
   mutations: {
+    setSuggest(state, infoID) {
+      state.informstyle = infoID;
+    },
+    setcheck(state, radid) {
+      state.picked = radid;
+    }
   },
   actions: {
+      // 投诉类型数据
+      async suggtype({ commit, state }, typeId) {
+        state.informstyle=typeId;
+        commit('setSuggest', state.informstyle);
+    },
+    // 人员选择数据
+    async radiosel({ commit, state }, radioId) {
+      state.picked=radioId;
+      commit('setcheck', state.picked);
+      //console.log(state.picked)
+  },
   },
   modules: {
     key,

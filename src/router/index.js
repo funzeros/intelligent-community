@@ -229,12 +229,6 @@ const routes = [
         name: 'reply',
         component: () => import('../views/advice/reply'),
     },
-    // 投诉建议——人员选择
-    {
-        path: '/suggestion/selectperson',
-        name: 'selectperson',
-        component: () => import('../views/suggestion/suggestion_select.vue')
-    },
     // 生活缴费
     {
         path: '/life_payment',

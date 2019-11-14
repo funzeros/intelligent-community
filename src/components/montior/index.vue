@@ -153,7 +153,7 @@ export default {
   height: 15px;
   border: 1px solid #01c8fa;
   text-align: center;
-  line-height: 15px;
+  line-height: 11px;
   font-size: 14px;
   margin-right: 10px;
 }
