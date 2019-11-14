@@ -1,8 +1,8 @@
 <template>
     <section>
         <van-nav-bar title="我的" />
-
-        <van-cell is-link class="myInfo" to="/main/mine/userinfo">
+        <div class="body">
+            <van-cell is-link class="myInfo" to="/main/mine/userinfo">
             <template slot="title">
                 <article>
                     <img :src="userInfo.u_imge" alt width="50" height="50" class="head" />
@@ -17,8 +17,7 @@
                 </aside>
             </template>
         </van-cell>
-
-        <div class="tab">
+            <div class="tab">
             <van-cell title="住户信息" is-link to="/main/mine/household" />
             <van-cell title="我的房产" is-link :value="getHouseInfo" to="/main/mine/houseinfo" />
             <van-cell title="我的车辆" is-link :value="getCarInfo" to="/main/mine/carinfo" />
@@ -33,6 +32,7 @@
         <div class="tab">
             <van-cell title="设置" is-link />
             <van-cell title="退出登录" is-link @click="logout" />
+        </div>
         </div>
     </section>
 </template>

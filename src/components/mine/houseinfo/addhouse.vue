@@ -3,11 +3,16 @@
         <van-nav-bar title="添加房屋" left-text="返回" left-arrow @click-left="onClickLeft" />
 
         <div class="body">
-            <van-cell title="身份类型" is-link @click="showIdentity" :value="info.identity" />
-            <van-cell title="所欲片区" is-link @click="showArea" :value="info.area" />
-            <van-cell title="所属楼栋" is-link @click="showBuild" :value="info.build" />
-            <van-cell title="所属单元" is-link @click="showUnit" :value="info.unit" />
-            <van-cell title="所属房屋" is-link @click="showHouse" :value="info.house" />
+            <van-cell
+                title="身份类型"
+                is-link
+                @click="showPopup('identityShow')"
+                :value="info.identity"
+            />
+            <van-cell title="所属片区" is-link @click="showPopup('areaShow')" :value="info.area" />
+            <van-cell title="所属楼栋" is-link @click="showPopup('buildShow')" :value="info.build" />
+            <van-cell title="所属单元" is-link @click="showPopup('unitShow')" :value="info.unit" />
+            <van-cell title="所属房屋" is-link @click="showPopup('houseShow')" :value="info.house" />
             <van-button
                 type="primary"
                 size="large"
@@ -19,23 +24,53 @@
         </div>
 
         <van-popup v-model="identityShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="identity" @change="onChangeIdentity" />
+            <van-picker
+                :columns="identity"
+                show-toolbar
+                title="身份类型"
+                @cancel="cancel('identityShow')"
+                @confirm="onConfirmIdentity"
+            />
         </van-popup>
 
         <van-popup v-model="areaShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="area" @change="onChangeArea" />
+            <van-picker
+                :columns="area"
+                show-toolbar
+                title="所属片区"
+                @cancel="cancel('areaShow')"
+                @confirm="onConfirmArea"
+            />
         </van-popup>
 
         <van-popup v-model="buildShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="build" @change="onChangeBuild" />
+            <van-picker
+                :columns="build"
+                show-toolbar
+                title="所属楼栋"
+                @cancel="cancel('buildShow')"
+                @confirm="onConfirmBuild"
+            />
         </van-popup>
 
         <van-popup v-model="unitShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="unit" @change="onChangeUnit" />
+            <van-picker
+                :columns="unit"
+                show-toolbar
+                title="所属单元"
+                @cancel="cancel('unitShow')"
+                @confirm="onConfirmUnit"
+            />
         </van-popup>
 
         <van-popup v-model="houseShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="house" @change="onChangeHouse" />
+            <van-picker
+                :columns="house"
+                show-toolbar
+                title="所属房屋"
+                @cancel="cancel('houseShow')"
+                @confirm="onConfirmHouse"
+            />
         </van-popup>
     </section>
 </template>
@@ -98,38 +133,34 @@ export default {
         onClickLeft() {
             this.$router.go(-1);
         },
-        showIdentity() {
-            this.identityShow = true;
+        showPopup(attr) {
+            this[attr] = true;
         },
-        showArea() {
-            this.areaShow = true;
+        cancel(attr) {
+            this[attr] = false;
         },
-        showBuild() {
-            this.buildShow = true;
-        },
-        showUnit() {
-            this.unitShow = true;
-        },
-        showHouse() {
-            this.houseShow = true;
-        },
-        onChangeIdentity(picker, value, index) {
+        onConfirmIdentity(value) {
             this.info.identity = value;
             this.identityFlag = false;
+            this.identityShow = false;
         },
-        onChangeArea(picker, value, index) {
+        onConfirmArea(value) {
             this.info.area = value;
             this.areaFlag = false;
+            this.areaShow = false;
         },
-        onChangeBuild(picker, value, index) {
+        onConfirmBuild(value) {
             this.info.build = value;
             this.buildFlag = false;
+            this.buildShow = false;
         },
-        onChangeUnit(picker, value, index) {
+        onConfirmUnit(value) {
             this.info.unit = value;
+            this.unitShow = false;
         },
-        onChangeHouse(picker, value, index) {
+        onConfirmHouse(value) {
             this.info.house = value;
+            this.houseShow = false;
         },
         ...mapActions({
             addHouse: "mine/addHouse"
@@ -147,8 +178,8 @@ export default {
         submit() {
             this.$dialog
                 .confirm({
-                    title: "修改",
-                    message: "你确定要修改吗?"
+                    title: "添加",
+                    message: "你确定要添加吗?"
                 })
                 .then(
                     () => {
@@ -169,7 +200,7 @@ export default {
                         for (let i in this.info) {
                             this.info[i] = "";
                         }
-                        this.$router.push({name:"carindex"})
+                        this.$router.push({ name: "houseindex" });
                     },
                     () => {
                         return;

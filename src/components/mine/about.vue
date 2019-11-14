@@ -95,9 +95,12 @@ export default {
 .title {
     position: fixed;
     top: 0;
+    width: 100%;
 }
 h2 {
     font-size: 18px;
+    text-align: center;
+    margin-top: 8%;
 }
 p {
     font-size: 12px;
@@ -107,6 +110,8 @@ p {
 }
 .contain {
     text-indent: 2em;
+    margin-top: 3%;
+    margin-bottom: 8%;
 }
 .body span {
     width: 50%;

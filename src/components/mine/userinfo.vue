@@ -15,8 +15,6 @@
                 <van-image round width="30px" height="30px" fit="cover" :src="userInfo.u_imge" />
             </template>
         </van-cell>
-        <!-- <van-cell title="用户名" is-link arrow-direction="none" :value="userInfo.username" />
-        <van-cell title="姓名" is-link arrow-direction="none" :value="userInfo.name" /> -->
 
         <van-field
             v-model="info.username"

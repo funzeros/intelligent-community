@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="contain">
         <van-nav-bar
             title="我的车辆"
             left-text="返回"
@@ -11,6 +11,9 @@
         />
 
         <div class="body">
+            <div class="tips" v-if="carList.length==0">
+                您还没有添加车辆,快去右上角添加吧~么么哒(づ￣ 3￣)づ
+            </div>
             <van-swipe-cell :key="carinfo.c_id" v-for="carinfo of carList">
                 <van-cell
                     :border="false"
@@ -63,7 +66,7 @@ export default {
     },
     methods: {
         onClickLeft() {
-            this.$router.go(-1);
+            this.$router.push({name:"mineindex"});
         },
         onClickRight(carinfo) {
             this.$router.push({
@@ -104,10 +107,26 @@ export default {
 .body {
     margin-top: 14%;
 }
+.tips{
+    width: 70%;
+    margin: 60% auto;
+    height: 25%;
+    background: #eee;
+    border-radius: 25px;
+    padding: 13% 3% 0;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 34px;
+    font-size: 12px;
+}
+.contain,.body{
+    height: 100%;
+}
 section {
     overflow: hidden;
 }
 .title {
     position: fixed;
+    width: 100%;
 }
 </style>

@@ -152,13 +152,14 @@ export default {
 
 <style lang="css" scoped>
 .body {
-    margin-top: 14%;
+    margin-top: 12%;
     padding: 0 4%;
     margin-bottom: 17%;
 }
-.title {
+.van-nav-bar{
     position: fixed;
-    top: 0;
+    top:0;
+    width: 100%;
 }
 .idImg {
     width: 200px;

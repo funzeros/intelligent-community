@@ -3,27 +3,51 @@
         <van-nav-bar title="添加房屋" left-text="返回" left-arrow @click-left="onClickLeft" />
 
         <div class="body">
-            <van-cell title="所属片区" is-link @click="showArea" :value="info.area" />
-            <van-cell title="所属楼栋" is-link @click="showBuild" :value="info.build" />
-            <van-cell title="所属单元" is-link @click="showUnit" :value="info.unit" />
-            <van-cell title="所属房屋" is-link @click="showHouse" :value="info.house" />
+            <van-cell title="所属片区" is-link @click="showPopup('areaShow')" :value="info.area" />
+            <van-cell title="所属楼栋" is-link @click="showPopup('buildShow')" :value="info.build" />
+            <van-cell title="所属单元" is-link @click="showPopup('unitShow')" :value="info.unit" />
+            <van-cell title="所属房屋" is-link @click="showPopup('houseShow')" :value="info.house" />
             <van-button type="primary" size="large" round class="button" @click="submit">修改</van-button>
         </div>
 
         <van-popup v-model="areaShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="area" @change="onChangeArea" />
+            <van-picker
+                :columns="area"
+                show-toolbar
+                title="所属片区"
+                @cancel="cancel('areaShow')"
+                @confirm="onConfirmArea"
+            />
         </van-popup>
 
         <van-popup v-model="buildShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="build" @change="onChangeBuild" />
+            <van-picker
+                :columns="build"
+                show-toolbar
+                title="所属楼栋"
+                @cancel="cancel('buildShow')"
+                @confirm="onConfirmBuild"
+            />
         </van-popup>
 
         <van-popup v-model="unitShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="unit" @change="onChangeUnit" />
+            <van-picker
+                :columns="unit"
+                show-toolbar
+                title="所属单元"
+                @cancel="cancel('unitShow')"
+                @confirm="onConfirmUnit"
+            />
         </van-popup>
 
         <van-popup v-model="houseShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="house" @change="onChangeHouse" />
+            <van-picker
+                :columns="house"
+                show-toolbar
+                title="所属房屋"
+                @cancel="cancel('houseShow')"
+                @confirm="onConfirmHouse"
+            />
         </van-popup>
     </section>
 </template>
@@ -73,33 +97,33 @@ export default {
         onClickLeft() {
             this.$router.go(-1);
         },
-        showArea() {
-            this.areaShow = true;
+        showPopup(attr) {
+            this[attr] = true;
         },
-        showBuild() {
-            this.buildShow = true;
+        cancel(attr) {
+            this[attr] = false;
         },
-        showUnit() {
-            this.unitShow = true;
-        },
-        showHouse() {
-            this.houseShow = true;
-        },
-        onChangeArea(picker, value, index) {
+        onConfirmArea(value) {
             this.info.area = value;
+            this.areaFlag = false;
+            this.areaShow = false;
         },
-        onChangeBuild(picker, value, index) {
+        onConfirmBuild(value) {
             this.info.build = value;
+            this.buildFlag = false;
+            this.buildShow = false;
         },
-        onChangeUnit(picker, value, index) {
+        onConfirmUnit(value) {
             this.info.unit = value;
+            this.unitShow = false;
         },
-        onChangeHouse(picker, value, index) {
+        onConfirmHouse(value) {
             this.info.house = value;
+            this.houseShow = false;
         },
         ...mapActions({
-            editHouseList:'mine/editHouseList'
-            }),
+            editHouseList: "mine/editHouseList"
+        }),
         submit() {
             this.$dialog
                 .confirm({
@@ -111,13 +135,13 @@ export default {
                         // 可验证数据是否修改后提交(优化)
                         //数据提交请求
                         for (let houselist of this.houseList) {
-                            if(houselist.f_id == this.info.f_id){
+                            if (houselist.f_id == this.info.f_id) {
                                 for (let attr in this.info) {
-                                    this.editHouseList(attr,this.info[attr]);
+                                    this.editHouseList(attr, this.info[attr]);
                                 }
                             }
                         }
-                        this.$router.push({name:"carindex"})
+                        this.$router.push({ name: "houseindex" });
                     },
                     () => {
                         return;

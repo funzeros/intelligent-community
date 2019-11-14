@@ -1,6 +1,6 @@
 <template>
-    <section>
-        <van-nav-bar title="更换头像" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <section class="contain">
+        <van-nav-bar title="更换头像" left-text="返回" left-arrow @click-left="onClickLeft" class="title" />
 
         <div class="body">
             <van-uploader :after-read="afterRead" image-fit="cover" accept="image/*">
@@ -71,4 +71,8 @@ export default {
     left: 8%;
     width: 84%;
 }
+.contain{
+    height: 100%;;
+}
+
 </style>

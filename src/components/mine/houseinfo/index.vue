@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="contain">
         <van-nav-bar
             title="我的房产"
             left-text="返回"
@@ -11,6 +11,9 @@
         />
 
         <div class="body">
+            <div class="tips" v-if="houseList.length==0">
+                您还没有添加房屋,快去右上角添加吧~么么哒(づ￣ 3￣)づ
+            </div>
             <van-swipe-cell :key="houseinfo.f_id" v-for="houseinfo of houseList">
                 <van-cell
                     v-if="houseinfo"
@@ -65,7 +68,7 @@ export default {
     },
     methods: {
         onClickLeft() {
-            this.$router.go(-1);
+            this.$router.push({name:"mineindex"});
         },
         onClickRight() {
             this.$router.push({
@@ -108,13 +111,27 @@ export default {
 
 <style lang="css" scoped>
 .body {
-    margin-top: 14%;
     padding: 0 2%;
+}
+.tips{
+    width: 70%;
+    margin: 60% auto;
+    height: 25%;
+    background: #eee;
+    border-radius: 25px;
+    padding: 13% 3% 0;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 34px;
+    font-size: 12px;
+}
+.contain,.body{
+    height: 100%;
 }
 section {
     overflow: hidden;
 }
-.title {
-    position: fixed;
+#main{
+    background-color: #fff;
 }
 </style>

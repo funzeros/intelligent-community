@@ -17,8 +17,8 @@
                 />
             </van-cell-group>
 
-            <van-cell title="车辆类型" is-link @click="showType" :value="info.carType" />
-            <van-cell title="车辆颜色" is-link @click="showColor" :value="info.carColor" />
+            <van-cell title="车辆类型" is-link @click="showPopup('typeShow')" :value="info.carType" />
+            <van-cell title="车辆颜色" is-link @click="showPopup('colorShow')" :value="info.carColor" />
 
             <van-cell-group>
                 <van-field
@@ -45,10 +45,22 @@
             >添加</van-button>
         </div>
         <van-popup v-model="typeShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="type" @change="onChangeType" />
+            <van-picker
+                :columns="type"
+                show-toolbar
+                title="车辆类型"
+                @cancel="cancel('typeShow')"
+                @confirm="onConfirmType"
+            />
         </van-popup>
         <van-popup v-model="colorShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker :columns="color" @change="onChangeColor" />
+            <van-picker
+                :columns="color"
+                show-toolbar
+                title="车辆颜色"
+                @cancel="cancel('colorShow')"
+                @confirm="onConfirmColor"
+            />
         </van-popup>
     </section>
 </template>
@@ -104,17 +116,19 @@ export default {
         onClickLeft() {
             this.$router.go(-1);
         },
-        showType() {
-            this.typeShow = true;
+        cancel(attr) {
+            this[attr] = false;
         },
-        onChangeType(picker, value, index) {
+        onConfirmType(value) {
             this.info.carType = value;
+            this.typeShow = false;
         },
-        showColor() {
-            this.colorShow = true;
-        },
-        onChangeColor(picker, value, index) {
+        onConfirmColor(value) {
             this.info.carColor = value;
+            this.colorShow = false;
+        },
+        showPopup(attr) {
+            this[attr] = true;
         },
         submit() {
             this.$dialog
@@ -131,7 +145,7 @@ export default {
                             c_id: 1,
                             u_id: this.userInfo.u_id
                         });
-                        this.$router.push({name:"carindex"})
+                        this.$router.push({ name: "carindex" });
                     },
                     () => {
                         return;
@@ -152,6 +166,7 @@ section {
 }
 .title {
     position: fixed;
+    width: 100%;
 }
 .button {
     position: absolute;
