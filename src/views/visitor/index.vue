@@ -18,14 +18,23 @@
     <div class="content">
       <!-- 访客名称 -->
       <van-cell-group>
-        <van-field placeholder label="访客姓名" v-model="visname" />
+        <van-field placeholder="请输入用户名" label="访客姓名" v-model="visname" />
       </van-cell-group>
       <!-- 手机号码 -->
-      <van-cell-group>
+      <!-- <van-cell-group>
         <van-field placeholder label="手机号码" v-model="visphonenum" />
+      </van-cell-group>-->
+      <van-cell-group>
+        <van-field
+          v-model="visphonenum"
+          label="手机号"
+          placeholder="请输入手机号"
+          
+          ref="phoneinput"
+        />
       </van-cell-group>
       <!-- 单选框 -->
-      <div class="sbox">
+      <div class="sexbox">
         <span class="fontsex">性别</span>
         <span class="boy">
           <input type="radio" v-model="sex" value="男" name="gender" />男
@@ -51,27 +60,27 @@
       </div>
       <!-- 证件号码 -->
       <van-cell-group>
-        <van-field placeholder label="证件号码" v-model="idnum" />
+        <van-field placeholder="请输入证件号" label="证件号码" v-model="idnum" />
       </van-cell-group>
       <!-- 是否驾车 -->
       <van-cell-group>
-        <van-field placeholder label="是否驾车" v-model="driven" />
+        <van-field placeholder="是/否" label="是否驾车" v-model="driven" />
       </van-cell-group>
       <!-- 车牌号码 -->
       <van-cell-group>
-        <van-field placeholder label="车牌号码" v-model="carnum" />
+        <van-field placeholder="请输入车牌号码" label="车牌号码" v-model="carnum" />
       </van-cell-group>
       <!-- 预约时间 -->
-      <div class="sbox">
+      <div class="sbox"  @click.self="showPopup('datashow')" >
         <span class="fontsex">预约时间</span>
         <span class="ksdata">&nbsp;{{ksdata}}</span>
-        <span class="datasty">
-          <van-icon name="notes-o" @click="showPopup('datashow')" />
+        <span class="datasty" >
+          <van-icon name="notes-o" class="icodata" @click.self="showPopup('datashow')" />
           <span>
             <!-- <van-cell is-link ></van-cell>
               <van-icon name="notes-o" />
             </van-cell>-->
-            <div class="startdate">
+            <div class="startshow">
               <van-popup v-model="datashow" position="bottom" :style="{ height: '30%' }">
                 <van-datetime-picker
                   v-model="currentDate"
@@ -87,7 +96,7 @@
       </div>
       <!-- 来访说明 -->
       <van-cell-group>
-        <van-field placeholder label="来访说明" v-model="explain" />
+        <van-field placeholder="请留言" label="来访说明" v-model="explain" />
       </van-cell-group>
       <!-- 生成通行证二维码 -->
       <div class="ewmbtn">
@@ -117,13 +126,14 @@ export default {
       idnum: "",
       driven: "",
       carnum: "",
-      explain: ""
+      explain: "",
+      errortext: "22222"
     };
   },
   methods: {
     //   返回事件
     onClickLeft() {
-      this.$router.push('main/community');
+      this.$router.push("main/community");
     },
 
     // 预约记录
@@ -159,7 +169,6 @@ export default {
         "-" +
         this.p(d.getDate());
       this.datashow = false;
-      //   console.log(value)
     },
     p(s) {
       return s < 10 ? "0" + s : s;
@@ -174,10 +183,10 @@ export default {
       }
       return value;
     },
-
     getewm() {
       let obj = {
         ydata: this.ksdata,
+
         vname: this.visname,
         sex: this.sex,
         phonenum: this.visphonenum,
@@ -187,8 +196,12 @@ export default {
         explain: this.explain,
         ewmimg: `http://qr.liantu.com/api.php?text=${this.visname}%26${this.ksdata}&fg=000000`
       };
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true
+      });
       this.$store.dispatch("visitor/getewm", obj);
-      console.log(this.visphonenum)
+      console.log(this.visphonenum);
       this.$router.push(`/visitor/${this.visphonenum}`);
 
       //    let result = await axios.get(`http://apis.juhe.cn/qrcode/api?key=&text=&type=2&fgcolor=00b7ee&w=80&m=5&lw=80&text=${this.visname}`)
@@ -199,25 +212,30 @@ export default {
     },
     close() {
       this.datashow = false;
-    }
+    },
+    // 表单验证 电话号码
+    // regphone() {
+    //   let re = /^1\d{10}$/;
+    //   if ((this.refs.phoneinput.value = "")) {
+    //     return;
+    //   } else if (!re.test(this.visphonenum)) {
+    //     alert("格式错误，请重新输入");
+    //   } else {
+    //     this.$refs.phoneinput.style = {
+    //       color: green
+    //     };
+    //   }
+    // }
   }
 };
 </script>
 
 <style scoped>
-html,
-body {
-  width: 100%;
-  height: 100%;
-}
 /* 标题 */
-.register_info .van-nav-bar {
+.van-nav-bar {
   width: 100%;
   height: 72px;
   line-height: 72px;
-}
-.content {
-  padding: 0 10px 0 10px;
 }
 
 /* 标题下划线 */
@@ -241,9 +259,20 @@ body {
 /* 返回 */
 .van-nav-bar__text {
   color: #000;
+  font-size: 16px;
 }
+
 /* 性别选择 */
+.sexbox{
+   line-height: 24px;
+  border-bottom: 1px solid #ebedf0;
+  padding: 10px 16px;
+  color: #323233;
+  font-size: 14px;
+}
 .sbox {
+  display: flex;
+  justify-content: space-between;
   line-height: 24px;
   border-bottom: 1px solid #ebedf0;
   padding: 10px 16px;
@@ -267,20 +296,21 @@ body {
   width: 90px;
 }
 /* 日期 */
-.datasty {
+/* .datasty {
   height: 24px;
   font-size: 16px;
   line-height: 24px;
   position: relative;
   left: 130px;
-}
+} */
 .van-icon,
 .van-icon::before {
   display: inline-block;
   font-size: 20px;
-  line-height: 26px;
-  height: 100%;
 }
+/* .icodata{
+  left: 40%;
+} */
 .ksdata {
   display: inline-block;
   width: 80px;

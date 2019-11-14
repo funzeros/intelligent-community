@@ -260,6 +260,12 @@ const routes = [
         name: 'payment_justpay',
         component: () => import('../views/lifepayment/life_payment_justpay.vue')
     },
+    // 电子监控
+    {
+        path: '/monitor',
+        name: 'monitor',
+        component: () => import('../views/monitor/index')
+    },
 ]
 
 const router = new VueRouter({

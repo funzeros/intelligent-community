@@ -63,7 +63,7 @@ export default {
   position: fixed;
   top: 0;
 }
-.register_info .van-nav-bar {
+.van-nav-bar {
   width: 100%;
   height: 72px;
   line-height: 72px;
@@ -91,6 +91,7 @@ export default {
 /* 返回 */
 .van-nav-bar__text {
   color: #000;
+  font-size: 16px;
 }
 .van-cell:not(:last-child)::after {
   border: 0 solid #ebedf0;

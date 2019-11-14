@@ -8,6 +8,7 @@ import comvote from './comvote';
 import visitor from "./visitor";//访客预约
 import mine from './mine'
 
+import monitor from "./monitor";//电子监控
 import information from './information';//通知公告
 import life_payment from './life_payment';//生活缴费
 import payfees from "./payfees";//缴费记录
@@ -32,6 +33,7 @@ export default new Vuex.Store({
     life_payment,
     visitor,
     payfees,
-    mine
+    mine,
+    monitor
   }
 })

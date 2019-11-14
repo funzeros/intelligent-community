@@ -1,11 +1,12 @@
 <template>
+<!-- 缴费 查询 魏珍君 -->
   <div class="paybox">
     <!-- 标题 -->
     <div class="title">
       <van-nav-bar title="费用缴纳" left-text="返回" left-arrow @click-left="onClickLeft" />
     </div>
     <!-- 导航 -->
-    <van-dropdown-menu class="nav">
+    <van-dropdown-menu class="nav" style="z-index:1001">
       <van-dropdown-item
         v-model="core"
         :options="option1"
@@ -13,16 +14,11 @@
         @change="getcoredata"
         @close="reload"
       />
-      <van-dropdown-item
-        v-model="month"
-        :options="option2"
-        @change="getmonthdata"
-        @close="reload"
-      />
+      <van-dropdown-item v-model="month" :options="option2" @change="getmonthdata" @close="reload" />
     </van-dropdown-menu>
     <!-- 底部内容 -->
-    <div class="center" style="z-index:1000">
-      <p>2019年{{nowmonth}}</p>
+    <div class="center" >
+      <p class="monthp">2019年{{nowmonth}}</p>
       <ul>
         <li v-for="item of nodelist " :key="item.id" @click="paydetail(item.id)">
           <div class="leftpaystyle">
@@ -93,32 +89,31 @@ export default {
     },
     // 过滤项目 月份
     reload() {
-      let olddata =this.$store.state.payfees.userpayments;
+      let olddata = this.$store.state.payfees.userpayments;
       if (this.core == 0 && this.month == "a") {
-        this.nodelist = olddata ;
-      } else if (this.month =='a') {
-        let result = olddata .filter(item => {
+        this.nodelist = olddata;
+      } else if (this.month == "a") {
+        let result = olddata.filter(item => {
           return item.paystyle == this.nowcore;
         });
         this.nodelist = result;
       } else if (this.core == 0) {
-        let filtemonthdata = olddata.filter(
-          item => {
-            return item.date.slice(0, 2) == this.nowmonth.slice(0, 2);
-          }
-        );
+        let filtemonthdata = olddata.filter(item => {
+          return item.date.slice(0, 2) == this.nowmonth.slice(0, 2);
+        });
         this.nodelist = filtemonthdata;
-      }else{
-        let result = olddata .filter(item => {
-          return item.paystyle == this.nowcore && item.date.slice(0, 2) == this.nowmonth.slice(0, 2);
+      } else {
+        let result = olddata.filter(item => {
+          return (
+            item.paystyle == this.nowcore &&
+            item.date.slice(0, 2) == this.nowmonth.slice(0, 2)
+          );
         });
         this.nodelist = result;
       }
     }
   },
-  computed: {
-   
-  }
+  computed: {}
 };
 </script>
 <style scoped>
@@ -128,7 +123,7 @@ export default {
   position: fixed;
   top: 0;
 }
-.register_info .van-nav-bar {
+.van-nav-bar {
   width: 100%;
   height: 72px;
   line-height: 72px;
@@ -156,6 +151,7 @@ export default {
 /* 返回 */
 .van-nav-bar__text {
   color: #000;
+  font-size: 16px;
 }
 /* 导航 */
 /* .paybox{
@@ -164,20 +160,26 @@ export default {
 .nav {
   width: 100%;
   position: fixed;
-  top: 40px;
+  top: 71px;
 }
 .center {
   z-index: 1000;
   overflow: scroll;
-  width: 90%;
+  width: 100%;
   position: absolute;
-  top: 84px;
-  padding: 0 20px;
+  top: 20%;
   font-size: 13px;
   color: #474747;
-  z-index: -1;
+  
 }
-
+.monthp{
+  margin-left: 10%;
+}
+ul {
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+}
 li {
   padding: 10px 20px;
   margin-bottom: 20px;
