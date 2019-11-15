@@ -12,37 +12,38 @@
         <van-cell is-link class="firstTitle" to="/main/mine/changeheader">
             <template slot="title">
                 <span class="title">头像</span>
-                <van-image round width="30px" height="30px" fit="cover" :src="userInfo.u_imge" />
+                <van-image round width="30px" height="30px" fit="cover" :src="userInfo.uImge" />
             </template>
         </van-cell>
 
-        <van-field
-            v-model="info.username"
-            label="用户名"
-            placeholder="未填写"
-            input-align="right"
-        />
-        <van-field
-            v-model="info.name"
-            label="姓名"
-            placeholder="未填写"
-            input-align="right"
-        />
+        <van-field v-model="info.username" label="用户名" placeholder="未填写" input-align="right" />
+        <van-field v-model="info.name" label="姓名" placeholder="未填写" input-align="right" />
 
-        <van-cell title="生日" is-link :value="info.birthday" @click="showPopupBir" />
+        <van-cell
+            title="生日"
+            is-link
+            :value="info.birthday"
+            @click="showPopup('showBir')"
+        />
         <van-popup v-model="showBir" position="bottom" :style="{ height: '40%' }">
             <van-datetime-picker
                 v-model="currentDate"
                 type="date"
                 :min-date="minDate"
                 @confirm="getTime"
-                @cancel="cancel"
+                @cancel="cancel('showBir')"
             />
         </van-popup>
 
-        <van-cell title="性别" is-link :value="info.sex" @click="showPopupSex" />
-        <van-popup v-model="showSex" position="bottom" :style="{ height: '20%' }">
-            <van-picker :columns="columns" @change="onChangeSex" />
+        <van-cell title="性别" is-link :value="userInfo.sex" @click="showPopup('showSex')" />
+        <van-popup v-model="showSex" position="bottom" :style="{ height: '40%' }">
+            <van-picker
+                :columns="columns"
+                show-toolbar
+                title="性别"
+                @cancel="cancel('showSex')"
+                @confirm="onConfirmSex"
+            />
         </van-popup>
 
         <van-cell title="手机号" is-link arrow-direction="none" :value="userInfo.phonenum" />
@@ -59,18 +60,18 @@ export default {
             columns: ["男", "女"],
             currentDate: new Date(),
             minDate: new Date("1909-01-01"),
-            info:{
-                name:"",
-                username:"",
-                birthday:"",
-                sex:""
+            info: {
+                name: "",
+                username: "",
+                birthday: "",
+                sex: ""
             }
         };
     },
     computed: {
         ...mapState({
-            userInfo: state => state.mine.userInfo
-        })
+            userInfo: state => state.mine.per_userInfo
+        }),
     },
     mounted() {
         this.info.name = this.userInfo.name;
@@ -80,10 +81,16 @@ export default {
     },
     methods: {
         ...mapActions({
-            setUserAttr:'mine/setUserAttr'
+            setUserAttr: "mine/setUserAttr"
         }),
         onClickLeft() {
             this.$router.go(-1);
+        },
+        cancel(attr) {
+            this[attr] = false;
+        },
+        showPopup(attr) {
+            this[attr] = true;
         },
         onClickRight() {
             this.$dialog
@@ -95,8 +102,8 @@ export default {
                     () => {
                         // 可验证数据是否修改后提交(优化)
                         //数据提交请求
-                        for(let attr in this.info){
-                            this.setUserAttr([attr,this.info[attr]]);
+                        for (let attr in this.info) {
+                            this.setUserAttr([attr, this.info[attr]]);
                         }
                     },
                     () => {
@@ -104,17 +111,9 @@ export default {
                     }
                 );
         },
-        showPopupSex() {
-            this.showSex = true;
-        },
-        onChangeSex(picker, value, index) {
+        onConfirmSex(value) {
             this.info.sex = value;
-        },
-        showPopupBir() {
-            this.showBir = true;
-        },
-        onChangeBir(picker, value, index) {
-            this.userDetail.birthday = value;
+            this.showSex = false;
         },
         getTime(value) {
             //日期控件点击确定

@@ -10,31 +10,36 @@
         <div class="body">
             <van-cell-group>
                 <van-field
-                    v-model="info.licensePlate"
+                    v-model="info.cNumber"
                     label="车辆号码"
                     placeholder="请输入车牌号码"
                     input-align="right"
                 />
-            </van-cell-group>
-
-            <van-cell title="车辆类型" is-link @click="showPopup('typeShow')" :value="info.carType" />
-            <van-cell title="车辆颜色" is-link @click="showPopup('colorShow')" :value="info.carColor" />
-
-            <van-cell-group>
                 <van-field
-                    v-model="info.carFrame"
+                    v-model="info.cType"
+                    label="车辆类型"
+                    placeholder="请输入车辆类型"
+                    input-align="right"
+                />
+                <van-field
+                    v-model="info.cColor"
+                    label="车辆颜色"
+                    placeholder="请输入车辆颜色"
+                    input-align="right"
+                />
+                <van-field
+                    v-model="info.cFrameNumber"
                     label="车架号"
                     placeholder="请输入车架号"
                     input-align="right"
                 />
                 <van-field
-                    v-model="info.carNumber"
+                    v-model="info.cVehicleNumber"
                     label="车辆编号"
                     placeholder="请输入车辆编号"
                     input-align="right"
                 />
             </van-cell-group>
-
             <van-button
                 type="primary"
                 size="large"
@@ -44,24 +49,6 @@
                 :disabled="canUse"
             >添加</van-button>
         </div>
-        <van-popup v-model="typeShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker
-                :columns="type"
-                show-toolbar
-                title="车辆类型"
-                @cancel="cancel('typeShow')"
-                @confirm="onConfirmType"
-            />
-        </van-popup>
-        <van-popup v-model="colorShow" :style="{ height: '30%' }" position="bottom" round>
-            <van-picker
-                :columns="color"
-                show-toolbar
-                title="车辆颜色"
-                @cancel="cancel('colorShow')"
-                @confirm="onConfirmColor"
-            />
-        </van-popup>
     </section>
 </template>
 
@@ -71,41 +58,26 @@ export default {
     data() {
         return {
             info: {
-                carColor: "",
-                licensePlate: "",
-                carType: "",
-                carFrame: "",
-                carNumber: ""
+                cColor: "",
+                cVehicleNumber: "",
+                cType: "",
+                cFrameNumber: "",
+                cNumber: ""
             },
-            typeShow: false,
-            colorShow: false,
-            type: ["小型车", "中型车", "大型车", "公交车", "货车"],
-            color: [
-                "白色",
-                "粉色",
-                "蓝色",
-                "黑色",
-                "紫色",
-                "红色",
-                "灰色",
-                "黄色",
-                "绿色",
-                "绿色"
-            ]
         };
     },
     computed: {
         ...mapState({
-            carList: state => state.mine.carList,
-            userInfo: state => state.mine.userInfo
+            carList: state => state.mine.per_carList,
+            userInfo: state => state.mine.per_userInfo
         }),
         canUse() {
             return !(
-                this.info.carColor &&
-                this.info.carFrame &&
+                this.info.cColor &&
+                this.info.carFrameNumber &&
                 this.info.carNumber &&
-                this.info.licensePlate &&
-                this.info.carType
+                this.info.cVehicleNumber &&
+                this.info.cType
             );
         }
     },
@@ -116,35 +88,16 @@ export default {
         onClickLeft() {
             this.$router.go(-1);
         },
-        cancel(attr) {
-            this[attr] = false;
-        },
-        onConfirmType(value) {
-            this.info.carType = value;
-            this.typeShow = false;
-        },
-        onConfirmColor(value) {
-            this.info.carColor = value;
-            this.colorShow = false;
-        },
-        showPopup(attr) {
-            this[attr] = true;
-        },
         submit() {
             this.$dialog
                 .confirm({
-                    title: "修改",
-                    message: "你确定要修改吗?"
+                    title: "添加",
+                    message: "你确定要添加吗?"
                 })
                 .then(
                     () => {
-                        // 可验证数据是否修改后提交(优化)
-                        //数据提交请求
-                        this.addCarList({
-                            ...this.info,
-                            c_id: 1,
-                            u_id: this.userInfo.u_id
-                        });
+                        //修改到vuex中,提交到后台
+                        //参数this.info
                         this.$router.push({ name: "carindex" });
                     },
                     () => {

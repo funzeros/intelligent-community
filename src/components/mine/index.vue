@@ -5,7 +5,7 @@
             <van-cell is-link class="myInfo" to="/main/mine/userinfo">
             <template slot="title">
                 <article>
-                    <img :src="userInfo.u_imge" alt width="50" height="50" class="head" />
+                    <img :src="userInfo.uImge" alt width="50" height="50" class="head" />
                 </article>
                 <aside>
                     <div>{{userInfo.name}}</div>
@@ -14,6 +14,7 @@
                         text-color="#ad0000"
                         v-if="houseList[0]"
                     >{{getIdentity(houseList[0].identity)}}</van-tag>
+                    
                 </aside>
             </template>
         </van-cell>
@@ -30,7 +31,7 @@
         </div>
 
         <div class="tab">
-            <van-cell title="设置" is-link />
+            <van-cell title="设置" is-link to='/main/mine/set'/>
             <van-cell title="退出登录" is-link @click="logout" />
         </div>
         </div>
@@ -44,13 +45,14 @@ Auther:施冬冬
 household为住户信息,carinfo为我的车辆,houseinfo为我的房产
 二级路由获取参数:可路由传参(推荐)或二级路由单独请求
 */
-import { mapState } from "vuex";
+import { mapState,mapActions } from "vuex";
+import axios from "axios";
 export default {
     computed: {
         ...mapState({
-            userInfo: state => state.mine.userInfo,
-            carList: state => state.mine.carList,
-            houseList: state => state.mine.houseList
+            userInfo: state => state.mine.per_userInfo,
+            carList: state => state.mine.per_carList,
+            houseList: state => state.mine.per_houseList,
         }),
         getHouseInfo() {
             return this.houseList.length !== 0
@@ -63,19 +65,29 @@ export default {
                 : "";
         },
         getIdentity(identity) {
+            //将identity转换
             return identity => {
                 switch (identity) {
-                    case "0":
+                    case 0:
                         return "业主";
-                    case "1":
+                    case 1:
                         return "家属";
-                    case "2":
+                    case 2:
                         return "租客";
                 }
             };
         }
     },
+    mounted(){
+        this.$nextTick(()=>{
+            //请求数据(个人信息,房屋信息,汽车信息)
+            this.getUserInfo();
+        })
+    },
     methods: {
+        ...mapActions({
+            getUserInfo:"mine/getUserInfo"
+        }),
         logout() {
             //清除登录信息
             //退出登录并跳转到登录界面

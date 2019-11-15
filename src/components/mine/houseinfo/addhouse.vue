@@ -107,7 +107,7 @@ export default {
         ...mapState({
             houselists: state => state.register.houselists,
             area: state => state.register.areas,
-            houseList: state => state.mine.houseList
+            houseList: state => state.mine.pre_houseList
         }),
         canUse() {
             return this.buildFlag || this.identityFlag || this.areaFlag;
@@ -189,13 +189,7 @@ export default {
                             this.info.identity
                         );
 
-                        //添加到vuex中
-                        this.addHouse({
-                            state: "审核中",
-                            ...this.info,
-                            f_id: 2,
-                            u_id: 1
-                        });
+
                         //提交完成后清空暂存对象
                         for (let i in this.info) {
                             this.info[i] = "";
