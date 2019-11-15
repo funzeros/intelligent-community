@@ -104,9 +104,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.push({
-        name: "community"
-      });
+      this.$router.go(-1);
     },
     // 进入下一步
     onStep() {

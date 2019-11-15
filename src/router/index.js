@@ -349,13 +349,21 @@ router.beforeEach((to, from, next) => {
     if (store.state.guardflag) {//登录标志
         next();
     } else {
-        if (to.name === 'register') { //去注册
-            next();
-        } else if (to.name === 'login') { //去登录
-            next();
-        }else {
-            next('/'); //其他转登录
+        switch(to.name){
+            case 'login':;
+            case 'password':;
+            case 'register':next();
+            break;
+            default: next('/'); 
+            break;
         }
+        // if (to.name === 'register') { //去注册
+        //     next();
+        // } else if (to.name === 'login') { //去登录
+        //     next();
+        // }else {
+        //     next('/'); //其他转登录
+        // }
     }
 })
 

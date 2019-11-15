@@ -1,7 +1,8 @@
 <template>
    <!-- 登陆   2019-11-12 杨汗青-->
   <div id="login">                                 
-    <div class="title-nav">{{title}}</div>
+    <!-- <div class="title-nav">{{title}}</div> -->
+    <div class="header"></div>
     <div>
       <van-cell-group>
         <van-field 
@@ -20,7 +21,7 @@
         <div class="pd15"><van-button type="primary" size="large" @click="onClickButtonSubmit">登录</van-button></div>
   
       </van-cell-group>
-
+          <br>
                 <div style="float:right; color:gray;" @click="forget" >忘记密码？</div>
     </div>
 
@@ -133,7 +134,11 @@ mounted(){
 .login {
   position: relative;
 }
-
+.header{
+  width: 100%;
+  height: 300px;
+  background: url(../../../public/images/LOGO.png) no-repeat center center;
+}
 .title-nav {
   width: 100%;
   height: 70px;

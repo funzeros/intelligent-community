@@ -106,6 +106,7 @@ export default {
             </div>
          `;
       }
+     this.$refs.chatWin.scrollTop = this.$refs.chatWin.scrollHeight;
     };
     console.log(this.$store.state.knockdoor.hdata);
     let fid =

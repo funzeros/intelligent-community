@@ -4,7 +4,8 @@
 // 渲染数据——开门地址、事件、出&入
 
 <template>
-  <div class="key">
+  
+  <div class="key" style="height: 100%;">
     <opendoor v-if="flag==0"></opendoor>
     <record v-if="flag==1"></record>
   </div>
