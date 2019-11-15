@@ -134,7 +134,7 @@ ul {
   color: #5c5b5b;
   height: 4.5rem;
   padding: 10px;
-  margin: 20px;
+  margin: 20px 5px;
   box-shadow: 0px 3px 5px 3.5px #ccc;
   border-radius: 8px;
   background: #ccc;
@@ -156,7 +156,7 @@ ul {
   float: left;
 }
 .left-top{
-    padding: 10px;
+    padding: 10px 0px;
 }
 /* 右侧 */
 .right {
