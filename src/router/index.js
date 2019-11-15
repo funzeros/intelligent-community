@@ -144,21 +144,40 @@ const routes = [
                 name: 'find',
                 component: () => import('../views/main/find.vue'),
             },
-            // 开门
-            {
-                path: '/main/key',
-                name: 'key',
-                component: () => import('../views/main/key.vue')
-            },
             // 邻里
             {
                 path: '/main/neighborhood',
                 name: 'neighborhood',
                 component: () => import('../views/main/neighborhood.vue')
             },
+            
             // 我的
             mine
         ]
+    },
+    // 开门
+    {
+        path: '/key',
+        name: 'key',
+        component: () => import('../views/main/key.vue')
+    },
+    //邻里
+    {
+        path: '/neighbor',
+        name: 'neighbor',
+        component: () => import(/* webpackChunkName: "about" */ '../views/neighborOther/neighborhood.vue')
+      },
+    //帖子详情
+    {
+        path: '/mainBody/:id',
+        name: 'mainBody',
+        component: () => import(/* webpackChunkName: "about" */ '../views/mainBody/text.vue')
+      },
+    //发现-生活服务
+    {
+        path: '/lifeServe',
+        name: 'lifeServe',
+        component: () => import('../views/lifeServe/find.vue')
     },
     // 投票
     {
