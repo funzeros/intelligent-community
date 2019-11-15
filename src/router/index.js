@@ -325,7 +325,13 @@ const routes = [
         path:'/main/myRepair/repairRank',
         name:'repairRank',
         component: () => import('../views/repair/repairRank.vue')
-      }
+      },
+      // 忘记密码
+   {
+    path: '/login/password',
+    name: 'password',
+    component: () => import('../views/forgotpassword/index.vue')
+  },
 ]
 
 const router = new VueRouter({

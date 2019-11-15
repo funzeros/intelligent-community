@@ -21,7 +21,7 @@
   
       </van-cell-group>
 
-                <div style="float:right; color:gray;" >忘记密码？</div>
+                <div style="float:right; color:gray;" @click="forget" >忘记密码？</div>
     </div>
 
     <div>
@@ -110,8 +110,14 @@ export default {
       },
       gotoReg() {
           this.$router.push({name:'register'})
-      }
-},mounted(){
+      },
+forget(){
+  this.$router.push({
+        name: "password"
+      });
+}
+},
+mounted(){
     this.username=this.$store.state.register.username;
 }
 
