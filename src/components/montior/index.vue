@@ -1,16 +1,19 @@
 <template>
   <div>
-    <div >
+    <div>
+      <!-- 标题 -->
       <van-nav-bar title="电子监控" left-text="返回" left-arrow @click-left="onClickLeft" />
       <div>
+        <!-- 搜索框 -->
         <van-search placeholder="请输入搜索关键词" v-model="value" @input="changvalue" />
+        <!-- 内容 楼层 -->
         <div class="selectbox">
           <ul>
             <li>
               <span class="addicn" @click="allclcik" ref="addicn">
                 <span>+</span>
               </span>
-              <span>公用监控</span>
+              <span @click="allclcik">公用监控</span>
               <keep-alive>
                 <ul v-if="isshow">
                   <li
@@ -18,15 +21,16 @@
                     v-for="(item,index) of housenumdata "
                     :key="index"
                     ref="sonelm"
+                    @click.self="sonclick(index)"
                   >
                     <span class="addicn" @click.self="sonclick(index)">+</span>
-                    {{item.levelnum}}
+                    {{item.id}}幢
                     <ul v-if="sonshow[index]">
                       <li
                         v-for="(everyhouse,index) of item.housedata"
                         :key="index"
                         class="housenum"
-                        @click="housedetail(everyhouse,item.levelnum)"
+                        @click="housedetail()"
                       >{{everyhouse}}</li>
                     </ul>
                   </li>
@@ -56,7 +60,8 @@ export default {
         false,
         false,
         false
-      ]
+      ],
+      housenumdata: this.$store.state.monitor.housenumdata
     };
   },
   methods: {
@@ -76,34 +81,36 @@ export default {
     sonclick(index) {
       let icn = this.$refs.sonelm[index].firstElementChild.innerHTML;
       if (icn === "+") {
-        this.$refs.sonelm[index].firstElementChild.innerHTML = "-";
         this.$set(this.sonshow, index, "true");
+        this.$refs.sonelm[index].firstElementChild.innerHTML = "-";
       } else {
-        this.$refs.sonelm[index].firstElementChild.innerHTML = "+";
         this.$set(this.sonshow, index, false);
+        this.$refs.sonelm[index].firstElementChild.innerHTML = "+";
       }
     },
     // s搜索
     changvalue(value) {
+      let oldlist = this.$store.state.monitor.housenumdata;
+      let result = oldlist.filter(item => {
+        return item.id == value || item.id + "幢" == value;
+      });
+      this.housenumdata = result;
       this.isshow = true;
     },
     // 跳转
-    housedetail(a, b) {
-      this.$store.state.monitor.boxshow = false
-      // this.$router.push(`/monitor/${a & b}`);
+    housedetail() {
+      this.$store.state.monitor.boxshow = false;
     }
   },
   computed: {
-    housenumdata() {
-      return this.$store.state.monitor.housenumdata;
-    },
-      getshowing(){
-        return this.$store.state.monitor.boxshow
-      }
+    // housenumdata() {
+    //   return this.$store.state.monitor.housenumdata;
+    // },
+    getshowing() {
+      return this.$store.state.monitor.boxshow;
+    }
   },
-  components:{
-    
-  }
+  components: {}
 };
 </script>
 <style scoped>
@@ -153,7 +160,7 @@ export default {
   height: 15px;
   border: 1px solid #01c8fa;
   text-align: center;
-  line-height: 11px;
+  line-height: 12px;
   font-size: 14px;
   margin-right: 10px;
 }

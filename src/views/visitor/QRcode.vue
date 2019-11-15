@@ -26,7 +26,7 @@ export default{
   },
     computed:{
        qrewm(){
-         console.log(this.$store.state.visitor.visobj)
+        //  console.log(this.$store.state.visitor.visobj)
            return this.$store.state.visitor.visobj.vname
        } ,
        getewmimg(){

@@ -12,7 +12,10 @@ import monitor from "./monitor";//电子监控
 import information from './information';//通知公告
 import life_payment from './life_payment';//生活缴费
 import payfees from "./payfees";//缴费记录
-import knockdoor from "./knockdoor";
+import neighbor from "./neighbor";
+import knockdoor from "./knockdoor";  // 敲门
+import MyRepair from "./myRepair"
+
 
 Vue.use(Vuex)
 
@@ -61,7 +64,9 @@ export default new Vuex.Store({
     payfees,
     mine,
     monitor,
-    knockdoor
+    knockdoor,
+    neighbor,
+    MyRepair
 
   }
 })

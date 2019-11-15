@@ -34,12 +34,14 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$store.state.find.flag = 0;
+      this.$router.push({
+        name: "find"
+      });
     }
   }
 };
 </script>
-<style>
+<style scoped>
 #houseServe {
   width: 100%;
   height: 100%;

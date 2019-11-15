@@ -1,23 +1,26 @@
 <template>
-<!-- 访客详情  魏珍君 -->
+  <!-- 访客详情  魏珍君 -->
   <div>
     <!-- 标题 -->
     <van-nav-bar title="访客详情" left-text="返回" left-arrow @click-left="clickleft" />
 
     <div class="centerbox">
       <van-cell-group>
-        <van-cell title="姓名" :value= getvislist.vname />
-        <van-cell title="性别" :value= getvislist.sex />
-        <van-cell title="手机号码" :value= getvislist.phonenum />
-        <van-cell title="证件类型" :value= getvislist.idvalue />
-        <van-cell title="证件号" :value= getvislist.idnum />
-        <van-cell title="车牌号" :value= getvislist.carnum />
-        <van-cell title="预约时间" :value= getvislist.ydata />
-        <van-cell title="来访时间" :value= getvislist.ydata />
-        <van-cell title="来访说明" :value= getvislist.explain />
-        <van-cell title="二维码" :value= getvislist.failuretime />
+        <van-cell title="姓名" :value="getvislist.vname" />
+        <van-cell title="性别" :value="getvislist.sex" />
+        <van-cell title="手机号码" :value="getvislist.phonenum" />
+        <van-cell title="证件类型" :value="getvislist.idvalue" />
+        <van-cell title="证件号" :value="getvislist.idnum" />
+        <van-cell title="车牌号" :value="getvislist.carnum" />
+        <van-cell title="预约时间" :value="getvislist.ydata" />
+        <van-cell title="来访时间" :value="getvislist.ydata" />
+        <van-cell title="来访说明" :value="getvislist.explain" />
+        <van-cell title="二维码" :value="getvislist.failuretime" />
       </van-cell-group>
-      <img :src= getvislist.ewmimg alt="">
+      <img :src="getvislist.ewmimg" @click=" bigimg(getvislist.ewmimg) " />
+      <van-image-preview v-model="show" :images="images" @change="onChange">
+        <template v-slot:index>二维码 {{getvislist.failuretime}}</template>
+      </van-image-preview>
     </div>
   </div>
 </template>
@@ -25,6 +28,9 @@
 export default {
   data() {
     return {
+      show: false,
+      index: 0,
+      images: [],
       vislist: [
         {
           ydata: "2019-10-1",
@@ -36,7 +42,7 @@ export default {
           carnum: "浙A88888",
           explain: "来访",
           typein: "App",
-          failuretime:'已失效',
+          failuretime: "已失效",
           ewmimg: `http://qr.liantu.com/api.php?text=11223344%262019-10-1&fg=000000`
         },
         {
@@ -48,7 +54,7 @@ export default {
           idnum: "2234445eeeqwq555",
           carnum: "浙A88888",
           explain: "来访",
-          failuretime:'有效',
+          failuretime: "有效",
           typein: "后台录入",
           ewmimg: `http://qr.liantu.com/api.php?text=11223344%262019-10-1&fg=000000`
         },
@@ -61,7 +67,7 @@ export default {
           idnum: "2234445eeeeee555",
           carnum: "浙A88888",
           explain: "来访",
-          failuretime:'有效',
+          failuretime: "有效",
           typein: "后台录入",
           ewmimg: `http://qr.liantu.com/api.php?text=11223344%262019-10-1&fg=000000`
         }
@@ -71,8 +77,17 @@ export default {
   methods: {
     clickleft() {
       this.$router.go(-1);
+    },
+    bigimg(img) {
+      this.images = [img]
+      this.show = true;
+      // console.log(img);
+    },
+    onChange(index) {
+      this.index = index;
     }
   },
+
   computed: {
     // 获取后台数据后 状态管理使用
     getvislist() {
@@ -123,9 +138,9 @@ export default {
 .centerbox {
   padding: 0 24px;
 }
-img{
-    padding: 10px;
-    width: 90px;
-    height: 90px;
+img {
+  padding: 10px;
+  width: 90px;
+  height: 90px;
 }
 </style>

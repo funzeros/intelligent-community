@@ -60,6 +60,9 @@ export default {
 .delbox{
     margin: 5% 5% 0;
     height: 200px;
-    background: #cfcece;
+    border-radius: 6px;
+    background:#cfcece no-repeat url('../../assets/sxt.png') 10%;
+   
+
 }
 </style>

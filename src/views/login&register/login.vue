@@ -16,8 +16,12 @@
         <van-field v-model="password" type="password" label="密码" placeholder="请输入密码" required class="nav-cell-double" 
           @click-right-icon="$toast('密码必须是数字、字母、下划线')"   />
 
+
         <div class="pd15"><van-button type="primary" size="large" @click="onClickButtonSubmit">登录</van-button></div>
+  
       </van-cell-group>
+
+                <div style="float:right; color:gray;" @click="forget" >忘记密码？</div>
     </div>
 
     <div>
@@ -34,7 +38,7 @@ export default {
   name: "login",
   data() {
     return {
-      title: "登陆",
+      title: "登录",
       username: "",
       password:'',
     };
@@ -108,8 +112,14 @@ export default {
       },
       gotoReg() {
           this.$router.push({name:'register'})
-      }
-},mounted(){
+      },
+forget(){
+  this.$router.push({
+        name: "password"
+      });
+}
+},
+mounted(){
     this.username=this.$store.state.register.username;
 }
 

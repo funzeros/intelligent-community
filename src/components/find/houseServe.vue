@@ -34,7 +34,9 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$store.state.find.flag = 0;
+      this.$router.push({
+        name: "find"
+      });
     }
   }
 };
