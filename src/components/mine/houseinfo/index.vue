@@ -11,10 +11,8 @@
         />
 
         <div class="body">
-            <div class="tips" v-if="houseList.length==0">
-                您还没有添加房屋,快去右上角添加吧~么么哒(づ￣ 3￣)づ
-            </div>
-            <van-swipe-cell :key="houseinfo.f_id" v-for="houseinfo of houseList">
+            <div class="tips" v-if="houseList.length==0">您还没有添加房屋,快去右上角添加吧~么么哒(づ￣ 3￣)づ</div>
+            <van-swipe-cell :key="houseinfo.fId" v-for="houseinfo of houseList">
                 <van-cell
                     v-if="houseinfo"
                     :border="false"
@@ -22,14 +20,13 @@
                     :value="houseinfo.state"
                     @click="goDetail(houseinfo)"
                 />
-
                 <template slot="right">
-                    <van-button square type="info" text="编辑" @click="changeHouse(houseinfo)" />
+                    <van-button square type="info" text="编辑" @click="changeHouse(houseinfo.fId)" />
                     <van-button
                         square
                         type="danger"
                         text="删除"
-                        @click="deleteHouse(houseinfo.f_id)"
+                        @click="deleteHouse(houseinfo.fId)"
                     />
                 </template>
             </van-swipe-cell>
@@ -51,34 +48,40 @@ export default {
     },
     computed: {
         ...mapState({
-            houseList: state => state.mine.houseList
+            houseList: state => state.mine.per_houseList
         }),
         getTitle(identity, build, unit, house) {
             return (identity, build, unit, house) => {
+                if(build == null)
+                    build = "";
+                if(unit == null)
+                    unit = "";
                 switch (identity) {
-                    case "0":
+                    case 0:
                         return build + unit + house + " " + "业主";
-                    case "1":
+                    case 1:
                         return build + unit + house + " " + "家属";
-                    case "2":
+                    case 2:
                         return build + unit + house + " " + "租客";
+                    default:
+                        return build + unit + house + " " + "游客";
                 }
             };
         }
     },
     methods: {
         onClickLeft() {
-            this.$router.push({name:"mineindex"});
+            this.$router.push({ name: "mineindex" });
         },
         onClickRight() {
             this.$router.push({
                 name: "addhouse"
             });
         },
-        changeHouse(houseinfo) {
+        changeHouse(fId) {
             this.$router.push({
                 name: "changehouse",
-                params: { houseinfo }
+                params: { fId }
             });
         },
         goDetail(houseinfo) {
@@ -90,7 +93,7 @@ export default {
         ...mapActions({
             delete: "mine/delete"
         }),
-        deleteHouse(f_id) {
+        deleteHouse(fId) {
             this.$dialog
                 .confirm({
                     title: "删除",
@@ -98,7 +101,7 @@ export default {
                 })
                 .then(
                     () => {
-                        this.delete(["houseList", "f_id", f_id]);
+                        this.delete(["per_houseList", "fId", fId]);
                     },
                     () => {
                         return;
@@ -113,7 +116,7 @@ export default {
 .body {
     padding: 0 2%;
 }
-.tips{
+.tips {
     width: 70%;
     margin: 60% auto;
     height: 25%;
@@ -125,13 +128,14 @@ export default {
     line-height: 34px;
     font-size: 12px;
 }
-.contain,.body{
+.contain,
+.body {
     height: 100%;
 }
 section {
     overflow: hidden;
 }
-#main{
+#main {
     background-color: #fff;
 }
 </style>

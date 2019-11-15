@@ -1,6 +1,6 @@
 <template>
     <section>
-        <van-nav-bar title="添加房屋" left-text="返回" left-arrow @click-left="onClickLeft" />
+        <van-nav-bar title="修改房屋" left-text="返回" left-arrow @click-left="onClickLeft" />
 
         <div class="body">
             <van-cell title="所属片区" is-link @click="showPopup('areaShow')" :value="info.area" />
@@ -66,14 +66,15 @@ export default {
             build: [],
             identity: ["业主", "家属", "租客"],
             unit: [],
-            house: []
+            house: [],
+            fId: this.$route.params.fId
         };
     },
     computed: {
         ...mapState({
             houselists: state => state.register.houselists,
             area: state => state.register.areas,
-            houseList: state => state.mine.houseList
+            houseList: state => state.mine.per_houseList
         })
     },
     mounted() {
@@ -86,12 +87,20 @@ export default {
                 }
             }
         }
+
+        for (let house of this.houseList) {
+            if (house.fId == this.fId) {
+                for (let key in house) {
+                    this.info[key] = house[key];
+                }
+            }
+        }
+
         this.unit = new Set(this.unit);
         this.unit = Array.from(this.unit);
 
         this.house = new Set(this.house);
         this.house = Array.from(this.house);
-        this.info = this.$route.params.houseinfo;
     },
     methods: {
         onClickLeft() {
@@ -134,10 +143,10 @@ export default {
                     () => {
                         // 可验证数据是否修改后提交(优化)
                         //数据提交请求
-                        for (let houselist of this.houseList) {
-                            if (houselist.f_id == this.info.f_id) {
-                                for (let attr in this.info) {
-                                    this.editHouseList(attr, this.info[attr]);
+                        for (let house of this.houseList) {
+                            if (house.cId == this.cId) {
+                                for (let key in house) {
+                                    house[key] = this.info[key];
                                 }
                             }
                         }

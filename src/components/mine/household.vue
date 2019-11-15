@@ -30,9 +30,9 @@
                 />
             </van-cell-group>
 
-            <van-cell title="是否业主入住" is-link :value="info.isEmpty" @click="showPopup" />
+            <van-cell title="是否业主入住" is-link :value="info.isempty" @click="showPopup" />
             <van-popup v-model="show" position="bottom" :style="{ height: '40%' }">
-                <van-picker :columns="isEmpty" @change="onChangeEmpty" />
+                <van-picker :columns="isempty" @change="onChangeEmpty" />
             </van-popup>
 
             <!-- 修改证件照片 -->
@@ -62,14 +62,14 @@ import { mapState, mapActions } from "vuex";
 export default {
     data() {
         return {
-            isEmpty: ["是", "否"],
+            isempty: ["是", "否"],
             info: {
                 marStatus: "",
                 nationality: "",
                 edBackground: "",
                 politicStatus: "",
                 birthdayPlace: "",
-                isEmpty: ""
+                isempty: ""
             },
             show: false,
             attrsNot: [
@@ -104,6 +104,16 @@ export default {
         ...mapState({
             userInfo: state => state.mine.userInfo
         }),
+        getIdType(idType){
+            return idType =>{
+                switch(idType){
+                    case 0:
+                        return "身份证";
+                    case 1:
+                        return "其他";
+                }
+            }
+        },
         canUse() {}
     },
     mounted() {
@@ -112,7 +122,7 @@ export default {
         this.info.edBackground = this.userInfo.edBackground;
         this.info.politicStatus = this.userInfo.politicStatus;
         this.info.birthdayPlace = this.userInfo.birthdayPlace;
-        this.info.isEmpty = this.userInfo.isEmpty;
+        this.info.isempty = this.userInfo.isempty;
     },
     methods: {
         ...mapActions({
@@ -125,7 +135,7 @@ export default {
             this.show = true;
         },
         onChangeEmpty(picker, value) {
-            this.info.isEmpty = value;
+            this.info.isempty = value;
         },
         submit() {
             this.$dialog

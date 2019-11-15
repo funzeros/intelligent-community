@@ -51,6 +51,11 @@ const mine = {
             component: () => import("../components/mine/about.vue")
         },
         {
+            path:'set',
+            name:'set',
+            component:() => import("../components/mine/set.vue")
+        },
+        {
             path: "carinfo",
             name: 'carinfo',
             component: () => import('../views/main/mine.vue'),

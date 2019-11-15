@@ -14,11 +14,11 @@ export default {
     data() {
         return {
             attrs: [
-                { id: "licensePlate", attr: "车牌号" },
-                { id: "carType", attr: "车辆类型" },
-                { id: "carColor", attr: "车辆颜色" },
-                { id: "carFrame", attr: "车架号" },
-                { id: "carNumber", attr: "车辆编号" }
+                { id: "cNumber", attr: "车牌号" },
+                { id: "cType", attr: "车辆类型" },
+                { id: "cColor", attr: "车辆颜色" },
+                { id: "cFrameNumber", attr: "车架号" },
+                { id: "cVehicleNumber", attr: "车辆编号" }
             ]
         };
     },

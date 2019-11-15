@@ -17,14 +17,14 @@
             <van-swipe-cell :key="carinfo.c_id" v-for="carinfo of carList">
                 <van-cell
                     :border="false"
-                    :title="getTitle(getIdentity((houseList[0] && houseList[0].identity) || 0),carinfo.carColor,carinfo.licensePlate)"
+                    :title="getTitle(getIdentity((houseList[0] && houseList[0].identity) || 0),carinfo.cColor,carinfo.cNumber)"
                     @click="goDetail(carinfo)"
                     value=">"
                 />
 
                 <template slot="right">
-                    <van-button square type="info" text="编辑" @click="changeCar(carinfo)" />
-                    <van-button square type="danger" text="删除" @click="deleteCar(carinfo)" />
+                    <van-button square type="info" text="编辑" @click="changeCar(carinfo.cId)" />
+                    <van-button square type="danger" text="删除" @click="deleteCar(carinfo.cId)" />
                 </template>
             </van-swipe-cell>
         </div>
@@ -41,8 +41,8 @@ export default {
     },
     computed: {
         ...mapState({
-            carList: state => state.mine.carList,
-            houseList: state => state.mine.houseList
+            carList: state => state.mine.per_carList,
+            houseList: state => state.mine.per_houseList
         }),
         getTitle(identity, color, licensePlate) {
             return (identity, color, licensePlate) => {
@@ -52,11 +52,11 @@ export default {
         getIdentity(identity) {
             return identity => {
                 switch (identity) {
-                    case "0":
+                    case 0:
                         return "业主";
-                    case "1":
+                    case 1:
                         return "家属";
-                    case "2":
+                    case 2:
                         return "租客";
                     default:
                         return "访客";
@@ -73,8 +73,8 @@ export default {
                 name: "addcar"
             });
         },
-        changeCar(carinfo) {
-            this.$router.push({ name: "changecar", params: { carinfo } });
+        changeCar(cId) {
+            this.$router.push({ name: "changecar", params: { cId } });
         },
         goDetail(carinfo) {
             this.$router.push({ name: "cardetail", params: { carinfo } });
@@ -82,7 +82,7 @@ export default {
         ...mapActions({
             delete: "mine/delete"
         }),
-        deleteCar(carinfo) {
+        deleteCar(cId) {
             this.$dialog
                 .confirm({
                     title: "删除",
@@ -90,9 +90,14 @@ export default {
                 })
                 .then(
                     () => {
-                        // 可验证数据是否修改后提交(优化)
-                        //数据提交请求
-                        this.delete(["carList", "c_id", carinfo.c_id]);
+                        for(let key in this.carList){
+                            if(cId == this.carList[key].cId){
+                                this.delete(['per_carList','cId',cId]);
+                                return;
+                            }
+                        }
+                        // 已在vuex中删除,需要提交cId到后端进行删除
+
                     },
                     () => {
                         return;
