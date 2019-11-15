@@ -61,7 +61,7 @@ export default {
     margin: 5% 5% 0;
     height: 200px;
     border-radius: 6px;
-    background:#cfcece no-repeat url('../../assets/sxt.png') 19px;
+    background:#cfcece no-repeat url('../../assets/sxt.png') 10%;
    
 
 }
