@@ -32,7 +32,7 @@
     <img src="/images/weather.png" alt class="weather" />
     <div class="vote">
       <h4>投票选举</h4>
-      <ul>
+      <ul @click="goToVote">
         <li v-for="vote of comvotes">
           <img :src="vote.src" alt />
           <section>
@@ -169,6 +169,11 @@ export default {
     }
   },
   methods: {
+    goToVote() {
+      this.$router.push({
+        name: "comvote"
+      });
+    },
     Message() {
       this.$router.push({
         name: "community_message"
@@ -180,18 +185,18 @@ export default {
       });
     },
     self(index) {
-      if(index === 0) {
-        this.$router.push({name:'repair'})
+      if (index === 0) {
+        this.$router.push({ name: "repair" });
       }
       if (index === 2) {
         this.$router.push({
           name: "life_payment"
         });
       }
-      if(index === 4){
+      if (index === 4) {
         this.$router.push({
-           name: "monitor"
-        })
+          name: "monitor"
+        });
       }
       if (index === 6) {
         this.$router.push({
@@ -236,7 +241,7 @@ header .van-icon-chat-o {
 }
 .van-swipe img {
   height: 163px;
-  width:100%;
+  width: 100%;
 }
 nav {
   background-color: #fff;
