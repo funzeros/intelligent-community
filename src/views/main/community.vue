@@ -180,6 +180,9 @@ export default {
       });
     },
     self(index) {
+      if(index === 0) {
+        this.$router.push({name:'repair'})
+      }
       if (index === 2) {
         this.$router.push({
           name: "life_payment"

@@ -276,7 +276,37 @@ const routes = [
         path: '/chatpage/:hid',
         name: 'chatpage',
         component: () => import('../views/knockdoor/chatpage.vue')
-    }
+    },
+     // 报事报修
+    {  
+        path:'/main/repair',
+        name:'repair',
+        component: () => import('../views/repair/repair.vue')
+      },
+       
+      {
+        path:'/main/myCheckMess',
+        name:'myCheckMess',
+        component:() => import('../views/repair/myCheckMess.vue')
+      },
+       //报修记录
+      {
+        path:'/main/myRepair',
+        name:'myRepair',
+        component: () => import('../views/repair/myRepair.vue')
+      },
+      //报修详细信息
+      {
+        path:'/main/myRepair/repairDetail',
+        name:'repairDetail',
+        component: () => import('../views/repair/repairDetail.vue')
+      },
+      //报修等级评价
+      {
+        path:'/main/myRepair/repairRank',
+        name:'repairRank',
+        component: () => import('../views/repair/repairRank.vue')
+      }
 ]
 
 const router = new VueRouter({
