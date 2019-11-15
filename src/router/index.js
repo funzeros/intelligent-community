@@ -294,13 +294,11 @@ router.beforeEach((to, from, next) => {
     if (store.state.guardflag) {//登录标志
         next();
     } else {
-        if (from.name === 'login' && to.name === 'register') { //登录转注册
+        if (to.name === 'register') { //去注册
             next();
-        } else if (from.name === null && to.name === 'login') { //载入登录
+        } else if (to.name === 'login') { //去登录
             next();
-        } else if (from.name === 'register' && to.name === 'login') { //注册转登录
-            next();
-        } else {
+        }else {
             next('/'); //其他转登录
         }
     }

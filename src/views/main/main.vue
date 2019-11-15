@@ -64,6 +64,8 @@ export default {
 #main {
   height: 100%;
   background-color: #eee;
+  overflow: auto;
+
 }
 /* tab导航图标样式 */
 .iconfont {

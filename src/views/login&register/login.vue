@@ -100,6 +100,8 @@ export default {
           break;
         }
 
+        this.$store.dispatch('knockdoor/userOnLine',this.$store.state.knockdoor.selfhid);//上线连接到聊天服务器
+        
 
         this.$router.push({path:'/main/community',name:'community'});
       
