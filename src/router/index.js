@@ -110,7 +110,8 @@ const mine = {
                     component: () => import("../components/mine/houseinfo/changehouse.vue")
                 }
             ]
-        }
+        },
+        
     ]
 }
 
@@ -148,21 +149,40 @@ const routes = [
                 name: 'find',
                 component: () => import('../views/main/find.vue'),
             },
-            // 开门
-            {
-                path: '/main/key',
-                name: 'key',
-                component: () => import('../views/main/key.vue')
-            },
             // 邻里
             {
                 path: '/main/neighborhood',
                 name: 'neighborhood',
                 component: () => import('../views/main/neighborhood.vue')
             },
+            
             // 我的
             mine
         ]
+    },
+    // 开门
+    {
+        path: '/key',
+        name: 'key',
+        component: () => import('../views/main/key.vue')
+    },
+    //邻里
+    {
+        path: '/neighbor',
+        name: 'neighbor',
+        component: () => import(/* webpackChunkName: "about" */ '../views/neighborOther/neighborhood.vue')
+      },
+    //帖子详情
+    {
+        path: '/mainBody/:id',
+        name: 'mainBody',
+        component: () => import(/* webpackChunkName: "about" */ '../views/mainBody/text.vue')
+      },
+    //发现-生活服务
+    {
+        path: '/lifeServe',
+        name: 'lifeServe',
+        component: () => import('../views/lifeServe/find.vue')
     },
     // 投票
     {
@@ -265,6 +285,58 @@ const routes = [
         name: 'monitor',
         component: () => import('../views/monitor/index')
     },
+     //在线敲门
+     {
+        path: '/knockdoor',
+        name: 'knockdoor',
+        component: () => import('../views/knockdoor/knockdoor.vue')
+    },
+    {
+        path: '/choosehouse/:fid',
+        name: 'choosehouse',
+        component: () => import('../views/knockdoor/choosehouse.vue')
+    },
+    {
+        path: '/chatpage/:hid',
+        name: 'chatpage',
+        component: () => import('../views/knockdoor/chatpage.vue')
+    },
+     // 报事报修
+    {  
+        path:'/main/repair',
+        name:'repair',
+        component: () => import('../views/repair/repair.vue')
+      },
+       
+      {
+        path:'/main/myCheckMess',
+        name:'myCheckMess',
+        component:() => import('../views/repair/myCheckMess.vue')
+      },
+       //报修记录
+      {
+        path:'/main/myRepair',
+        name:'myRepair',
+        component: () => import('../views/repair/myRepair.vue')
+      },
+      //报修详细信息
+      {
+        path:'/main/myRepair/repairDetail',
+        name:'repairDetail',
+        component: () => import('../views/repair/repairDetail.vue')
+      },
+      //报修等级评价
+      {
+        path:'/main/myRepair/repairRank',
+        name:'repairRank',
+        component: () => import('../views/repair/repairRank.vue')
+      },
+      // 忘记密码
+   {
+    path: '/login/password',
+    name: 'password',
+    component: () => import('../views/forgotpassword/index.vue')
+  },
 ]
 
 const router = new VueRouter({
