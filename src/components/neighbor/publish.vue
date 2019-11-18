@@ -2,10 +2,10 @@
   <div class="publish">
     <van-nav-bar title="发布帖子" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-cell-group>
-      <van-field v-model="value" placeholder="标题" />
+      <van-field v-model="val" placeholder="标题" />
       <van-cell-group>
         <van-field
-          v-model="message"
+          v-model="msg"
           rows="10"
           autosize
           type="textarea"
@@ -14,7 +14,7 @@
       </van-cell-group>
       <van-uploader :after-read="afterRead" v-model="fileList" multiple :max-count="3"/>
       <span class="tx">最多上传3张图片</span>
-      <van-button type="info" :class="['fabu']">发布</van-button>
+      <van-button type="info" :class="['fabu']" @click="pulish(val,msg)">发布</van-button>
     </van-cell-group>
   </div>
 </template>
@@ -23,8 +23,8 @@
 export default {
   data() {
     return {
-      value: "",
-      message:'',
+    val:'',
+    msg:'',
       fileList: [
         { url: "https://img.yzcdn.cn/vant/leaf.jpg" }
         // Uploader 根据文件后缀来判断是否为图片文件
@@ -35,11 +35,18 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$store.state.neighbor.ll = 0;
+      this.$router.push({
+        name: "neighborhood"
+      });
     },
     afterRead(file) {
       // 此时可以自行将文件上传至服务器
       console.log(file);
+    },
+    pulish(val,msg){
+      this.$store.dispatch("neighbor/sendPost",{uId:1,tTitle:val,tDet:msg,tImg:'sadsadsadasdasdasd'})
+      this.val = ''
+      this.msg = ''
     }
   }
 };

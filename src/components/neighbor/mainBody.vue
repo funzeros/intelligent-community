@@ -1,25 +1,25 @@
 
 <template>
-  <div class="body">
-    <van-nav-bar :title="art.title" left-text="返回" left-arrow @click-left="onClickLeft" />
+  <div class="body" v-if="this.$store.state.neighbor.details.data.data[0]">
+    <van-nav-bar :title="details.tTitle" left-text="返回" left-arrow @click-left="onClickLeft" />
     <ul class="article">
       <li>
-        <img :src="art.header" alt class="head" />
-        <p class="name">{{art.name}}</p>
-        <p class="time">{{art.time}}</p>
-        <h4 class="title">{{art.title}}</h4>
-        <p class="body">{{art.body}}</p>
-        <van-image-preview v-model="show" :images="art.urls" @change="onChange" :start-position="page">
+        <img :src="details.uImge" alt class="head" />
+        <p class="name">{{details.username}}</p>
+        <p class="time">{{details.tTime}}</p>
+        <h4 class="title">{{details.tTitle}}</h4>
+        <p class="body">{{details.tDet}}</p>
+        <van-image-preview v-model="show" :images="details.tImg " @change="onChange" :start-position="page">
           <template v-slot:index>第{{ index }}页</template>
         </van-image-preview>
         <div class="artPic">
-          <div v-for="item,index in art.urls">
+          <div v-for="item,index in details.tImg ">
             <img :src="item" alt @click="open(index)" />
           </div>
         </div>
         <div class="bottom">
           <span class="star">
-            <van-icon name="star" />收藏
+            <van-icon name="star"  @click="addCollection"/>收藏
           </span>
           <span class="share">
             <van-icon name="share" />分享
@@ -31,7 +31,7 @@
             <van-icon name="eye-o" />浏览
           </span>
           <span class="good-job">
-            <van-icon name="good-job-o" />点赞
+            <van-icon name="good-job-o" @click="addGoodnum()"/>点赞
           </span>
         </div>
       </li>
@@ -63,15 +63,30 @@ export default {
       this.index = index+1;
       this.page = index;
     },
+    addGoodnum(){
+      this.$store.dispatch("neighbor/addGoodnum",{tId:this.$store.state.neighbor.tId,tGoodnum:1});
+    },
+    addCollection(){
+      this.$store.dispatch("neighbor/addCollection",{uId:1,tId:this.$store.state.neighbor.tId});
+    }
   },
 computed: {
   art(){
     return this.$store.state.neighbor.art.find(item => {
-      console.log(item)
-      console.log(this.$router)
+      // console.log(item)
+      // console.log(this.$router)
       return item.id == this.$route.params.id
     })
+  },
+  details(){ 
+    return this.$store.state.neighbor.details.data.data[0];
   }
+},
+mounted() {
+  // console.log(this.$router)
+  
+    this.$store.dispatch("neighbor/appendMainBody", this.$store.state.neighbor.tId);
+  // console.log(this.$store.state.neighbor.details)
 },
 };
 </script>

@@ -1,13 +1,13 @@
 <template>
   <div class="favorite">
     <van-nav-bar title="我的收藏" left-text="返回" left-arrow @click-left="onClickLeft" />
-    <div class="fav" v-for="item in msg" :key="item.id">
+    <div class="fav" v-for="item in collection" :key="item.post.tId">
       <van-swipe-cell :on-close="onClose">
         <van-cell :border="false" value="内容">
-          <img :src="item.header" alt />
-          <p class="name">{{item.name}}</p>
-          <p class="time">{{item.time}}</p>
-          <p class="title">{{item.title}}</p>
+          <img src="https://profile.csdnimg.cn/2/D/8/2_adrian503" alt />
+          <p class="name">{{item.post.uId}}</p>
+          <p class="time">{{item.post.tTime}}</p>
+          <p class="title">{{item.post.tTitle}}</p>
           <span class="la">
             <van-icon name="arrow" />
           </span>
@@ -68,8 +68,17 @@ export default {
             });
           break;
       }
+    },
+  },
+  computed: {
+    collection(){
+       return this.$store.state.neighbor.collection.data.data;
     }
-  }
+  },
+  mounted() {
+    console.log(this.$store.state.neighbor.collection);
+    this.$store.dispatch("neighbor/appendMyCollection",1);
+  },
 };
 </script>
 
