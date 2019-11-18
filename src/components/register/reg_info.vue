@@ -144,7 +144,7 @@ export default {
             
                 // this.$store.state.register.phonehas=true;//测试用例
 
-            // await this.$store.dispatch('register/verifyPhone');//调用axios
+            await this.$store.dispatch('register/verifyPhone',this.phone);//调用axios
             console.log('手机号验证完成');
             if(this.$store.state.register.phonehas){
                 this.phone_msg = "手机号已经注册";
