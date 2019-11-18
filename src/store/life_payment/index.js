@@ -23,7 +23,7 @@ export default {
       const result = await axios.get('/api/user/life?uId=13&sStatus=0');
       const userpaylist=result.data.data;
       commit('setUserPay',userpaylist);
-      console.log(state.userpayments)
+      //console.log(state.userpayments)
 
   
     },
@@ -33,7 +33,7 @@ export default {
         const datailinfo = await axios.get('/api/user/life?uId=13&sStatus=0');
         const dataillist=datailinfo.data.data[detailId];
         commit('setNowPay',dataillist);
-    console.log(dataillist)
+    //console.log(dataillist)
    }
 
 
