@@ -33,7 +33,7 @@
     <div class="vote">
       <h4>投票选举</h4>
       <ul>
-        <li v-for="vote of comvotes">
+        <li v-for="vote of comvotes" :key="vote.id" >
           <img :src="vote.src" alt />
           <section>
             <div class="left">

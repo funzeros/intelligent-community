@@ -146,7 +146,7 @@ const routes = [
             },
             // 开门
             {
-                path: '/main/key',
+                path: '/key',
                 name: 'key',
                 component: () => import('../views/main/key.vue')
             },
