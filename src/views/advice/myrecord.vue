@@ -9,7 +9,7 @@
     <div class="centerbox">
       <van-tabs v-model="activeName">
         <van-tab title="全部" name='all'>
-            <all :data= filtegetrecordlist ></all>
+            <all :data= getalllist ></all>
         </van-tab>
          <van-tab title='投诉' name='complaint' >
             <all :data="complaintdata(complaint)" ></all>
@@ -28,6 +28,7 @@
 </template>
 <script>
 import all from '@/components/myrecord/all'
+import {mapActions,mapState} from "vuex"
 // import complaint from '@/components/myrecord/complaint'
 // import praise from '@/components/myrecord/praise'
 // import suggest from '@/components/myrecord/suggest'
@@ -35,13 +36,14 @@ export default {
   data() {
     return {
       activeName:'',
-      filtegetrecordlist:this.$store.state.visitor.recordlist,
+      // filtegetrecordlist:this.$store.state.visitor.getalllist,
       complaint:'投诉',
       praise:'表扬',
       suggest:'建议',
     };
   },
   methods: {
+      ...mapActions({getallrecord :'visitor/getallrecord'}),
     // 返回事件
     onClickLeft() {
       this.$router.go(-1);
@@ -51,25 +53,26 @@ export default {
       this.isshow = item;
     }
   },
+  mounted () {
+    this.getallrecord()
+    console.log(this.$store.state.visitor.getalllist,)
+  },
   components: {
       all
   },
-  // ,complaint,praise,suggest
   computed: {
-    // getrecordlist(){
-    //   return this.$store.visitor.recordlist
-    // },
     complaintdata(myrec){
-         this.filtegetrecordlist = this.$store.state.visitor.recordlist
-        //  return this.filtegetrecordlist.filter(item=>{
-        //       return item.state == myrec
-        //   }) 
+         this.filtegetrecordlist = this.$store.state.visitor.getalllist
+        // 
         return (myrec)=>{
-          return this.filtegetrecordlist.filter(item=>{
-              return item.state == myrec
-          })
+          // return this.filtegetrecordlist.filter(item=>{
+          //     return item.state == myrec
+          // })
         }
     },
+    getalllist(){
+      return this.$store.state.visitor.getalllist
+    }
   },
   
 };
