@@ -149,6 +149,7 @@ const routes = [
                 name: 'find',
                 component: () => import('../views/main/find.vue'),
             },
+
             // 邻里
             {
                 path: '/main/neighborhood',

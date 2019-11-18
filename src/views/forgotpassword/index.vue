@@ -164,6 +164,7 @@ export default {
   height: 100%;
   line-height: 46px;
   font-size: 15px;
+  text-align: center;
 }
 .testcontent {
   width: 60%;
