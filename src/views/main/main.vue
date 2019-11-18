@@ -16,47 +16,29 @@
 <script>
 export default {
   data() {
-    const tabs= [
-        {
-          id: "101",
-          rounter: "/main/community",
-          iconfont: "icon-xingqiu-",
-          title: "社区"
-        },
-        {
-          id: "102",
-          rounter: "/main/find",
-          iconfont: "icon-zhinanzhen_o",
-          title: "发现"
-        },
-        {
-          id: "103",
-          rounter: "/key",
-          iconfont: "icon-yuechi",
-          title: "key"
-        },
-        {
-          id: "104",
-          rounter: "/main/neighborhood",
-          iconfont: "icon-caidan",
-          title: "邻里"
-        },
-        {
-          id: "105",
-          rounter: "/main/mine",
-          iconfont: "icon-wode",
-          title: "我的"
-        }
-      ];
     return {
-      tabs,
-      selectTab: tabs[0],
+      
     };
   },
   methods:{
     selTab(tab) {
-      this.selectTab = tab;
-  }
+      if(tab.id==='103'){
+        return
+      }
+      this.$store.state.selectTab = tab;
+    }
+  },
+  computed:{
+    tabs(){
+      return this.$store.state.tabs;
+    },
+    selectTab(){
+
+      return this.$store.state.selectTab;
+    }
+  },
+  mounted(){
+    this.$store.dispatch('setInitTab');
   }
 };
 </script>
@@ -64,6 +46,8 @@ export default {
 #main {
   height: 100%;
   background-color: #eee;
+  overflow: auto;
+
 }
 /* tab导航图标样式 */
 .iconfont {

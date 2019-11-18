@@ -16,13 +16,12 @@ import neighbor from "./neighbor";
 import knockdoor from "./knockdoor";  // 敲门
 import MyRepair from "./myRepair"
 
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    // guardflag:false
-    guardflag: true,
+    guardflag:false,
+    // guardflag: true,
     // 建议数据
     stylelists: [
       { id: "1111", name: "投诉" },
@@ -30,7 +29,41 @@ export default new Vuex.Store({
       { id: "3333", name: "表扬" }
     ],
     informstyle: [],
-    picked: ''
+    picked: '',
+    tabs: [
+      {
+        id: "101",
+        rounter: "/main/community",
+        iconfont: "icon-xingqiu-",
+        title: "社区"
+      },
+      {
+        id: "102",
+        rounter: "/main/find",
+        iconfont: "icon-zhinanzhen_o",
+        title: "发现"
+      },
+      {
+        id: "103",
+        rounter: "/key",
+        iconfont: "icon-yuechi",
+        title: "开门"
+      },
+      {
+        id: "104",
+        rounter: "/main/neighborhood",
+        iconfont: "icon-caidan",
+        title: "邻里"
+      },
+      {
+        id: "105",
+        rounter: "/main/mine",
+        iconfont: "icon-wode",
+        title: "我的"
+      }
+    ],
+    selectTab:null,
+    loginData:{}
   },
   mutations: {
     setSuggest(state, infoID) {
@@ -38,6 +71,10 @@ export default new Vuex.Store({
     },
     setcheck(state, radid) {
       state.picked = radid;
+    },
+    setInitTab(state){
+      if(!state.selectTab)
+      state.selectTab=state.tabs[0]
     }
   },
   actions: {
@@ -52,6 +89,19 @@ export default new Vuex.Store({
       commit('setcheck', state.picked);
       //console.log(state.picked)
   },
+    setInitTab({commit}){
+      commit('setInitTab');
+    },
+    async loginon({commit,dispatch,state},info){
+      let result=await axios.post(`/user/logingo?username=${info.usernm}&passward=${info.pwd}&type=1`);
+      console.log(result);
+      if(!result.data.errno){
+        state.guardflag=true;
+        state.loginData=result.data;
+        console.log(state);
+        dispatch('knockdoor/userOnLine',state.knockdoor.selfhid);//上线连接到聊天服务器
+      }
+    }
   },
   modules: {
     key,

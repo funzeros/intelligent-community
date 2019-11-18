@@ -4,7 +4,7 @@
       <p>
         <van-icon name="location" />湘云雅苑
       </p>
-      <van-icon name="chat-o" @click="Message()" />
+      <van-icon :class="{mes:getdata}" name="chat-o" @click="Message()" />
     </header>
     <!-- 轮播图 -->
     <van-swipe :autoplay="3000">
@@ -32,8 +32,9 @@
     <img src="/images/weather.png" alt class="weather" />
     <div class="vote">
       <h4>投票选举</h4>
-      <ul @click="goToVote">
-        <li v-for="vote of comvotes">
+      <ul>
+        <li v-for="vote of comvotes" :key="vote.id" >
+      
           <img :src="vote.src" alt />
           <section>
             <div class="left">
@@ -166,6 +167,16 @@ export default {
         this.end[i] = this.end[i][1] + this.end[i][2];
       }
       return this.end;
+    },
+    getdata(){
+      this.$store.state.knockdoor.ws.onmessage = ev => {
+        let data = JSON.parse(ev.data);
+        this.$store.state.knockdoor.data.push(data);
+        this.$store.state.knockdoor.hdata.push(data);
+        console.log(this.$store.state.knockdoor.data)
+      }  
+      return Boolean(this.$store.state.knockdoor.data.length);
+      
     }
   },
   methods: {
@@ -219,6 +230,20 @@ export default {
 </script>
 
 <style scoped>
+/* 消息提示 */
+
+.mes::after{
+  content: '';
+  display: block;
+  background: red;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 header {
   background-color: #fff;
   padding: 12px;

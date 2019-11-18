@@ -1,7 +1,8 @@
 <template>
    <!-- 登陆   2019-11-12 杨汗青-->
   <div id="login">                                 
-    <div class="title-nav">{{title}}</div>
+    <!-- <div class="title-nav">{{title}}</div> -->
+    <div class="header"></div>
     <div>
       <van-cell-group>
         <van-field 
@@ -20,7 +21,7 @@
         <div class="pd15"><van-button type="primary" size="large" @click="onClickButtonSubmit">登录</van-button></div>
   
       </van-cell-group>
-
+          <br>
                 <div style="float:right; color:gray;" @click="forget" >忘记密码？</div>
     </div>
 
@@ -48,14 +49,14 @@ export default {
         this.$toast('请填写注册信息');
         this.$router.push({ path:'/register'});
       },
-      onClickButtonSubmit: function () {
+      async onClickButtonSubmit () {
         const req1 =  /[a-zA-Z]+/;
-        const req2 =/^\w{6,20}$/;
+        const req2 =/^\w{4,20}$/;
         if(this.username == ''){
           this.$toast("用户名不能为空");
           return false;
-        } else if(this.username.length<=6) {
-          this.$toast("用户名长度必须大于6");
+        } else if(this.username.length<4) {
+          this.$toast("用户名长度必须大于等于4");
           return false;
         }
         else if(!req2.test(this.username)) {   // 用户名不能为不合法字符
@@ -77,7 +78,6 @@ export default {
             this.$toast("密码必须包含字母");
             return false;
         }
-        this.$store.state.guardflag=true;
 
 
         //敲门测试用例，账号登录绑定门牌号
@@ -104,8 +104,13 @@ export default {
           break;
         }
 
-
+        
+       await this.$store.dispatch('loginon',{usernm:this.username,pwd:this.password});
         this.$router.push({path:'/main/community',name:'community'});
+
+        // console.log(this.$store.state.guardflag)
+        
+       
       
       },
       gotoReg() {
@@ -131,7 +136,11 @@ mounted(){
 .login {
   position: relative;
 }
-
+.header{
+  width: 100%;
+  height: 300px;
+  background: url(../../../public/images/LOGO.png) no-repeat center center;
+}
 .title-nav {
   width: 100%;
   height: 70px;

@@ -104,9 +104,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.push({
-        name: "community"
-      });
+      this.$router.go(-1);
     },
     // 进入下一步
     onStep() {
@@ -166,6 +164,7 @@ export default {
   height: 100%;
   line-height: 46px;
   font-size: 15px;
+  text-align: center;
 }
 .testcontent {
   width: 60%;

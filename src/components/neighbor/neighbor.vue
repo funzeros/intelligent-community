@@ -78,12 +78,15 @@ export default {
     },
     ll2() {
       this.$store.state.neighbor.ll = 2;
+      this.$router.push({ name: "neighbor" });
     },
     ll3() {
       this.$store.state.neighbor.ll = 3;
+      this.$router.push({ name: "neighbor" });
     },
     ll4() {
       this.$store.state.neighbor.ll = 4;
+      this.$router.push({ name: "neighbor" });
     },
     onChange(index) {
       this.index = index + 1;

@@ -149,6 +149,7 @@ const routes = [
                 name: 'find',
                 component: () => import('../views/main/find.vue'),
             },
+
             // 邻里
             {
                 path: '/main/neighborhood',
@@ -350,19 +351,25 @@ router.beforeEach((to, from, next) => {
     // console.log('to',to);
     // console.log('from',from);
     // console.log(store.state.guardflag);
-    console.log(store.state.guardflag)
+    // console.log(store.state.guardflag)
     if (store.state.guardflag) {//登录标志
         next();
     } else {
-        if (from.name === 'login' && to.name === 'register') { //登录转注册
-            next();
-        } else if (from.name === null && to.name === 'login') { //载入登录
-            next();
-        } else if (from.name === 'register' && to.name === 'login') { //注册转登录
-            next();
-        } else {
-            next('/'); //其他转登录
+        switch(to.name){
+            case 'login':;
+            case 'password':;
+            case 'register':next();
+            break;
+            default: next('/'); 
+            break;
         }
+        // if (to.name === 'register') { //去注册
+        //     next();
+        // } else if (to.name === 'login') { //去登录
+        //     next();
+        // }else {
+        //     next('/'); //其他转登录
+        // }
     }
 })
 
