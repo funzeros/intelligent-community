@@ -51,6 +51,11 @@ const mine = {
             component: () => import("../components/mine/about.vue")
         },
         {
+            path:'set',
+            name:'set',
+            component:() => import("../components/mine/set.vue")
+        },
+        {
             path: "carinfo",
             name: 'carinfo',
             component: () => import('../views/main/mine.vue'),
@@ -144,21 +149,41 @@ const routes = [
                 name: 'find',
                 component: () => import('../views/main/find.vue'),
             },
-            // 开门
-            {
-                path: '/key',
-                name: 'key',
-                component: () => import('../views/main/key.vue')
-            },
+
             // 邻里
             {
                 path: '/main/neighborhood',
                 name: 'neighborhood',
                 component: () => import('../views/main/neighborhood.vue')
             },
+            
             // 我的
             mine
         ]
+    },
+    // 开门
+    {
+        path: '/key',
+        name: 'key',
+        component: () => import('../views/main/key.vue')
+    },
+    //邻里
+    {
+        path: '/neighbor',
+        name: 'neighbor',
+        component: () => import(/* webpackChunkName: "about" */ '../views/neighborOther/neighborhood.vue')
+      },
+    //帖子详情
+    {
+        path: '/mainBody/:id',
+        name: 'mainBody',
+        component: () => import(/* webpackChunkName: "about" */ '../views/mainBody/text.vue')
+      },
+    //发现-生活服务
+    {
+        path: '/lifeServe',
+        name: 'lifeServe',
+        component: () => import('../views/lifeServe/find.vue')
     },
     // 投票
     {
@@ -306,7 +331,13 @@ const routes = [
         path:'/main/myRepair/repairRank',
         name:'repairRank',
         component: () => import('../views/repair/repairRank.vue')
-      }
+      },
+      // 忘记密码
+   {
+    path: '/login/password',
+    name: 'password',
+    component: () => import('../views/forgotpassword/index.vue')
+  },
 ]
 
 const router = new VueRouter({
@@ -320,19 +351,25 @@ router.beforeEach((to, from, next) => {
     // console.log('to',to);
     // console.log('from',from);
     // console.log(store.state.guardflag);
-    console.log(store.state.guardflag)
+    // console.log(store.state.guardflag)
     if (store.state.guardflag) {//登录标志
         next();
     } else {
-        if (from.name === 'login' && to.name === 'register') { //登录转注册
-            next();
-        } else if (from.name === null && to.name === 'login') { //载入登录
-            next();
-        } else if (from.name === 'register' && to.name === 'login') { //注册转登录
-            next();
-        } else {
-            next('/'); //其他转登录
+        switch(to.name){
+            case 'login':;
+            case 'password':;
+            case 'register':next();
+            break;
+            default: next('/'); 
+            break;
         }
+        // if (to.name === 'register') { //去注册
+        //     next();
+        // } else if (to.name === 'login') { //去登录
+        //     next();
+        // }else {
+        //     next('/'); //其他转登录
+        // }
     }
 })
 

@@ -49,6 +49,7 @@ export default {
                         // 可验证数据是否修改后提交(优化)
                         //数据提交请求
                         this.setUserAttr(['u_imge',this.url]);
+                        this.$router.push({name:"userinfo"});
                     },
                     () => {
                         return;

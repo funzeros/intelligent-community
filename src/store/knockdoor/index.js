@@ -28,7 +28,27 @@ export default {
                {hid:'05',house:'0202'}, {hid:'06',house:'0203'}, {hid:'07',house:'0204'}, {hid:'08',house:'0301'}, {hid:'09',house:'0302'}
             ]}
           ],
-       selfhid:'0000',
+       selfhid:'',
+       ws:{},
+       data:[],//消息提醒
+       hdata:[]//历史消息
+
+    },
+    mutations:{
+
+    },
+    actions:{
+      userOnLine({commit,state},selfhid){ //创建webserve连接
+         let url = "ws://10.31.155.44:5000";
+         state.ws = new WebSocket(url);
+         state.ws.onopen = () => {
+            // console.log(state.ws);
+            state.ws.send(
+              `{"user":"${selfhid}","msg":"上线了","connet":"0"}`
+            );
+          };
+      }
+
     }
 }
 

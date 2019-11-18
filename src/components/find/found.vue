@@ -42,21 +42,39 @@ export default {
   methods: {
     change1() {
       this.$store.state.find.flag = 1;
+      this.$router.push({
+        name: "lifeServe"
+      });
     },
     change2() {
       this.$store.state.find.flag = 2;
+      this.$router.push({
+        name: "lifeServe"
+      });
     },
     change3() {
       this.$store.state.find.flag = 3;
+      this.$router.push({
+        name: "lifeServe"
+      });
     },
     change4() {
       this.$store.state.find.flag = 4;
+      this.$router.push({
+        name: "lifeServe"
+      });
     },
     change5() {
       this.$store.state.find.flag = 5;
+      this.$router.push({
+        name: "lifeServe"
+      });
     },
     change6() {
       this.$store.state.find.flag = 6;
+      this.$router.push({
+        name: "lifeServe"
+      });
     }
   }
 };

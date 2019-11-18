@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import qs from 'qs';
 //  by方珂琛
 
 export default{    
@@ -15,14 +15,18 @@ export default{
 
         ],//注册房屋信息的表单
         identitys:['relation','owner','renter'],//总身份类型
-        areas:['浙江','山东','北京','上海'],//片区
+        areas:['A区','B区','C区','D区'],//片区
         houselists:[
             {
                 build:'1幢',
                 units:[
                     {
-                        unit:'一单元',
-                        houses:['1101','1102','1103']
+                        unit:'1单元',
+                        houses:['0101','0102','0103','0104','0201','0202','0203','0204','0301','0302']
+                    },
+                    {
+                        unit:'2单元',
+                        houses:['0101','0102','0103','0104','0201','0202','0203','0204','0301','0302']
                     }
                 ]
             },
@@ -30,12 +34,13 @@ export default{
                 build:'2幢',
                 units:[
                     {
-                        unit:'一单元',
-                        houses:['2101','2102','2103']
+                        unit:'1单元',
+                        houses:['0101','0102','0103','0104','0201','0202','0203','0204','0301','0302']
                     },
                     {
-                        unit:'二单元',
-                        houses:['2201','2202','2203']
+                        unit:'2单元',
+                        houses:['0101','0102','0103','0104','0201','0202','0203','0204','0301','0302']
+
                     }
                 ]
             },
@@ -43,17 +48,13 @@ export default{
                 build:'3幢',
                 units:[
                     {
-                        unit:'一单元',
-                        houses:['3101','3102','3103']
+                        unit:'1单元',
+                        houses:['0101','0102','0103','0104','0201','0202','0203','0204','0301','0302']
                     },
                     {
-                        unit:'二单元',
-                        houses:['3201','3202','3203']
-                    },
-                    {
-                        unit:'三单元',
-                        houses:['3301','3302','3303']
-                    },
+                        unit:'2单元',
+                        houses:['0101','0102','0103','0104','0201','0202','0203','0204','0301','0302']
+                    }
                 ]
             }
         ],//楼栋单元房屋
@@ -68,7 +69,7 @@ export default{
         contract_start:'',//合同开始时间
         contract_end:'',//合同结束时间
         cotime_title:'开始时间',//
-        coturl:['asd'],//合同照片地址
+        coturl:['http://img3.imgtn.bdimg.com/it/u=2202144165,2270864374&fm=26&gp=0.jpg'],//合同照片地址
         username:'',
         name:'',
         sex:'男',
@@ -82,7 +83,8 @@ export default{
         cardurla:'',//身份证正面url
         cardurlb:'',//身份证背面url
         upicurl:'',//用户照片url
-        phonehas:false
+        phonehas:false,
+        regsuccess:true//注册成功
     },
     getters:{
         getPhone:(state)=>{
@@ -103,7 +105,7 @@ export default{
             state.phonehas=has;
         },
         setregflag(state,data){
-            console.log(data);
+            state.regsuccess=true;
         }
     },
     actions: {
@@ -113,37 +115,53 @@ export default{
         changePwd(context,pwd){
             context.commit('setPwd',pwd);
         },
-        async verifyPhone({commit,state}){
-            let data={"phonenum":state.phone};
-            let result= await axios.post('/api/user/verifyphone',data);
-            commit('setphonehas',result.data.has);
+        async verifyPhone({commit,state},data){
+            let result= await axios.get('/api/user/phone'+'?phonenum='+data);
+            // commit('setphonehas',result.data.has);
+            console.log(result);
 
         },
         async subRegInfo({commit,state}){ //提交注册信息
+            let identype="0";//身份信息
+            if(state.homeform[0].value==='业主'){
+                identype="0";
+            }else if(state.homeform[0].value==='业主家属'){
+                identype="1";
+            }else if(state.homeform[0].value==='租客'){
+                identype="2";
+            }
+            let idtype="0";//身份证类型
+            if(state.idtype==='身份证'){
+                idtype="0";
+            }else{
+                idtype="1";
+            }
             let data={  
-                        "identity":state.homeform[0].value,
+                        "identity":identype,
                         "area":state.homeform[1].value,
                         "build":state.homeform[2].value,
                         "unit":state.homeform[3].value,
                         "house":state.homeform[4].value,
                         "phonenum":state.phone,
-                        "password":state.pwd,
+                        "passward":state.pwd,
                         "contractStartTime":state.contract_start,
                         "contractEndTime":state.contract_end,
-                        "contractPicurl":state.coturl,
+                        "contractPicurl":state.coturl.join(','),
                         "username":state.username,
                         "name":state.name,
                         "sex":state.sexid,
-                        "idtype":state.idtype,
+                        "idtype":idtype,
                         "idnum":state.idnum,
                         "nation":state.nation,
-                        "idCardA":state.cardurla,
-                        "idCardB":state.cardurlb,
-                        "uPicurl":state.upicurl
                     };
-            // let result= await axios.post('/api/user/register',data);
-            // commit('setregflag',result.data);
-            console.log(data);
+                      // "idCardA":state.cardurla,
+                        // "idCardB":state.cardurlb,
+                        // "uPicurl":state.upicurl
+            let result= await axios.post('/api/user/register',qs.stringify(data));
+            if (result.data.message==='success'){
+                commit('setregflag');
+            }
+            // console.log(data);
 
         }
     },

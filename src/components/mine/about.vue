@@ -85,7 +85,7 @@ export default {
     }
 };
 </script>
-<style lang="css">
+<style lang="css" scoped>
 .body {
     margin-top: 12%;
     padding: 1% 4%;

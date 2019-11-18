@@ -4,7 +4,7 @@
       <p>
         <van-icon name="location" />湘云雅苑
       </p>
-      <van-icon name="chat-o" @click="Message()" />
+      <van-icon :class="{mes:getdata}" name="chat-o" @click="Message()" />
     </header>
     <!-- 轮播图 -->
     <van-swipe :autoplay="3000">
@@ -34,6 +34,7 @@
       <h4>投票选举</h4>
       <ul>
         <li v-for="vote of comvotes" :key="vote.id" >
+      
           <img :src="vote.src" alt />
           <section>
             <div class="left">
@@ -166,9 +167,24 @@ export default {
         this.end[i] = this.end[i][1] + this.end[i][2];
       }
       return this.end;
+    },
+    getdata(){
+      this.$store.state.knockdoor.ws.onmessage = ev => {
+        let data = JSON.parse(ev.data);
+        this.$store.state.knockdoor.data.push(data);
+        this.$store.state.knockdoor.hdata.push(data);
+        console.log(this.$store.state.knockdoor.data)
+      }  
+      return Boolean(this.$store.state.knockdoor.data.length);
+      
     }
   },
   methods: {
+    goToVote() {
+      this.$router.push({
+        name: "comvote"
+      });
+    },
     Message() {
       this.$router.push({
         name: "community_message"
@@ -180,18 +196,18 @@ export default {
       });
     },
     self(index) {
-      if(index === 0) {
-        this.$router.push({name:'repair'})
+      if (index === 0) {
+        this.$router.push({ name: "repair" });
       }
       if (index === 2) {
         this.$router.push({
           name: "life_payment"
         });
       }
-      if(index === 4){
+      if (index === 4) {
         this.$router.push({
-           name: "monitor"
-        })
+          name: "monitor"
+        });
       }
       if (index === 6) {
         this.$router.push({
@@ -214,6 +230,20 @@ export default {
 </script>
 
 <style scoped>
+/* 消息提示 */
+
+.mes::after{
+  content: '';
+  display: block;
+  background: red;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 header {
   background-color: #fff;
   padding: 12px;
@@ -236,7 +266,7 @@ header .van-icon-chat-o {
 }
 .van-swipe img {
   height: 163px;
-  width:100%;
+  width: 100%;
 }
 nav {
   background-color: #fff;

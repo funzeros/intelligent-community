@@ -3,7 +3,7 @@
 // 数据：ID、点赞人、日期、时间、其他信息
 
 <template>
-  <div class="message">
+  <div class="message" ref="mesbox">
     <!-- 标题 -->
     <van-nav-bar class="title" title="我的消息" left-text="返回" left-arrow @click-left="onClickLeft"></van-nav-bar>
     <!-- 主体 -->
@@ -20,6 +20,11 @@
           <span class="who">{{pay.title}}</span>
           <div class="date">{{pay.date}}&nbsp; &nbsp;{{pay.time}}</div>
           <div class="info">{{pay.info}}</div>
+        </li>
+        <li v-for="(mes,index) of getMes" :key="index" class="mes">
+             <span class="name">{{mes.name}}</span>
+              <span class="content">{{mes.msg}}</span>
+              <div class="date">{{mes.date}}</div>
         </li>
       </ul>
     </div>
@@ -59,14 +64,28 @@ export default {
         name: "community"
       });
     }
+  },
+   computed:{
+    getMes(){
+      return this.$store.state.knockdoor.data;
+    }
+  },
+  mounted(){
+    
+     this.$refs.mesbox.scrollTop = this.$refs.mesbox.scrollHeight;
+    //  console.log(this.$refs.mesbox.scrollHeight);
+    // console.log(this.$refs.mesbox.scrollTop);
+  },
+  destroyed(){
+    this.$store.state.knockdoor.data=[];
   }
 };
 </script>
 <style scoped>
 .message {
   position: relative;
-  /* height: 100%; */
-  overflow: hidden;
+  height: 100%;
+  overflow: auto;
 }
 .message_bg {
   margin-top: 90px;
@@ -135,6 +154,37 @@ export default {
   margin: 20px auto;
 }
 
+
+
+/* 来者 */
+.name{
+   display: block;
+  width: auto;
+  height: 30px;
+  text-align: center;
+  background: rgb(182, 217, 240);
+  line-height: 30px;
+  /* float: left; */
+  border-radius: 5px;
+}
+/* 内容 */
+.content{
+  margin-left: 10px;
+  height: auto;
+  line-height: 40px;
+}
+/* 消息框 */
+.mes {
+  list-style: none;
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 30px;
+
+}
 /* 标题 */
 .title{
   position: fixed;

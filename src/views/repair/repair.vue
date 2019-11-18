@@ -30,6 +30,7 @@ import repairSelect from '../../components/repairs/repairSelect'
 import repairhouse from '../../components/repairs/repairhouse'
 import repairContent from '../../components/repairs/repairContent'
 import repairUpdate from '../../components/repairs/repairUpdate'
+import axios from 'axios'
 
 export default {
   name: "repair",
@@ -61,11 +62,14 @@ export default {
              this.$dialog.confirm({
              message: '是否确认提交报修内容?'
              }).then( () => {
-                  setTimeout( () => {    //确定提交状态
-                     this.$dialog.alert({
-                     message:'提交成功'
-                 })
-                  },2000)
+                           //确认提交状态
+                //   setTimeout( () => { 
+                //      this.$dialog.alert({
+                //      message:'提交成功'
+                //  })
+                //   },2000)
+                  console.log(this.$store.state.data.uId);
+
              }).catch( () => {
             
              })

@@ -10,7 +10,8 @@
       @click-right="onClickRight"
     ></van-nav-bar>
     <!-- 门 -->
-    <transition name="van-slide-left">
+    <div style="height:300px;width:100%">
+      <transition name="van-slide-left">
       <div class="door" v-show="visible1" style="left:5%;">
         <h2>门</h2>
       </div>
@@ -20,6 +21,8 @@
         <h2>门</h2>
       </div>
     </transition>
+    </div>
+    
     <!-- 下拉菜单 -->
     <van-dropdown-menu>
       <van-dropdown-item v-model="value" :options="options" ref="list" />
@@ -57,9 +60,7 @@ export default {
   methods: {
     // 点击返回上一路由（社区）
     onClickLeft() {
-      this.$router.push({
-        name: "community"
-      });
+      this.$router.go(-1);
     },
     // 进入开门记录
     onClickRight() {
@@ -91,8 +92,18 @@ export default {
 
 
 <style scoped>
+.van-nav-bar.van-hairline--bottom{
+  width: 100%;
+}
+
 .opendoor{
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: space-around;
 }
 .door {
   box-sizing: border-box;
@@ -100,7 +111,7 @@ export default {
   height: 300px;
   border: 4px solid #666;
   position: absolute;
-  top: 96px;
+  /* top: 96px; */
 }
 .door:first-of-type {
   left: 30px;
@@ -117,7 +128,7 @@ export default {
   width: 80px;
   height: auto;
   padding-right: 8px;
-  margin: 450px auto 39px;
+  /* margin: 450px auto 39px; */
   border: 1px solid #999;
 }
 .open {
@@ -127,6 +138,6 @@ export default {
   background-color: #aaa;
   border: 0;
   border-radius: 50%;
-  margin: 0 auto;
+  /* margin: 0 auto;  */
 }
 </style>

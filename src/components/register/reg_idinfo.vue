@@ -89,10 +89,27 @@ export default {
       this.$refs.idinfo3.src = file.content;
       this.id3_flag = true;
     },
-    async submit() {
+    submit() {
       //提交数据
-      await this.$store.dispatch('register/subRegInfo');//调用axios发送注册数据
-      this.$router.push("/login");
+      this.$dialog.confirm({
+        title: '提交注册信息',
+        message: '请确认提交'
+      }).then(async() => {
+        // on confirm
+        await this.$store.dispatch('register/subRegInfo');//调用axios发送注册数据
+        console.log('123');
+        if(this.$store.state.register.regsuccess){
+          this.$toast('注册成功,2秒后跳转至登录界面');
+          setTimeout(()=>{
+            this.$router.push("/login");
+          },2000);
+        }else{
+          this.$toast('注册失败');
+        }
+      }).catch(() => {
+        // on cancel
+      });
+      
     }
   }
 };
