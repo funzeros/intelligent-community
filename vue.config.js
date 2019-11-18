@@ -1,9 +1,9 @@
 module.exports = {
-    publicPath: '/',
+    publicPath:'/',
     devServer: {
         proxy: {
-            '/my': {
-                target: 'http://106.13.93.13:9090/',
+            '/api/user': {
+                target: 'http://106.13.93.13:9081',
                 ws: true,
                 changeOrigin: true
             },
@@ -23,5 +23,5 @@ module.exports = {
                 changeOrigin: true
             },
         }
-    }
+    },
 };

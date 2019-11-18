@@ -149,6 +149,7 @@ const routes = [
                 name: 'find',
                 component: () => import('../views/main/find.vue'),
             },
+
             // 邻里
             {
                 path: '/main/neighborhood',
@@ -350,7 +351,7 @@ router.beforeEach((to, from, next) => {
     // console.log('to',to);
     // console.log('from',from);
     // console.log(store.state.guardflag);
-    console.log(store.state.guardflag)
+    // console.log(store.state.guardflag)
     if (store.state.guardflag) {//登录标志
         next();
     } else {
