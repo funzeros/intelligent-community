@@ -81,8 +81,9 @@ export default {
     mounted(){
         this.$nextTick(()=>{
             //请求数据(个人信息,房屋信息,汽车信息)
-            this.getUserInfo();
+            this.getUserInfo(1);
         })
+        // console.log(this.$store.state.mine)
     },
     methods: {
         ...mapActions({

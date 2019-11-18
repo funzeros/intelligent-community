@@ -18,20 +18,22 @@ export default {
         setLoginState(state, bool) { //设置登录状态
             state.loginState = bool;
         },
-        setHouseList(state, obj) { 
-            state.houseList = obj;
-        },
-        setCarList(state, obj) {
-            state.carList = obj;
-        },
-        setUserInfo(state, obj) {
-            state.userInfo = { ...obj, ...state.userInfo };
-        },
+        // setHouseList(state, obj) { 
+        //     state.houseList = obj;
+        // },
+        // setCarList(state, obj) {
+        //     state.carList = obj;
+        // },
+        // setUserInfo(state, obj) {
+        //     state.userInfo = { ...obj, ...state.userInfo };
+        // },
         setUserAttr(state, arr) {
             state.userInfo[arr[0]] = arr[1];
         },
-        addHouse(state, obj) {
-            state.houseList.push(obj);
+        add(state, arr) {
+            let newobj = {};
+            Object.assign(newobj,arr[1]);
+            state[arr[0]].push(newobj); 
         },
         editHouseList(state, key, value) {
             state.houseList[key] = value;
@@ -45,10 +47,8 @@ export default {
                 }
             }
         },
-        addCarList(state, obj) {
-            state.carList.push(obj);
-        },
         getUserInfo(state, data) {
+            console.log(data)
             state.userInfo = data.userInfo;
             state.houseList = data.house;
             state.carList = data.car;
@@ -90,26 +90,30 @@ export default {
         },
         changeCheck(state){
             state.checkedState = !state.checkedState;
+        },
+        replace(state,arr){
+            state[arr[0]] = arr[2];
+            state[arr[1]] = arr[2];
         }
     },
     actions: {
         setLoginState(context, bool) {
             context.commit("setLoginState", bool)
         },
-        setHouseList(context, obj) {
-            context.commit("setHouseList", obj);
-        },
-        setCarList(context, obj) {
-            context.commit("setCarList", obj);
-        },
-        setUserInfo(context, obj) {
-            context.commit("setUserInfo", obj);
-        },
+        // setHouseList(context, obj) {
+        //     context.commit("setHouseList", obj);
+        // },
+        // setCarList(context, obj) {
+        //     context.commit("setCarList", obj);
+        // },
+        // setUserInfo(context, obj) {
+        //     context.commit("setUserInfo", obj);
+        // },
         setUserAttr(context, arr) {
             context.commit("setUserAttr", arr);
         },
-        addHouse(context, obj) {
-            context.commit("addHouse", obj);
+        add(context, arr) {
+            context.commit("add", arr);
         },
         editHouseList(context, key, value) {
             context.commit("editHouseList", key, value);
@@ -117,15 +121,16 @@ export default {
         delete(context, arr) {
             context.commit("delete", arr);
         },
-        addCarList(context, obj) {
-            context.commit("addCarList", obj);
-        },
-        async getUserInfo(context) {
-            let result = await axios.get('/my?uId=13');
+        async getUserInfo(context,uId) {
+            let result = await axios.get(`/user/my?uId=${uId}`);
+            //  http://106.13.93.13:9081/api/user/my
             context.commit("getUserInfo", result.data.data);
         },
         changeCheck(context){
             context.commit("changeCheck");
+        },
+        replace(context,arr){
+            context.commit("replace",arr);
         }
     }
 }

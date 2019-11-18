@@ -47,6 +47,7 @@
 
 <script>
 import { mapState } from "vuex";
+import axios from "axios";
 export default {
     data() {
         return {
@@ -90,6 +91,8 @@ export default {
                 })
                 .then(
                     () => {
+                        let url = `?uId=${this.info.uId}&cId=${this.info.cId}&cColor=${this.info.cColor}&cType=${this.info.cType}&cNumber=${this.info.cNumber}&cVehicleNumber=${this.info.cVehicleNumber}&cFrameNumber=${this.info.cFrameNumber}`
+                        let result = axios.get("/my/editCar"+url);
                         for (let car of this.carList) {
                             if (car.cId == this.cId) {
                                 for (let key in car) {
