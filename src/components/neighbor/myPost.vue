@@ -11,7 +11,7 @@
           <van-icon name="ellipsis" />
         </span>
         <div class="pic">
-          <div v-for="url in item.tImg.split(',')">
+          <div v-for="url in item.tImg?item.tImg.split(','):item.tImg">
             <img :src="url" alt />
             <!-- <img src="https://f11.baidu.com/it/u=1590294769,1135477404&fm=76" alt=""> -->
           </div>

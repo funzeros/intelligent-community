@@ -113,7 +113,7 @@ export default {
   display: inline-block;
   width: 80px;
   height: 80px;
-  background-color: blue;
+  /* background-color: blue; */
 }
 
 .content-text {

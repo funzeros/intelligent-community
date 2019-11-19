@@ -13,7 +13,7 @@
           <template v-slot:index>第{{ index }}页</template>
         </van-image-preview>
         <div class="artPic">
-          <div v-for="item,index in details.tImg ">
+          <div v-for="item,index in details.tImg?details.tImg.split(','):details.tImg ">
             <img :src="item" alt @click="open(index)" />
           </div>
         </div>
