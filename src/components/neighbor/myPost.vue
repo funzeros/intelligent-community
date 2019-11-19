@@ -58,8 +58,10 @@ export default {
     };
   },
   methods: {
-    onClickLeft() {
-      this.$store.state.neighbor.ll = 0;
+     onClickLeft() {
+      this.$router.push({
+        name: "neighborhood"
+      });
     },
     morel(id) {
       this.more = !this.more;

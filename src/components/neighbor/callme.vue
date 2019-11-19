@@ -49,9 +49,11 @@ export default {
     };
   },
   methods: {
-    onClickLeft() {
-      this.$store.state.neighbor.ll = 0;
-    }
+     onClickLeft() {
+      this.$router.push({
+        name: "neighborhood"
+      });
+    },
   }
 };
 </script>

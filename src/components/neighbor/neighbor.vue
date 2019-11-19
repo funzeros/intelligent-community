@@ -1,6 +1,6 @@
 <template>
   <div id="neightbor">
-    <van-nav-bar title="邻里" @click-right="onClickRight">
+    <van-nav-bar title="邻里" @click-right="onClickRight" @click-left="onClickLeft">
       <van-icon name="ellipsis" slot="right" />
     </van-nav-bar>
     <ul class="down-list" v-if="down">
@@ -70,6 +70,9 @@ export default {
   methods: {
     onClickRight() {
       this.down = !this.down;
+    },
+    onClickLeft() {
+      this.$router.go(-1);
     },
     ll1() {
       this.$store.state.neighbor.ll = 1;
