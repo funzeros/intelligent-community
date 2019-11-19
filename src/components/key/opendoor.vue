@@ -83,7 +83,7 @@ export default {
         }
       }
       const obj = { kTime: time, kNum: address, kWay: "app" };
-      this.$store.state.key.record.push(obj);
+      this.$store.state.key.records.push(obj);
       this.$toast.success("成功开门");
     }
   }

@@ -32,10 +32,6 @@ export default {
 
 
 <style scoped>
-ul {
-  position: relative;
-  top: 82px;
-}
 ul li {
   padding: 6px;
   position: relative;
