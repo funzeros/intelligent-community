@@ -76,8 +76,9 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state.neighbor.collection);
-    this.$store.dispatch("neighbor/appendMyCollection",1);
+    // console.log(this.$store.state.neighbor.collection);
+    console.log(this.$store.state.loginData.data.uId)
+    this.$store.dispatch("neighbor/appendMyCollection",this.$store.state.loginData.data.uId);
   },
 };
 </script>

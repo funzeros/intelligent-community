@@ -32,8 +32,9 @@
     <img src="/images/weather.png" alt class="weather" />
     <div class="vote">
       <h4>投票选举</h4>
-      <ul @click="goToVote">
-        <li v-for="vote of comvotes">
+      <ul>
+        <li v-for="vote of comvotes" :key="vote.id" >
+      
           <img :src="vote.src" alt />
           <section>
             <div class="left">

@@ -44,7 +44,7 @@ export default {
       console.log(file);
     },
     pulish(val,msg){
-      this.$store.dispatch("neighbor/sendPost",{uId:1,tTitle:val,tDet:msg,tImg:'sadsadsadasdasdasd'})
+      this.$store.dispatch("neighbor/sendPost",{uId:this.$store.state.loginData.data.uId,tTitle:val,tDet:msg,tImg:'sadsadsadasdasdasd'})
       this.val = ''
       this.msg = ''
     }

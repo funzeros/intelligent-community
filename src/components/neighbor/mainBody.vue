@@ -67,7 +67,7 @@ export default {
       this.$store.dispatch("neighbor/addGoodnum",{tId:this.$store.state.neighbor.tId,tGoodnum:1});
     },
     addCollection(){
-      this.$store.dispatch("neighbor/addCollection",{uId:1,tId:this.$store.state.neighbor.tId});
+      this.$store.dispatch("neighbor/addCollection",{uId:this.$store.state.loginData.data.uId,tId:this.$store.state.neighbor.tId});
     }
   },
 computed: {

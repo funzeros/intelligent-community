@@ -9,7 +9,7 @@
         />
         <div class="houseDeatil">
             <van-cell-group :key="attr.id" v-for="attr of attrs">
-                <van-cell :title="attr.attr" :value="getAttr(attr)"/>
+                <van-cell :title="attr.attr" :value="getAttr(attr)" />
             </van-cell-group>
 
             <van-cell-group v-if="$route.params.identity==2">
@@ -23,20 +23,21 @@
                 </div>
             </van-cell-group>
 
-            <van-cell-group  v-if="$route.params.identity==0">
-                <van-cell title="建筑面积" value="168.00m²"/>
-                <van-cell title="房屋用途" value="暂无"/>
-                <van-cell title="住户可见" value="暂无"/>
-                <van-cell title="交付时间" value="暂无"/>
-                <van-cell title="产权性质" value="暂无"/>
-                <van-cell title="户型" value="3房两室两厅"/>
-                <van-cell title="朝向" value="朝南"/>
-                <van-cell title="入住时间" value="1900-01-01"/>
-                <van-cell title="入住时间" value="1900-01-01"/>
-                <van-cell title="入住时间" value="1900-01-01"/>
-                <van-cell title="入住时间" value="1900-01-01"/>
-
-                <!-- 房屋证件 -->
+            <van-cell-group v-if="$route.params.identity==0">
+                <van-cell title="建筑面积" :value="$route.params.measure" />
+                <van-cell title="房屋用途" :value="$route.params.use" />
+                <van-cell title="住户可见" :value="$route.params.isShow" />
+                <van-cell title="交付时间" :value="$route.params.deliver" />
+                <van-cell title="产权性质" :value="$route.params.property" />
+                <van-cell title="户型" :value="$route.params.apartment" />
+                <van-cell title="朝向" :value="$route.params.orientation" />
+                <van-cell title="入住时间" :value="$route.params.intime" />
+                <van-cell title="房屋证件">
+                    <van-image width="200px" height="150px" :src="$route.params.catesPic" />
+                </van-cell>
+                <van-cell title="户型图">
+                    <van-image width="200px" height="150px" :src="$route.params.apartPic" />
+                </van-cell>
             </van-cell-group>
         </div>
     </section>
@@ -91,8 +92,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.contain{
+.contain {
     overflow: hidden;
+    background: #eee;
 }
 .houseDeatil {
     padding: 0 15px;
@@ -102,7 +104,7 @@ export default {
 .van-button {
     margin-top: 100px;
 }
-.title{
+.title {
     width: 100%;
     position: fixed;
 }

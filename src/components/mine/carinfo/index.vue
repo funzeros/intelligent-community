@@ -11,9 +11,7 @@
         />
 
         <div class="body">
-            <div class="tips" v-if="carList.length==0">
-                您还没有添加车辆,快去右上角添加吧~么么哒(づ￣ 3￣)づ
-            </div>
+            <div class="tips" v-if="carList.length==0">您还没有添加车辆,快去右上角添加吧~么么哒(づ￣ 3￣)づ</div>
             <van-swipe-cell :key="carinfo.c_id" v-for="carinfo of carList">
                 <van-cell
                     :border="false"
@@ -33,6 +31,8 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import axios from "axios";
+import {Dialog} from "vant";
 export default {
     data() {
         return {
@@ -89,15 +89,21 @@ export default {
                     message: "你确定要删除吗?"
                 })
                 .then(
-                    () => {
-                        for(let key in this.carList){
-                            if(cId == this.carList[key].cId){
-                                this.delete(['per_carList','cId',cId]);
-                                return;
-                            }
+                    async () => { 
+                        let result = await axios.get(`/my/deleteCar?cId=${cId}`);
+                        if(result.data.data==1){
+                                Dialog.alert({
+                                title: "删除",
+                                message: "该项清除成功"
+                            }).then(() => {
+                                for(let key in this.carList){
+                                    if(cId == this.carList[key].cId){
+                                        this.delete(['per_carList','cId',cId]);
+                                    return;
+                                }
                         }
-                        // 已在vuex中删除,需要提交cId到后端进行删除
-
+                            });
+                        }
                     },
                     () => {
                         return;
@@ -112,7 +118,7 @@ export default {
 .body {
     margin-top: 14%;
 }
-.tips{
+.tips {
     width: 70%;
     margin: 60% auto;
     height: 25%;
@@ -124,7 +130,8 @@ export default {
     line-height: 34px;
     font-size: 12px;
 }
-.contain,.body{
+.contain,
+.body {
     height: 100%;
 }
 section {

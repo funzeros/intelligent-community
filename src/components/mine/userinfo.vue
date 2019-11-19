@@ -19,12 +19,7 @@
         <van-field v-model="info.username" label="用户名" placeholder="未填写" input-align="right" />
         <van-field v-model="info.name" label="姓名" placeholder="未填写" input-align="right" />
 
-        <van-cell
-            title="生日"
-            is-link
-            :value="info.birthday"
-            @click="showPopup('showBir')"
-        />
+        <van-cell title="生日" is-link :value="info.birthday" @click="showPopup('showBir')" />
         <van-popup v-model="showBir" position="bottom" :style="{ height: '40%' }">
             <van-datetime-picker
                 v-model="currentDate"
@@ -35,7 +30,7 @@
             />
         </van-popup>
 
-        <van-cell title="性别" is-link :value="userInfo.sex" @click="showPopup('showSex')" />
+        <van-cell title="性别" is-link :value="info.sex" @click="showPopup('showSex')" />
         <van-popup v-model="showSex" position="bottom" :style="{ height: '40%' }">
             <van-picker
                 :columns="columns"
@@ -52,6 +47,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import axios from "axios";
 export default {
     data() {
         return {
@@ -71,13 +67,14 @@ export default {
     computed: {
         ...mapState({
             userInfo: state => state.mine.per_userInfo
-        }),
+        })
     },
     mounted() {
         this.info.name = this.userInfo.name;
         this.info.username = this.userInfo.username;
         this.info.birthday = this.userInfo.birthday;
-        this.info.sex = this.userInfo.sex;
+        this.info.sex = this.userInfo.sex==0 ? "男":"女";
+        this.info.uId = this.userInfo.uId;
     },
     methods: {
         ...mapActions({
@@ -92,6 +89,11 @@ export default {
         showPopup(attr) {
             this[attr] = true;
         },
+        getSex(sex){
+            return sex => {
+                return sex == 0 ? "男":"女"
+            }
+        },
         onClickRight() {
             this.$dialog
                 .confirm({
@@ -99,12 +101,24 @@ export default {
                     message: "你确定要提交吗?"
                 })
                 .then(
-                    () => {
+                    async () => {
                         // 可验证数据是否修改后提交(优化)
                         //数据提交请求
+                        let param = new FormData();
+                        param.append('uId',this.info.uId);
+                        param.append('name',this.info.name);
+                        param.append('username',this.info.username);
+                        param.append('birthday',this.info.birthday);
+                        param.append('sex',this.info.sex == "男" ? 0 : 1);
+                        param.append('uImge',this.userInfo.uImge);
+                        let config = {
+                            headers: { "Content-Type": "multipart/form-data" }
+                        };
+                        let result = await axios.post("/user/editInform",param,config);
                         for (let attr in this.info) {
                             this.setUserAttr([attr, this.info[attr]]);
                         }
+                        console.log(result.data);
                     },
                     () => {
                         return;
@@ -113,6 +127,7 @@ export default {
         },
         onConfirmSex(value) {
             this.info.sex = value;
+            console.log(this.info.sex);
             this.showSex = false;
         },
         getTime(value) {

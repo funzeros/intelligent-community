@@ -48,12 +48,14 @@
                 @click="submit"
                 :disabled="canUse"
             >添加</van-button>
+            {{canUse}}
         </div>
     </section>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import axios from "axios";
 export default {
     data() {
         return {
@@ -63,7 +65,7 @@ export default {
                 cType: "",
                 cFrameNumber: "",
                 cNumber: ""
-            },
+            }
         };
     },
     computed: {
@@ -72,7 +74,7 @@ export default {
             userInfo: state => state.mine.per_userInfo
         }),
         canUse() {
-            return !(
+            return (
                 this.info.cColor &&
                 this.info.carFrameNumber &&
                 this.info.carNumber &&
@@ -83,7 +85,8 @@ export default {
     },
     methods: {
         ...mapActions({
-            addCarList: "mine/addCarList"
+            add: "mine/add",
+            replace: "mine/replace"
         }),
         onClickLeft() {
             this.$router.go(-1);
@@ -95,9 +98,16 @@ export default {
                     message: "你确定要添加吗?"
                 })
                 .then(
-                    () => {
+                    async () => {
                         //修改到vuex中,提交到后台
                         //参数this.info
+                        //http://106.13.93.13:9001/api/my/addCar
+                        let url = `?cColor=${this.info.cColor}&cType=${this.info.cType}&cFrameNumber=${this.info.cFrameNumber}&cVehicleNumber=${this.info.cVehicleNumber}&cNumber=${this.info.cNumber}`;
+                        url += `&uId=1`
+                        let result = await axios.get("/my/addCar"+url);
+                        result = await axios.get('/user/my?uId=1');
+                        this.replace(['per_carList','carList',result.data.data.car]);
+
                         this.$router.push({ name: "carindex" });
                     },
                     () => {

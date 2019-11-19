@@ -61,49 +61,62 @@ export default({
   actions: {
   appendMainBody(context,tId){
     console.log(tId)
-    axios.get(`/api/post/postDetail?tId=${tId}`).then((result) => {
+    axios.get(`/post/postDetail?tId=${tId}`).then((result) => {
       context.commit('MainBody',result);
     })  
   },
   appendPostAll(context,uId){
-  axios.get("/api/post/postDetailAll?uId=1").then((result) => {
+  axios.get("/post/postDetailAll?uId=1").then((result) => {
       context.commit('Post',result);
     })
   },
+  
+  // appendMyPost(context,uId){
+  //   axios.get(`/post/postDetailAll?uId=${uId}`).then((result) => {
+  //       context.commit('Post',result);
+  //     })
+  //   },
   appendMyCollection(context,uId){
-    axios.get(`/api/post/mycollection?uId=${uId}`).then((result) => {
+    axios.get(`/post/mycollection?uId=${uId}`).then((result) => {
         context.commit('Collection',result);
         // console.log(result)
       })
     },
     sendPost(context,post){
       // console.log('cscsc')
-      axios.get(`/api/post/postDetailAll?uId=${post.uId}&tTitle=${post.tTitle}&tDet=${post.tDet}&tImg=${post.tImg}`).then((result) => {
+      axios.get(`/post/postDetailAll?uId=${post.uId}&tTitle=${post.tTitle}&tDet=${post.tDet}&tImg=${post.tImg}`).then((result) => {
         // context.commit('Collection',result);
-        // console.log(result)
+        console.log(result)
       })
       },
     addGoodnum(context,good){
       console.log('点赞')
-      axios.get(`/api/post/addGood?tId=${good.tId}&tGoodnum=${good.tGoodnum}`).then((result) => {
+      axios.get(`/post/addGood?tId=${good.tId}&tGoodnum=${good.tGoodnum}`).then((result) => {
           // context.commit('Collection',result);
           // console.log(result)
         })
       },
       addSeenum(context,good){
         console.log('浏览')
-        axios.get(`/api/post/addSee?tId=${good.tId}&tGoodnum=${good.tSeenum}`).then((result) => {
+        axios.get(`/post/addSee?tId=${good.tId}&tGoodnum=${good.tSeenum}`).then((result) => {
             // context.commit('Collection',result);
             console.log(result)
           })
         },
         addCollection(context,good){
           console.log('收藏')
-          axios.get(`/api/post/collection?tId=${good.uId}&tGoodnum=${good.tId}`).then((result) => {
+          axios.get(`/post/collection?uId=${good.uId}&tId=${good.tId}`).then((result) => {
               // context.commit('Collection',result);
-              console.log(result)
+              // console.log(result)
             })
           },
+          // changeCon(context,good){
+          //   console.log('改变私密状态')
+          //   axios.get(`/post/changeCon?tId=${good.tId}&tCon=${good.tCon}`).then((result) => {
+          //       // context.commit('Collection',result);
+          //       console.log(result)
+          //     })
+          //   },
   },
   modules: {
   }
