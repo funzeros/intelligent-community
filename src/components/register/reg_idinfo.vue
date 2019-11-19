@@ -97,7 +97,7 @@ export default {
       }).then(async() => {
         // on confirm
         await this.$store.dispatch('register/subRegInfo');//调用axios发送注册数据
-        console.log('123');
+        // console.log('123');
         if(this.$store.state.register.regsuccess){
           this.$toast('注册成功,2秒后跳转至登录界面');
           setTimeout(()=>{

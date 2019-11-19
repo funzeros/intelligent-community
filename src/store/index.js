@@ -93,15 +93,30 @@ export default new Vuex.Store({
       commit('setInitTab');
     },
     async loginon({commit,dispatch,state},info){
-      let result=await axios.post(`/api/user/logingo?username=${info.usernm}&passward=${info.pwd}&type=1`);
-      console.log(result);
+      await axios.post(`/user/logingo?phonenum=${info.phone}&passward=${info.pwd}`).then((result)=>{
+         // console.log('登录信息',result);
       if(!result.data.errno){
         state.guardflag=true;
         state.loginData=result.data;
-        console.log(state);
-        dispatch('knockdoor/userOnLine',state.knockdoor.selfhid);//上线连接到聊天服务器
-      }
+        // console.log(state);
+        // await dispatch();
+        // let myHouseList=state.mine.houseList;
+        // let allHouseList=state.knockdoor.houseList;
+        // let uItem =allHouseList.find((item)=>{
+        //   return item.build===myHouseList.build&&item.unit===myHouseList.unit;
+        // });
+        // let hItem=uItem.house.find(item=>{
+        //   return item.house===myHouseList.house;
+        // })
+        // state.knockdoor.selfhid=uItem.fid+hItem.hid;
+        dispatch('knockdoor/userOnLine',state.knockdoor.selfhid);}//上线连接到聊天服务器
+      }).catch((err)=>{
+        console.log(err);
+      });
+     
+      
     }
+
   },
   modules: {
     key,
