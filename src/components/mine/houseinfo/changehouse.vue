@@ -143,7 +143,8 @@ export default {
         ...mapState({
             houselists: state => state.register.houselists,
             area: state => state.register.areas,
-            houseList: state => state.mine.per_houseList
+            houseList: state => state.mine.per_houseList,
+            userInfo:state=>state.mine.per_userInfo
         })
     },
     mounted() {
@@ -199,7 +200,8 @@ export default {
             this.houseShow = false;
         },
         ...mapActions({
-            editHouseList: "mine/editHouseList"
+            editHouseList: "mine/editHouseList",
+            replace:"mine/replace"
         }),
         afterReadCates(file) {
             this.info.catesPic = file.content;
@@ -215,17 +217,11 @@ export default {
                 })
                 .then(
                     async () => {
-                        console.log(this.info)
                         let url = `?uId=${this.info.uId}&fId=${this.info.fId}&area=${this.info.area}&house=${this.info.house}&build=${this.info.build}&unit=${this.info.unit}&identity=${this.info.identity}`;
                         let result = await axios.get("/house/updateHouse"+url)
 
-                        for (let house of this.houseList) {
-                            if (house.cId == this.cId) {
-                                for (let key in house) {
-                                    house[key] = this.info[key];
-                                }
-                            }
-                        }
+                        result = await axios.get(`/user/my?uId=${this.userInfo.uId}`);
+                        this.replace(['per_houseList','houseList',result.data.data.house]);
                         
                         this.$router.push({ name: "houseindex" });
                     },

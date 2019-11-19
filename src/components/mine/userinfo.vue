@@ -73,7 +73,7 @@ export default {
         this.info.name = this.userInfo.name;
         this.info.username = this.userInfo.username;
         this.info.birthday = this.userInfo.birthday;
-        this.info.sex = this.userInfo.sex==0 ? "男":"女";
+        this.info.sex = this.userInfo.sex;
         this.info.uId = this.userInfo.uId;
     },
     methods: {
@@ -81,7 +81,9 @@ export default {
             setUserAttr: "mine/setUserAttr"
         }),
         onClickLeft() {
-            this.$router.go(-1);
+            this.$router.push({
+                name:"mineindex"
+            });
         },
         cancel(attr) {
             this[attr] = false;
@@ -118,7 +120,6 @@ export default {
                         for (let attr in this.info) {
                             this.setUserAttr([attr, this.info[attr]]);
                         }
-                        console.log(result.data);
                     },
                     () => {
                         return;
@@ -127,7 +128,6 @@ export default {
         },
         onConfirmSex(value) {
             this.info.sex = value;
-            console.log(this.info.sex);
             this.showSex = false;
         },
         getTime(value) {

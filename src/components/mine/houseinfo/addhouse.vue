@@ -279,10 +279,9 @@ export default {
                         let url = `?uId=${this.userInfo.uId}&area=${this.info.area}&house=${this.info.house}&build=${this.info.build}&unit=${this.info.unit}&identity=${this.info.identity}`
 
                         let result = await axios.get("/house/addHouse"+url);
-
-
-                        result = await axios.get('/user/my?uId=1');
+                        result = await axios.get(`/user/my?uId=${this.userInfo.uId}`);
                         this.replace(['per_houseList','houseList',result.data.data.house]);
+                        
 
                         for (let i in this.info) {
                             this.info[i] = "";

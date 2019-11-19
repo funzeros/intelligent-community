@@ -103,9 +103,9 @@ export default {
                         //参数this.info
                         //http://106.13.93.13:9001/api/my/addCar
                         let url = `?cColor=${this.info.cColor}&cType=${this.info.cType}&cFrameNumber=${this.info.cFrameNumber}&cVehicleNumber=${this.info.cVehicleNumber}&cNumber=${this.info.cNumber}`;
-                        url += `&uId=1`
+                        url += `&uId=${this.userInfo.uId}`
                         let result = await axios.get("/my/addCar"+url);
-                        result = await axios.get('/user/my?uId=1');
+                        result = await axios.get(`/user/my?uId=${this.userInfo.uId}`);
                         this.replace(['per_carList','carList',result.data.data.car]);
 
                         this.$router.push({ name: "carindex" });
