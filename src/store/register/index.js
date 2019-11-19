@@ -69,7 +69,8 @@ export default{
         contract_start:'',//合同开始时间
         contract_end:'',//合同结束时间
         cotime_title:'开始时间',//
-        coturl:['http://img3.imgtn.bdimg.com/it/u=2202144165,2270864374&fm=26&gp=0.jpg'],//合同照片地址
+        coturl:[],//合同照片地址
+        coturl2:[],//合同照片地址
         username:'',
         name:'',
         sex:'男',
@@ -116,10 +117,9 @@ export default{
             context.commit('setPwd',pwd);
         },
         async verifyPhone({commit,state},data){
-            let result= await axios.get('/user/phone'+'?phonenum='+data);
-            // commit('setphonehas',result.data.has);
-            console.log(result);
-
+            let result= await axios.get(`/user/phone?phonenum=${data}`);
+            // console.log(result.data.errno);
+            commit('setphonehas',result.data.errno);         
         },
         async subRegInfo({commit,state}){ //提交注册信息
             let identype="0";//身份信息
@@ -161,7 +161,7 @@ export default{
             if (result.data.message==='success'){
                 commit('setregflag');
             }
-            // console.log(data);
+            console.log(data);
 
         }
     },

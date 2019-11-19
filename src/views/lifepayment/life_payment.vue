@@ -65,7 +65,8 @@ export default {
     // 点击进入立即缴纳页面
     justpay(userpayments,index){
       this.$router.push({
-        name: "payment_justpay"
+        name: "payment_justpay",
+        params: {id:index+1}
       });
     this.$store.dispatch("life_payment/detailpay",index);
     }

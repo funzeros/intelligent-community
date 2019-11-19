@@ -1,6 +1,5 @@
 // 投诉建议————周佩蕾
 
-// 数据：投诉类型
 <template>
   <div>
     <div v-if="personshow.select">
@@ -38,14 +37,15 @@
         <input type="text" class="describe" placeholder="请描述您想要说的事" v-model="content" />
 
         <keep-alive>
-          <van-uploader v-model="fileList" multiple :max-count="3" />
+          <van-uploader v-model="fileList" multiple :max-count="3" :after-read="afterRead" />
         </keep-alive>
         <p class="picnumber">可上传3张照片</p>
       </div>
       <!-- 提交按钮 -->
-      <div style="width:80%;margin:0 auto">
-        <button type="submit" class="selectsubmit" @click="submitsuggest">提交</button>
+      <div style="width:80%; margin:0 auto">
+         <button type="submit" class="selectsubmit" @click="submitsuggest">提交</button>
       </div>
+     
     </div>
 
     <person_select v-if="personshow.selected" @Iselect="work"></person_select>
@@ -63,7 +63,7 @@ export default {
         select: true,
         selected: ""
       },
-      content: ""
+      content:'',
     };
   },
   computed: {
@@ -84,7 +84,6 @@ export default {
       this.$router.push({
         name: "community"
       });
-      this.$store.state.picked = "";
     },
     onClickRight() {
       this.$router.push({
@@ -113,26 +112,34 @@ export default {
       this.personshow.selected = false;
     },
     async submitsuggest() {
-      const result = await axios.get("/advice?pUser=root", {
+      // 上传投诉类型和内容
+      const suggest=Number(this.informstyle[0].id);
+      //console.log(suggest)
+       const result = await axios.get("/advice?pUser=root", {
         params: {
+          pStatus:suggest,
           pDetail: this.content
         },
       });
-      // const img = await axios.post("/api/uploadImage", {
-      //   params: {
-      //     file: this.fileList
-      //   },
-      //    headers: {
-      //     'Content-Type': 'application/json; charset=utf-8'
-      //   }
-      // });
-      this.$toast.loading({
-        message: "提交成功",
-        forbidClick: true
-      });
-    }
-  },
 
+      // 上传结束提示
+     this.$toast.loading({
+        message: "提交成功",
+        forbidClick: true,
+      });
+    },
+    async afterRead(file){
+       // 上传图片
+      let param = new FormData();
+            param.append("file",file.file);
+            let config = {
+                headers: { "Content-Type": "multipart/form-data" }
+            };
+            let result = await axios.post("/uploadImage", param, config);
+            this.url = "http://116.62.38.213:8888/"+result.data.data;   
+      }
+  },
+ 
   components: {
     person_select
   }

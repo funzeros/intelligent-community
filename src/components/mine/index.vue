@@ -101,6 +101,7 @@ export default {
                 .then(
                     () => {
                         this.$router.push("/");
+                        this.$store.state.guardflag=false;
                     },
                     () => {
                         return;

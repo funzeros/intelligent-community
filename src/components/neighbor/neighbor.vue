@@ -10,37 +10,37 @@
       <li @click="ll4">我的收藏</li>
     </ul>
     <van-swipe :autoplay="5000" indicator-color="#ccc">
-      <van-swipe-item v-for="item in images" :key="item.id" class="banner-wrap">
+      <van-swipe-item v-for="item in images" :key="item.tId" class="banner-wrap">
         <img :src="item.url" alt class="banner" />
       </van-swipe-item>
     </van-swipe>
     <van-search placeholder="请输入标题" v-model="value" shape="round" />
     <ul>
-      <li v-for="item in art" @click="jump(item.id)">
+      <li v-for="item in post" @click="jump(item.tId)">
         <span class="head">
-          <img :src="item.header" alt />
+          <img :src="item.uImge" alt />
         </span>
-        <p class="name">{{item.name}}</p>
-        <p class="time">{{item.time}}</p>
+        <p class="name">{{item.username }}</p>
+        <p class="time">{{item.tTime}}</p>
         <span class="good-job">
           <van-icon name="good-job-o" />
-          <h6 class="good-job-num">{{item.goodJob}}</h6>
+          <h6 class="good-job-num">{{item.tGoodnum }}</h6>
         </span>
         <span class="watch">
           <van-icon name="chat-o" />
-          <h6 class="watch-num">{{item.watch}}</h6>
+          <h6 class="watch-num">{{item.tSeenum}}</h6>
         </span>
-        <h3 class="title">{{item.title}}</h3>
+        <h3 class="title">{{item.tTitle}}</h3>
         <van-image-preview
           v-model="show"
-          :images="item.urls"
+          :images="item.tImg?item.tImg.split(','):item.tImg"
           @change="onChange"
           :start-position="page"
         >
           <template v-slot:index>第{{ index }}页</template>
         </van-image-preview>
         <div class="pic">
-          <div v-for="key1,index in item.urls">
+          <div v-for="key1,index in item.tImg?item.tImg.split(','):item.tImg">
             <img :src="key1" alt class="banner" @click="open(index)" />
           </div>
         </div>
@@ -64,8 +64,7 @@ export default {
         { id: 2, url: "https://img.yzcdn.cn/vant/apple-2.jpg" },
         { id: 3, url: "https://img.yzcdn.cn/vant/apple-1.jpg" },
         { id: 4, url: "https://img.yzcdn.cn/vant/apple-2.jpg" }
-      ],
-      
+      ]
     };
   },
   methods: {
@@ -92,7 +91,7 @@ export default {
       this.index = index + 1;
     },
     open(index) {
-      console.log(index);
+      // console.log(index);
       this.show = true;
       this.index = index + 1;
       this.page = index;
@@ -100,15 +99,32 @@ export default {
     jump(url) {
       this.$router.push({
         name: "mainBody",
-        params:{id:url}
+        params: { id: url }
       });
+      this.$store.dispatch("neighbor/addSeenum",{tId:url,tSeenum:1})
+      this.$store.state.neighbor.tId = url;
     }
   },
   computed: {
-    art(){
-      return this.$store.state.neighbor.art
-    }
-  },
+    art() {
+      return this.$store.state.neighbor.art;
+    },
+    // details() {
+    //   return this.$store.state.neighbor.details.data.data;
+    // },
+    post() {
+      let f=[]
+      console.log(this.$store.state.neighbor.post.data.data)
+      for(let item in this.$store.state.neighbor.post.data.data){
+        f.push(this.$store.state.neighbor.post.data.data[item][0]);
+      }
+      return f;
+  }},
+  mounted() {
+    
+    this.$store.dispatch("neighbor/appendPostAll");
+    // console.log(this.$store.state.neighbor.post);
+  }
 };
 </script>
 
@@ -139,6 +155,7 @@ export default {
   color: #1989fa;
   vertical-align: middle;
   font-size: 25px;
+  margin: 0;
 }
 /* 头部下拉栏 */
 #neightbor .down-list {
@@ -202,7 +219,7 @@ export default {
 }
 #neightbor .time {
   position: relative;
-  left: -36px;
+  left: -5px;
   top: 5px;
   color: #ccc;
 }

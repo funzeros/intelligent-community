@@ -17,8 +17,9 @@
     </div>
 
 
-
-    <van-uploader :after-read="afterRead" v-model="fileList" multiple :max-count="10" />
+      <van-uploader :after-read="afterRead"  v-model="fileList2" @delete="delImg" multiple :max-count="10" >
+        <!-- <van-image width="100px" height="100px" v-for="item of fileList" :key="item" :src="item"></van-image> -->
+      </van-uploader>
     <div>
       <span class="maxcount">最多可上传十张</span>
     </div>
@@ -40,10 +41,11 @@ export default {
     return {
       show:true,
       nextflag:false,
-      fileList: [],
-      degree:'#ddf'
+      degree:'#ddf',
+      fileList2:[]
     }
   },
+
   methods: {
     onClickLeft() {
       // console.log(100);
@@ -58,24 +60,54 @@ export default {
       // console.log(101);
     },
     async afterRead(file){//向后端发起图片上传请求
-      console.log(file);
-      // console.log(file.content);
-      // console.log(this.fileList);
-      // let data=file.content;
-      // let result= await axios.post('/api/user/conpic',data);
-    },
+      // console.log(file);
+      // console.log(this.fileList2);
+
+      this.$store.state.register.coturl2=this.fileList2;
+
+     let param = new FormData();
+            param.append("file",file.file);
+            let config = {
+                headers: { "Content-Type": "multipart/form-data" }
+            };
+
+      let result = await axios.post("/uploadImage", param, config);
+      // console.log(result.data.data);
+      await this.$store.state.register.coturl.push('http://116.62.38.213:8888/'+result.data.data);
+      console.log(this.$store.state.register.coturl);
+      this.$toast('图片上传成功');
+      this.verify();
+      },
     seltime(title){
       this.$store.state.register.cotime_title=title;
       this.$store.state.register.cotime_flag=true;
     },
     verify(){   
-      if(this.$store.state.register.contract_start&&this.$store.state.register.contract_end&&this.$store.state.register.coturl){
+      // console.log(this.$store.state.register.coturl.length);
+      // &&this.$store.state.register.coturl.length
+      if(this.$store.state.register.contract_start&&this.$store.state.register.contract_end){
         this.degree='#bbf';
         this.nextflag=true;
       }else{
          this.degree='#ddf';
         this.nextflag=false;
       }
+    },
+    delImg(e){
+      // console.log(e);
+      let coturl= this.$store.state.register.coturl;
+      let coturl2= this.$store.state.register.coturl2;
+      for(let i=0;i<coturl2.length;i++){
+        // console.log(e);
+        // console.log(coturl2[i]);
+
+        if(coturl2[i]==e){
+        coturl.splice(i,1);
+        coturl2.splice(i,1);
+         break;
+        }
+      }
+      // console.log( this.$store.state.register.coturl);
     }
   },
   computed: {
@@ -94,6 +126,7 @@ export default {
   },
    mounted(){
     this.verify();
+    this.fileList2=this.$store.state.register.coturl2;
   },
   components: {
     regcotime

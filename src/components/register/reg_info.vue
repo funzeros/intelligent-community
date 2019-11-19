@@ -44,7 +44,7 @@
                 v-model="code"
                 @input="check_code"
             >
-                <van-button slot="button" size="small" type="info">发送验证码</van-button>
+                <van-button slot="button" size="small" type="info" @click="sendCode">发送验证码</van-button>
             </van-field>
         </van-cell-group>
         <div class="err_info">{{code_msg}}</div>
@@ -122,10 +122,18 @@ export default {
             this.sec_pwd_msg = bool ? "" : "两次密码输入不一致,请重新输入";
             this.sec_pwd_flag = bool ? true : false;
         },
+        sendCode(){
+            this.sCode='';
+            for(let i=0;i<6;i++){
+                this.sCode+=Math.floor(Math.random()*10);
+            }
+            this.$notify({ type: 'primary', message: this.sCode,duration:5000 });
+            console.log(this.sCode);
+        },
         check_code() {
             //匹配验证码格式是否正确
-            let bool = /^\d{6}$/.test(this.code);
-            this.code_msg = bool ? "" : "请输入六位有效数字";
+            let bool = /^\d{6}$/.test(this.code)&&this.code===this.sCode;
+            this.code_msg = bool ? "" : "请输入正确的验证码";
             this.code_flag = bool ? true : false;
         },
         submit() {
@@ -142,7 +150,6 @@ export default {
         async verphone(){ //验证手机号是否已注册
             console.log('准备验证手机号');
             
-                // this.$store.state.register.phonehas=true;//测试用例
 
             await this.$store.dispatch('register/verifyPhone',this.phone);//调用axios
             console.log('手机号验证完成');

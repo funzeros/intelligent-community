@@ -4,20 +4,21 @@
     <van-tabs v-model="active" title-active-color="#008a89" color="#008a89">
       <van-tab title="当前投票">
         <ul>
-          <li v-for="vote of comvotes" v-if="vote.onGoing">
+          <li v-for="vote of comvoting">
             <div class="top">
               <div class="title">
-                <p>{{vote.title}}</p>
+                <p>{{vote.pName}}</p>
                 <p>
-                  <span>{{vote.people}}</span>/200人已投票
+                  <span>{{vote.pTotal}}</span>/
+                  <span style="color:#ccc;">{{vote.pAlltotal}}</span>人已投票
                 </p>
               </div>
-              <section>{{vote.content}}</section>
+              <section>{{vote.pInfo}}</section>
             </div>
             <div class="bottom">
               <p>
                 <van-icon name="underway-o" />
-                {{vote.start}}至{{vote.end}}
+                {{vote.pStartTime.split(" ")[0]}}至{{vote.pEndTime.split(" ")[0]}}
               </p>
               <button @click="goto(vote)">前去投票</button>
             </div>
@@ -26,20 +27,21 @@
       </van-tab>
       <van-tab title="历史投票">
         <ul>
-          <li v-for="vote of comvotes" v-if="!vote.onGoing" @click="goto(vote)">
+          <li v-for="vote of comvoted" @click="goto(vote)">
             <div class="top">
               <div class="title">
-                <p>{{vote.title}}</p>
+                <p>{{vote.pName}}</p>
                 <p>
-                  <span>{{vote.people}}</span>/200人已投票
+                  <span>{{vote.pTotal}}</span>/
+                  <span style="color:#ccc;">{{vote.pAlltotal}}</span>人已投票
                 </p>
               </div>
-              <section>{{vote.content}}</section>
+              <section>{{vote.pInfo}}</section>
             </div>
             <div class="bottom">
               <p>
                 <van-icon name="underway-o" />
-                {{vote.start}}至{{vote.end}}
+                {{vote.pStartTime.split(" ")[0]}}至{{vote.pEndTime.split(" ")[0]}}
               </p>
               <button>已结束</button>
             </div>
@@ -57,16 +59,24 @@ export default {
       active: 2
     };
   },
+  async created() {
+    await this.$store.dispatch("comvote/getcomvoting",this.$store.state.loginData.data.uId);
+    await this.$store.dispatch("comvote/getcomvoted",this.$store.state.loginData.data.uId);
+  },
   computed: {
-    comvotes() {
-      return this.$store.state.comvote.comvotes;
+    comvoting() {
+      return this.$store.state.comvote.comvoting;
+    },
+    comvoted() {
+      return this.$store.state.comvote.comvoted;
     }
   },
   methods: {
     goto(vote) {
+      this.$store.state.comvote.pId = vote.pId;
       this.$router.push({
         name: "votedetails",
-        params: { id: vote.id }
+        params: { id: vote.pId }
       });
     },
     onClickLeft() {

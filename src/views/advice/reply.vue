@@ -109,6 +109,7 @@ export default {
 }
 .textsty {
   font-size: 14px;
+  line-height: 50px;
 }
 img {
   padding: 10px;
