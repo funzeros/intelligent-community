@@ -24,9 +24,9 @@ export default new Vuex.Store({
     // guardflag: true,
     // 建议数据
     stylelists: [
-      { id: "1111", name: "投诉" },
-      { id: "2222", name: "建议" },
-      { id: "3333", name: "表扬" }
+      { id: "1", name: "投诉" },
+      { id: "2", name: "建议" },
+      { id: "3", name: "表扬" }
     ],
     informstyle: [],
     picked: '',

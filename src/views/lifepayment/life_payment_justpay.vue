@@ -88,11 +88,7 @@ export default {
   },
 
   async mounted() {
-   
-    //await this.$store.dispatch(
-     // "life_payment/detailpay",
-     //this.$store.state.life_payment.userpayments[index]
-    //);
+    
   }
 };
 </script>
