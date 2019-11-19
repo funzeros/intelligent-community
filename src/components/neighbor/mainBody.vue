@@ -65,9 +65,11 @@ export default {
     },
     addGoodnum(){
       this.$store.dispatch("neighbor/addGoodnum",{tId:this.$store.state.neighbor.tId,tGoodnum:1});
+      this.$toast('点赞成功');
     },
     addCollection(){
       this.$store.dispatch("neighbor/addCollection",{uId:this.$store.state.loginData.data.uId,tId:this.$store.state.neighbor.tId});
+      this.$toast('收藏成功');
     }
   },
 computed: {

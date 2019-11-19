@@ -11,14 +11,14 @@
           <van-icon name="ellipsis" />
         </span>
         <div class="pic">
-          <div v-for="url in item.tImg">
+          <div v-for="url in item.tImg.split(',')">
             <img :src="url" alt />
             <!-- <img src="https://f11.baidu.com/it/u=1590294769,1135477404&fm=76" alt=""> -->
           </div>
         </div>
         <ul class="limChange" :key="item.tId" v-show="(item.tId===nid)&&more">
-          <li @click="changeLim(0,item.tId)">私密</li>
-          <li @click="changeLim(1,item.tId)">公开</li>
+          <li @click="changeLim(false,item.tId)">私密</li>
+          <li @click="changeLim(true,item.tId)">公开</li>
         </ul>
       </li>
     </ul>

@@ -33,14 +33,14 @@
         <h3 class="title">{{item.tTitle}}</h3>
         <van-image-preview
           v-model="show"
-          :images="item.tImg"
+          :images="item.tImg?item.tImg.split(','):item.tImg"
           @change="onChange"
           :start-position="page"
         >
           <template v-slot:index>第{{ index }}页</template>
         </van-image-preview>
         <div class="pic">
-          <div v-for="key1,index in item.tImg">
+          <div v-for="key1,index in item.tImg?item.tImg.split(','):item.tImg">
             <img :src="key1" alt class="banner" @click="open(index)" />
           </div>
         </div>

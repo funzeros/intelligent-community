@@ -127,7 +127,7 @@ export default {
             for(let i=0;i<6;i++){
                 this.sCode+=Math.floor(Math.random()*10);
             }
-            this.$notify({ type: 'primary', message: this.sCode });
+            this.$notify({ type: 'primary', message: this.sCode,duration:5000 });
             console.log(this.sCode);
         },
         check_code() {

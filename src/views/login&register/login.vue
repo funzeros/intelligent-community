@@ -15,7 +15,7 @@
           @click-right-icon="$toast('目前仅能使用手机号登录')" class="nav-cell-single" />
 
         <van-field v-model="password" type="password" label="密码" placeholder="请输入密码" required class="nav-cell-double" 
-          @click-right-icon="$toast('密码必须是数字、字母、下划线')"   />
+          @click-right-icon="$toast('密码必须是数字、字母、下划线')" @keydown.enter="onClickButtonSubmit"  />
 
 
         <div class="pd15"><van-button type="primary" size="large" @click="onClickButtonSubmit">登录</van-button></div>
