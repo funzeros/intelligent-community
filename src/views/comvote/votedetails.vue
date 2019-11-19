@@ -22,7 +22,11 @@
         <!-- 选项 -->
         <div class="select">
           <van-radio-group v-model="radio">
-            <van-radio :name="item.ttId" v-for="item of votedetails.xuanxiangs">
+            <van-radio
+              :name="item.ttId"
+              v-for="item of votedetails.xuanxiangs"
+              @click="select(item.ttId)"
+            >
               {{item.ttName}}
               <span>{{item.ttTotal}}票</span>
             </van-radio>
@@ -30,7 +34,7 @@
         </div>
       </footer>
     </article>
-    <button @click="toupiao(radio)">确定投票</button>
+    <button @click="toupiao()">确定投票</button>
   </div>
 </template>
 
@@ -41,11 +45,16 @@ export default {
   data() {
     return {
       radio: "1",
-      result: []
+      result: [],
+      tt_id: 1,
+      flag: false
     };
   },
   async mounted() {
-    await this.$store.dispatch("comvote/getdetails",this.$store.state.loginData.data.uId);
+    await this.$store.dispatch(
+      "comvote/getdetails",
+      this.$store.state.loginData.data.uId
+    );
   },
   computed: {
     votedetails() {
@@ -58,10 +67,28 @@ export default {
         name: "comvote"
       });
     },
-    toupiao(tt_id) {
-      axios.get(`/toupiao/vote?uId=1&pId=1&tt_id=1`).then(result => {
-        console.log(result);
-      });
+    select(id) {
+      this.tt_id = id;
+      this.flag = true;
+    },
+    toupiao() {
+      if (this.flag) {
+        axios
+          .get(
+            `/toupiao/vote?uId=${this.$store.state.loginData.data.uId}&pId=${
+              this.$store.state.comvote.pId
+            }&tt_id=${(this.$store.state.comvote.pId - 1) * 3 +
+              Number(this.radio)}`
+          )
+          .then(result => {
+            if (result.data.message == "success") {
+              this.$toast.success("投票成功");
+            } else {
+              this.$toast.fail(result.data.message);
+            }
+          });
+        this.$router.go(-1);
+      }
     }
   }
 };
