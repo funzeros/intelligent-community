@@ -19,7 +19,6 @@
 </template>
 
 <script>
-var urlHeaderImage = "123";
 import { mapState, mapActions } from "vuex";
 import axios from "axios";
 export default {
@@ -33,7 +32,7 @@ export default {
     },
     computed: {
         ...mapState({
-            userInfo: state => state.mine.per_userInfo
+            userInfo: state => state.mine.per_userInfo,
         })
     },
     methods: {
@@ -41,7 +40,9 @@ export default {
             setUserAttr: "mine/setUserAttr"
         }),
         onClickLeft() {
-            this.$router.go(-1);
+            this.$router.push({
+                name:"userinfo"
+            });
         },
         async afterRead(file) {
             // this.url = file.content;
@@ -51,7 +52,7 @@ export default {
                 headers: { "Content-Type": "multipart/form-data" }
             };
             let result = await axios.post("/uploadImage", param, config);
-            urlHeaderImage = result.data.data;
+            this.url = "http://116.62.38.213:8888/"+result.data.data;    
         },
         submit() {
             this.$dialog
@@ -63,9 +64,8 @@ export default {
                     () => {
                         // 可验证数据是否修改后提交(优化)
                         //数据提交请求
-                        this.setUserAttr(["uImge", "http://116.62.38.213:8888/"+urlHeaderImage]);
+                        this.setUserAttr(["uImge", this.url]);
                         this.$router.push({ name: "userinfo" });
-                        console.log(this.userInfo);
                     },
                     () => {
                         return;

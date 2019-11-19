@@ -4,15 +4,18 @@
     <van-nav-bar title="开门记录" left-text="返回" left-arrow @click-left="onClickLeft"></van-nav-bar>
     <ul>
       <li v-for="record of records">
-        <span>{{record.date}}</span>
-        <span>APP</span>
-        <span>{{record.position}}入口</span>
+        <span>{{record.kTime}}</span>
+        <span>{{record.kWay}}</span>
+        <span>{{record.kNum}}</span>
       </li>
     </ul>
   </div>
 </template>
 <script>
 export default {
+  created() {
+    this.$store.dispatch("key/opendoor");
+  },
   computed: {
     records() {
       return this.$store.state.key.record;

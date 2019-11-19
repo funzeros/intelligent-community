@@ -110,13 +110,13 @@ export default({
               // console.log(result)
             })
           },
-          // changeCon(context,good){
-          //   console.log('改变私密状态')
-          //   axios.get(`/post/changeCon?tId=${good.tId}&tCon=${good.tCon}`).then((result) => {
-          //       // context.commit('Collection',result);
-          //       console.log(result)
-          //     })
-          //   },
+          changeCon(context,good){
+            console.log('改变私密状态')
+            axios.get(`/post/changeCon?tId=${good.tId}&tCon=${good.tCon}`).then((result) => {
+                // context.commit('Collection',result);
+                console.log(result)
+              })
+            },
   },
   modules: {
   }

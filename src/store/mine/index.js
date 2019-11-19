@@ -29,6 +29,7 @@ export default {
         // },
         setUserAttr(state, arr) {
             state.userInfo[arr[0]] = arr[1];
+            state.per_carList[arr[0]] = arr[1];
         },
         add(state, arr) {
             let newobj = {};
@@ -48,7 +49,6 @@ export default {
             }
         },
         getUserInfo(state, data) {
-            console.log(data)
             state.userInfo = data.userInfo;
             state.houseList = data.house;
             state.carList = data.car;
@@ -123,7 +123,6 @@ export default {
         },
         async getUserInfo(context,uId) {
             let result = await axios.get(`/user/my?uId=${uId}`);
-            //  http://106.13.93.13:9081/api/user/my
             context.commit("getUserInfo", result.data.data);
         },
         changeCheck(context){

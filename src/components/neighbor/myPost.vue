@@ -5,7 +5,7 @@
       <li v-for="item in post" :key="item.tId">
         <img :src="item.uImge" alt class="header" />
         <p class="name">{{item.username}}11111</p>
-        <p class="lim" ref="lim">公开</p>
+        <p class="lim" ref="lim">{{item.tCon?'公开':'私密'}}</p>
         <p class="time">{{item.tTime}}</p>
         <span class="more" @click="morel(item.tId)">
           <van-icon name="ellipsis" />
@@ -17,8 +17,8 @@
           </div>
         </div>
         <ul class="limChange" :key="item.tId" v-show="(item.tId===nid)&&more">
-          <li id="'私密'" ref="open" @click="changeLim('私密',item.tId)">私密</li>
-          <li id="'公开'" ref="open" @click="changeLim('公开',item.tId)">公开</li>
+          <li @click="changeLim(0,item.tId)">私密</li>
+          <li @click="changeLim(1,item.tId)">公开</li>
         </ul>
       </li>
     </ul>
@@ -65,9 +65,10 @@ export default {
       this.more = !this.more;
       this.nid = id;
     },
-    changeLim(str, id) {
-      this.post[id].lim = str;
+    changeLim(num,id) {
       this.more = false;
+      this.$store.dispatch("neighbor/changeCon",{tId:id,tCon:num})
+      console.log(num,id)
     }
   },
   computed: {
