@@ -1,69 +1,66 @@
 <template>
   <div id="votedetails">
     <van-nav-bar title="投票详情" left-arrow @click-left="onClickLeft"></van-nav-bar>
-    <article>
+    <article v-if="votedetails.toupiao">
       <div class="top">
         <div class="title">
-          <p>{{votedetails.title}}</p>
+          <p>{{votedetails.toupiao.pName}}</p>
           <p>
-            <span>{{votedetails.people}}</span>/200人已投票
+            <span>{{votedetails.toupiao.pTotal}}</span>/
+            <span style="color:#ccc;">{{votedetails.toupiao.pAlltotal}}</span>人已投票
           </p>
         </div>
-        <section>{{votedetails.content}}</section>
+        <section>{{votedetails.toupiao.pInfo}}</section>
       </div>
       <div class="bottom">
         <p>
           <van-icon name="underway-o" />
-          {{votedetails.start}}至{{votedetails.end}}
+          {{votedetails.toupiao.pStartTime.split(" ")[0]}}至{{votedetails.toupiao.pEndTime.split(" ")[0]}}
         </p>
       </div>
       <footer>
         <!-- 选项 -->
-        <div class="select" v-if="votedetails.onGoing">
-          <!-- 单选 -->
-          <van-radio-group v-model="radio" v-if="votedetails.isRadio">
-            <van-radio :name="item.option" v-for="item of votedetails.choice">{{item.option}}</van-radio>
+        <div class="select">
+          <van-radio-group v-model="radio">
+            <van-radio :name="item.ttId" v-for="item of votedetails.xuanxiangs">
+              {{item.ttName}}
+              <span>{{item.ttTotal}}票</span>
+            </van-radio>
           </van-radio-group>
-          <!-- 复选 -->
-          <van-checkbox-group v-model="result" v-else>
-            <van-checkbox
-              :name="item.option"
-              shape="square"
-              v-for="item of votedetails.choice"
-            >{{item.option}}</van-checkbox>
-          </van-checkbox-group>
-        </div>
-        <!-- 投票结果 -->
-        <div class="result" v-else>
-          <section v-for="item in votedetails.choice" :class="{selected:item.selected}">
-            <p>{{item.option}}</p>
-            <p>{{item.number}}票</p>
-          </section>
         </div>
       </footer>
     </article>
-    <button v-if="votedetails.onGoing">确定投票</button>
+    <button @click="toupiao(radio)">确定投票</button>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { create } from "domain";
 export default {
   data() {
     return {
-      votedetails: {},
       radio: "1",
       result: []
     };
   },
   async mounted() {
-    this.votedetails = this.$store.state.comvote.comvotes.find(item => {
-      return item.id == this.$route.params.id;
-    });
+    await this.$store.dispatch("comvote/getdetails");
+  },
+  computed: {
+    votedetails() {
+      return this.$store.state.comvote.details;
+    }
   },
   methods: {
     onClickLeft() {
       this.$router.push({
         name: "comvote"
+      });
+    },
+    toupiao(tt_id) {
+      axios.get(`/api/toupiao/vote?uId=1&pId=1&tt_id=1`).then(result => {
+        console.log(result);
       });
     }
   }
@@ -161,6 +158,11 @@ article .bottom .van-icon {
 footer .select .van-radio,
 .van-checkbox {
   margin-bottom: 12px;
+  position: relative;
+}
+.van-radio__label span {
+  position: absolute;
+  right: 0;
 }
 footer .result section {
   width: 90%;

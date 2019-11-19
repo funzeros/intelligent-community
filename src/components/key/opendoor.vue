@@ -12,17 +12,17 @@
     <!-- 门 -->
     <div style="height:300px;width:100%">
       <transition name="van-slide-left">
-      <div class="door" v-show="visible1" style="left:5%;">
-        <h2>门</h2>
-      </div>
-    </transition>
-    <transition name="van-slide-right">
-      <div class="door" v-show="visible2" style="right:5%;">
-        <h2>门</h2>
-      </div>
-    </transition>
+        <div class="door" v-show="visible1" style="left:5%;">
+          <h2>门</h2>
+        </div>
+      </transition>
+      <transition name="van-slide-right">
+        <div class="door" v-show="visible2" style="right:5%;">
+          <h2>门</h2>
+        </div>
+      </transition>
     </div>
-    
+
     <!-- 下拉菜单 -->
     <van-dropdown-menu>
       <van-dropdown-item v-model="value" :options="options" ref="list" />
@@ -82,7 +82,7 @@ export default {
           break;
         }
       }
-      const obj = { date: time, position: address };
+      const obj = { kTime: time, kNum: address, kWay: "app" };
       this.$store.state.key.record.push(obj);
       this.$toast.success("成功开门");
     }
@@ -92,11 +92,11 @@ export default {
 
 
 <style scoped>
-.van-nav-bar.van-hairline--bottom{
+.van-nav-bar.van-hairline--bottom {
   width: 100%;
 }
 
-.opendoor{
+.opendoor {
   overflow: hidden;
   height: 100%;
   display: flex;
