@@ -13,20 +13,20 @@
     ></van-nav-bar>
     <!-- 费用区 -->
     <ul class="payment_list">
-      <li class="payment_item" :key="userpayment.id" v-for="(userpayment,id) of userpayments">
+      <li class="payment_item" :key="userpayment.uId" v-for="(userpayment,index) of userpayments">
         <div style="display:flex;  justify-content: space-between;align-items: center">
           <van-checkbox
-            v-model="checked[id]"
+            v-model="checked[index]"
             shape="square"
             checked-color="#aaa"
-          >{{userpayment.ordernumber}}</van-checkbox>
-          <div class="price">{{userpayment.price}}元</div>
+          >2019{{userpayment.fId}}290001</van-checkbox>
+          <div class="price">{{userpayment.lives[0].sMoney}}元</div>
         </div>
         <div class="styletime">
-          <div class="paystyle">{{userpayment.paystyle}}</div>
-          <div class="date">{{userpayment.date}}</div>
+          <div class="paystyle">{{type[userpayment.lives[0].sType]}}</div>
+          <div class="date">{{userpayment.lives[0].sArea}}</div>
         </div>
-        <van-icon name="arrow" @click="justpay(userpayment)" />
+        <van-icon name="arrow" @click="justpay(userpayments,index)" />
       </li>
     </ul>
   </div>
@@ -35,7 +35,14 @@
 export default {
   data() {
     return {
-      checked: []
+      checked: [],
+      type:{
+        0: "缴费项目",
+        1: "煤气费",
+        2: "水费",
+        3: "电费"
+      },
+      
     };
   },
   computed: {
@@ -56,13 +63,19 @@ export default {
       });
     },
     // 点击进入立即缴纳页面
-    justpay(userpayment) {
+    justpay(userpayments,index){
       this.$router.push({
         name: "payment_justpay",
-        params: { id: userpayment.id }
+        params: {id:index+1}
       });
+    this.$store.dispatch("life_payment/detailpay",index);
     }
+  },
+mounted(){
+     this.$store.dispatch("life_payment/justpayment");
   }
+    
+ 
 };
 </script>
 <style scoped>

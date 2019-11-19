@@ -24,9 +24,9 @@ export default new Vuex.Store({
     // guardflag: true,
     // 建议数据
     stylelists: [
-      { id: "1111", name: "投诉" },
-      { id: "2222", name: "建议" },
-      { id: "3333", name: "表扬" }
+      { id: "1", name: "投诉" },
+      { id: "2", name: "建议" },
+      { id: "3", name: "表扬" }
     ],
     informstyle: [],
     picked: '',
@@ -93,15 +93,33 @@ export default new Vuex.Store({
       commit('setInitTab');
     },
     async loginon({commit,dispatch,state},info){
-      let result=await axios.post(`/api/user/logingo?username=${info.usernm}&passward=${info.pwd}&type=1`);
-      console.log(result);
+      await axios.post(`/user/logingo?phonenum=${info.phone}&passward=${info.pwd}`).then(async (result)=>{
+         // console.log('登录信息',result);
       if(!result.data.errno){
         state.guardflag=true;
         state.loginData=result.data;
-        console.log(state);
-        dispatch('knockdoor/userOnLine',state.knockdoor.selfhid);//上线连接到聊天服务器
-      }
+        // console.log(state.loginData);
+        await dispatch('mine/getUserInfo',state.loginData.data.uId);
+        let myHouseList=state.mine.houseList[0];
+        let allHouseList=state.knockdoor.houseList;
+        // console.log(allHouseList,myHouseList)
+        let uItem =allHouseList.find((item)=>{
+          return item.build===myHouseList.build&&item.unit===myHouseList.unit;
+        });
+        let hItem=uItem.house.find(item=>{
+          return item.house===myHouseList.house;
+        })
+        state.knockdoor.selfhid=uItem.fid+hItem.hid;
+        console.log(state.knockdoor.selfhid)
+        dispatch('knockdoor/userOnLine',state.knockdoor.selfhid);
+      }//上线连接到聊天服务器
+      }).catch((err)=>{
+        console.log(err);
+      });
+     
+      
     }
+
   },
   modules: {
     key,

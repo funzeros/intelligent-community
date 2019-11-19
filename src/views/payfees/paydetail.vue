@@ -10,24 +10,24 @@
           </p>
           <p>
             <span>电费</span>
-            <span class="right bigsize">{{getuserpay.price}}元</span>
+            <span class="right bigsize">{{getuserpay.sMoney}}元</span>
           </p>
         </div>
         <div class="paydetail">
           <div class="billbox">
-              <div>账单编号</div><div>{{getuserpay.ordernumber}}</div>
+              <div>账单编号</div><div>2019100203{{getuserpay.fId}}</div>
           </div>
              <div class="billbox">
-              <div>缴费期间</div><div>{{getuserpay.period}}</div>
+              <div>缴费期间</div><div>{{getuserpay.sArea}}</div>
           </div>
              <div class="billbox">
-              <div>缴费时间</div><div>{{getuserpay.date}}</div>
+              <div>缴费时间</div><div>{{getuserpay.sArea}}</div>
           </div>
              <div class="billbox">
-              <div>上月度数</div><div>{{getuserpay.premonth}}</div>
+              <div>上月度数</div><div>{{getuserpay.sLastuse}}</div>
           </div>
            <div class="billbox">
-              <div>本月度数</div><div>{{getuserpay.nextmonth}}</div>
+              <div>本月度数</div><div>{{getuserpay.sThisuse}}</div>
           </div>
         </div>
       </div>
@@ -47,10 +47,12 @@ export default {
   },
   computed: {
     getuserpay() {
+      // console.log(this.$store.state.payfees.userpayments)
       let result = this.$store.state.payfees.userpayments.filter(item => {
-        return item.id == this.$route.params.id;
-      });
-      return result[0];
+        return item.sId == this.$route.params.id;
+      })[0];
+      // console.log(result)
+      return result;
     }
   }
 };

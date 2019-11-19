@@ -53,6 +53,7 @@ export default {
             userInfo: state => state.mine.per_userInfo,
             carList: state => state.mine.per_carList,
             houseList: state => state.mine.per_houseList,
+            loginDate:state =>state.loginData
         }),
         getHouseInfo() {
             return this.houseList.length !== 0
@@ -81,8 +82,9 @@ export default {
     mounted(){
         this.$nextTick(()=>{
             //请求数据(个人信息,房屋信息,汽车信息)
-            this.getUserInfo();
+            this.getUserInfo(this.loginDate.data.uId);
         })
+        this.userInfo.uId = this.loginDate.data.uId;
     },
     methods: {
         ...mapActions({
@@ -99,6 +101,7 @@ export default {
                 .then(
                     () => {
                         this.$router.push("/");
+                        this.$store.state.guardflag=false;
                     },
                     () => {
                         return;

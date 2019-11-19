@@ -6,16 +6,16 @@
     <div>
       <van-cell-group>
         <van-field 
-          v-model="username"
+          v-model="phone"
           required
           clearable
-          label="用户名"
+          label="手机号"
           right-icon="question-o"
-          placeholder="请输入用户名"
-          @click-right-icon="$toast('用户名必须是手机号')" class="nav-cell-single" />
+          placeholder="请输入11位手机号"
+          @click-right-icon="$toast('目前仅能使用手机号登录')" class="nav-cell-single" />
 
         <van-field v-model="password" type="password" label="密码" placeholder="请输入密码" required class="nav-cell-double" 
-          @click-right-icon="$toast('密码必须是数字、字母、下划线')"   />
+          @click-right-icon="$toast('密码必须是数字、字母、下划线')" @keydown.enter="onClickButtonSubmit"  />
 
 
         <div class="pd15"><van-button type="primary" size="large" @click="onClickButtonSubmit">登录</van-button></div>
@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       title: "登录",
-      username: "",
+      phone: "",
       password:'',
     };
   },
@@ -51,27 +51,20 @@ export default {
       },
       async onClickButtonSubmit () {
         const req1 =  /[a-zA-Z]+/;
-        const req2 =/^\w{4,20}$/;
-        if(this.username == ''){
-          this.$toast("用户名不能为空");
-          return false;
-        } else if(this.username.length<4) {
-          this.$toast("用户名长度必须大于等于4");
+        const req2 =/^1[3456789]\d{9}$/;
+        if(this.phone == ''){
+          this.$toast("手机号不能为空");
           return false;
         }
-        else if(!req2.test(this.username)) {   // 用户名不能为不合法字符
-           this.$toast("字符不合法");
+        else if(!req2.test(this.phone)) {
+           this.$toast("手机号格式不正确");
            return false;
-        }
-        else if(this.username.length >= 20) {
-          this.$toast("用户名长度大于20");
-          return false;
         }
         if(this.password == ''){
           this.$toast("密码不能为空");
           return false;
-        } else if(this.password.length<=6) {
-          this.$toast("密码长度必须大于6");
+        } else if(this.password.length<8) {
+          this.$toast("密码长度必须大于等于8位");
           return false;
         } 
          else  if(!req1.test(this.password)) {
@@ -80,32 +73,14 @@ export default {
         }
 
 
-        //敲门测试用例，账号登录绑定门牌号
-         switch(this.username){
-          case 'aaaaaaa': this.$store.state.knockdoor.selfhid='0000';
-          break;
-          case 'bbbbbbb': this.$store.state.knockdoor.selfhid='0001';
-          break;
-          case 'ccccccc': this.$store.state.knockdoor.selfhid='0002';
-          break;
-          case 'ddddddd': this.$store.state.knockdoor.selfhid='0003';
-          break;
-          case 'eeeeeee': this.$store.state.knockdoor.selfhid='0004';
-          break;
-          case 'fffffff': this.$store.state.knockdoor.selfhid='0005';
-          break;
-          case 'ggggggg': this.$store.state.knockdoor.selfhid='0006';
-          break;
-          case 'hhhhhhh': this.$store.state.knockdoor.selfhid='0007';
-          break;
-          case 'iiiiiii': this.$store.state.knockdoor.selfhid='0008';
-          break;
-          default:;
-          break;
-        }
+ 
 
         
-       await this.$store.dispatch('loginon',{usernm:this.username,pwd:this.password});
+       await this.$store.dispatch('loginon',{phone:this.phone,pwd:this.password});
+       if(!this.$store.state.guardflag){
+         this.$toast('登录失败,请确认账号密码无误');
+         return;
+       }
         this.$router.push({path:'/main/community',name:'community'});
 
         // console.log(this.$store.state.guardflag)
@@ -123,7 +98,7 @@ forget(){
 }
 },
 mounted(){
-    this.username=this.$store.state.register.username;
+    this.phone=this.$store.state.register.phone;
 }
 
 

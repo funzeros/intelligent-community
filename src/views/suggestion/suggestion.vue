@@ -1,6 +1,5 @@
 // 投诉建议————周佩蕾
 
-// 数据：投诉类型
 <template>
   <div>
     <div v-if="personshow.select">
@@ -35,16 +34,16 @@
       </div>
       <!-- 图片上传 -->
       <div class="uploader">
-        <input type="text" class="describe" placeholder="请描述您想要说的事" />
+        <input type="text" class="describe" placeholder="请描述您想要说的事" v-model="content" />
 
         <keep-alive>
-          <van-uploader v-model="fileList" multiple :max-count="3" />
+          <van-uploader v-model="fileList" multiple :max-count="3" :after-read="afterRead" />
         </keep-alive>
         <p class="picnumber">可上传3张照片</p>
       </div>
       <!-- 提交按钮 -->
-      <div style='width:80%;margin:0 auto'>
- <button type="submit" class="selectsubmit" @click="submitsuggest">提交</button>
+      <div style="width:80%; margin:0 auto">
+         <button type="submit" class="selectsubmit" @click="submitsuggest">提交</button>
       </div>
      
     </div>
@@ -54,6 +53,7 @@
 </template>
 <script>
 import person_select from "@/components/personselect/person_select.vue";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -62,7 +62,8 @@ export default {
       personshow: {
         select: true,
         selected: ""
-      }
+      },
+      content:'',
     };
   },
   computed: {
@@ -83,7 +84,6 @@ export default {
       this.$router.push({
         name: "community"
       });
-      this.$store.state.picked=''
     },
     onClickRight() {
       this.$router.push({
@@ -111,14 +111,35 @@ export default {
       this.personshow.select = true;
       this.personshow.selected = false;
     },
-    submitsuggest() {
+    async submitsuggest() {
+      // 上传投诉类型和内容
+      const suggest=Number(this.informstyle[0].id);
+      //console.log(suggest)
+       const result = await axios.get("/advice?pUser=root", {
+        params: {
+          pStatus:suggest,
+          pDetail: this.content
+        },
+      });
+
+      // 上传结束提示
      this.$toast.loading({
-        message: "提交中...",
+        message: "提交成功",
         forbidClick: true,
       });
-    }
+    },
+    async afterRead(file){
+       // 上传图片
+      let param = new FormData();
+            param.append("file",file.file);
+            let config = {
+                headers: { "Content-Type": "multipart/form-data" }
+            };
+            let result = await axios.post("/uploadImage", param, config);
+            this.url = "http://116.62.38.213:8888/"+result.data.data;   
+      }
   },
-
+ 
   components: {
     person_select
   }
@@ -188,7 +209,7 @@ ul.style_list li {
   width: 90px;
   height: 40px;
   line-height: 40px;
-  text-align:center;
+  text-align: center;
   border: 1px solid rgb(222, 222, 223);
 }
 /* 选中类型样式 */
@@ -197,7 +218,7 @@ ul.style_list li.select {
   background-color: rgb(179, 176, 176);
 }
 .van-icon {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 /* 选择列表 */
 .style_list {

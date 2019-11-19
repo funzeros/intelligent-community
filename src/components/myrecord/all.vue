@@ -3,29 +3,47 @@
   <div class="allbox">
     <ul>
       <!-- all 主体 -->
-      <li v-for="item of data" :key="item.id" @click="leftlick(item.id)">
+      <!-- {{data}} -->
+      <li v-for="item of data" :key="item[0].pId" @click="leftlick(item[0].pId)">
           <!-- 留言部分 -->
         <div class="textdiv">
-          <span class="textsty">{{item.text}}</span>
+          <span class="textsty">{{item[0].pDetail}}</span>
           <van-icon name="arrow" />
         </div>
         <div>
-            <img v-for="(eimg,index) of item.img" :key="index" :src=eimg alt="">
+            <img v-for="(eimg,index) of item[1]" :key="index" :src=eimg alt="">
         </div>
-        <p>{{item.reply}} <span class="statesty"> {{item.state}} </span> <span> {{item.jldata}}</span></p>
-        <p><span>相关人员</span><span style="float:right;padding-right:40px;">{{item.corp}}</span></p>
+        <p>{{type[item[0].pImgs]}} <span class="statesty">{{typesuggest[item[0].pStatus]}}</span> <span> {{item[0].pTime}}</span></p>
+        <p><span>相关人员</span><span style="float:right;padding-right:40px;">小刘</span></p>
       </li>
     </ul>
   </div>
 </template>
 <script>
+
 export default {
+  data(){
+    return{
+      type:{
+        1:"已回复",
+        0:"未回复"
+      },
+      typesuggest:{
+        1:'投诉',
+        3:"建议",
+        2:"表扬"
+      }
+    }
+  },
   props: ['data'],
   methods: {
     leftlick(id){
         this.$router.push(`/myrecord/${id}`)
     }
+  },
+  mounted () {
   }
+  
   
 };
 </script>

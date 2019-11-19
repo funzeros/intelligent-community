@@ -39,7 +39,7 @@ export default {
     },
     actions:{
       userOnLine({commit,state},selfhid){ //创建webserve连接
-         let url = "ws://10.31.155.44:5000";
+         let url = "ws://47.103.218.109:4399";
          state.ws = new WebSocket(url);
          state.ws.onopen = () => {
             // console.log(state.ws);
