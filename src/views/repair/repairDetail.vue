@@ -99,7 +99,9 @@
         </div>
         <div>洗手间的水龙头坏了赶快修理</div>
 
-        <div class="img-content-next"></div>
+        <div class="img-content-next">
+          <img src="../../../public/images/repair3.jpg"  style="width:100px;height:80px"/>
+        </div>
       </div>
     </div>
     <hr />
@@ -139,10 +141,10 @@
         type="info"
         size="normal"
         color="#23BACF"
-        class="content-btn-s1"
+        class="content-btn-s1" @click="gotoUp"
         >处理记录</van-button
       >
-      <van-button round type="info" color="#23BACF" class="content-btn-s2"
+      <van-button round type="info" color="#23BACF" class="content-btn-s2" @click="cancel"  :disabled ="btn"
         >撤销报修</van-button
       >
     </div>
@@ -157,7 +159,8 @@ export default {
     return {
       item:[
         {id:1,phone:"13155465765"}
-      ]
+      ],
+      btn: false,
     };
   },
   methods: {
@@ -168,13 +171,32 @@ export default {
       this.$dialog.confirm({
       message: '是否拨打电话'
     }).then( () =>{
-          //  this.$router.push({name:'repairDetail'})
-         
-    
+        
     }).catch( () => {
            
     })
    
+    },
+    cancel() {
+           this.$dialog
+          .confirm({
+            message: "是否确认撤销报修?"
+          })
+          .then( () => {
+              
+               setTimeout( () => {
+                       this.$dialog.alert({
+                         message: "撤销成功"
+                      });
+                      this.btn = true;
+               },2000)
+          })
+          .then( () => {
+                
+          })
+    },
+    gotoUp() {
+      this.$router.go(-1);
     }
   }
 };
@@ -276,7 +298,7 @@ export default {
 .img-content-next {
   width: 100px;
   height: 80px;
-  background-color: aquamarine;
+ 
 }
 
 .content-btn {

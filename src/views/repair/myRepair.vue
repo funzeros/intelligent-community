@@ -35,17 +35,31 @@ import needRepair from "../../components/repairs/needRepair"
 import repairing from "../../components/repairs/repairing"
 import needeval from "../../components/repairs/needEval"
 import evaluate from '../../components/repairs/evaluate'
+import axios from 'axios'
+import qs from 'qs'
 export default {
   name: "myRepair",
   data() {
     return {
       active:0,
+      uid:null,
     };
   },
   methods: {
     gotoRepair() {
       this.$router.go(-1);
     }
+  },
+  created:function() {
+       console.log(this.$store.state.loginData.data.uId);
+       this.uid = this.$store.state.loginData.data.uId;
+       var userId = {
+            uId: this.uid
+       };
+       axios.post('/repairs/info',qs.stringify(userId) )
+       .then(res => {
+         console.log(res);
+       })
   },
   components:{
     needRepair,

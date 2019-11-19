@@ -9,13 +9,14 @@
                <hr/>
 
                 <div class="content-photo">
+                  <img src="../../../public/images/repair1.jpg" style="width:80px; height:80px" />
                </div>
 
                 <div class="content-text">
                 {{item.content}}
                </div>
 
-               <van-icon name="arrow" class="vanicon"  @click="gotoDetail"/>
+               <van-icon name="arrow" class="vanicon" />
                <hr/>
 
                
@@ -23,7 +24,7 @@
                   报修编号：{{item.repairMark}}
                </div>
 
-                <button class="content-btn">撤销报修</button>
+                <button class="content-btn">已评价</button>
                   
              </div>
              
@@ -39,16 +40,14 @@ export default {
     return {
         repairContent:[
           {
-             id:1,repairStyle:"家庭报修", time1:"2019/11/13",time2:'13:00',content:'洗手间水管坏了，麻烦物业抓紧时间安排上门维修。',
-              repairMark:11234567,
-          }
+             id:1,repairStyle:"家庭报修", time1:"2019/11/15",time2:'12:00',content:'厨房的下水管道堵住了,需要小区的维修师傅赶紧去维修',
+              repairMark:11207754, 
+          },
         ]
     }
   },
   methods: {
-     gotoDetail() {
-      this.$router.push({name:'repairDetail'})
-    },
+   
   },
 }
 </script>
@@ -85,7 +84,6 @@ export default {
   display: inline-block;
   width: 80px;
   height: 80px;
-  background-color:fuchsia;
 }
 
 .content-text {

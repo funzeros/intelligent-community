@@ -9,28 +9,33 @@
 
     <div class="content-text">
       <div class="repairtext">
-         <repairSelect></repairSelect>
-         <hr/>
+        <repairSelect></repairSelect>
+        <hr />
         <repairhouse></repairhouse>
         <repairContent></repairContent>
-        <hr/>
+        <hr />
         <repairUpdate></repairUpdate>
-        <hr/>
-      
+        <hr />
 
-
-      <van-button type="primary" size="large" @click="algoning"  :disabled="stte">提交</van-button>
+        <van-button
+          type="primary"
+          size="large"
+          @click="algoning"
+          :disabled="stte"
+          >提交</van-button
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import repairSelect from '../../components/repairs/repairSelect'
-import repairhouse from '../../components/repairs/repairhouse'
-import repairContent from '../../components/repairs/repairContent'
-import repairUpdate from '../../components/repairs/repairUpdate'
-import axios from 'axios'
+import repairSelect from "../../components/repairs/repairSelect";
+import repairhouse from "../../components/repairs/repairhouse";
+import repairContent from "../../components/repairs/repairContent";
+import repairUpdate from "../../components/repairs/repairUpdate";
+import axios from "axios";
+import qs from "qs";
 
 export default {
   name: "repair",
@@ -38,8 +43,9 @@ export default {
     return {
       show: false,
       radio: "1",
-      radio1:'2',
-      stte:false,
+      radio1: "2",
+      stte: false,
+      update: 0 //提交状态
     };
   },
   methods: {
@@ -47,7 +53,7 @@ export default {
       this.$router.go(-1);
     },
     gotoMyCheck() {
-      this.$router.push({ name: "myCheckMess" });   
+      this.$router.push({ name: "myCheckMess" });
     },
     gotoMyRepair() {
       this.$router.push({ name: "myRepair" });
@@ -55,31 +61,47 @@ export default {
     showPopup() {
       this.show = true;
     },
-    algoning() {                        //提交的弹窗内容
-      if(this.$store.state.MyRepair.addresses.length == 0 && this.$store.state.MyRepair.answers.length == 0) {
+    algoning() {
+      //提交的弹窗内容
+      if (
+        this.$store.state.MyRepair.addresses.length == 0 &&
+        this.$store.state.MyRepair.answers.length == 0
+      ) {
         this.$toast("内容未选择!");
-      } else if(this.$store.state.MyRepair.addresses != 0  && this.$store.state.MyRepair.answers != 0 )  {  //提交判断条件
-             this.$dialog.confirm({
-             message: '是否确认提交报修内容?'
-             }).then( () => {
-                           //确认提交状态
-                //   setTimeout( () => { 
-                //      this.$dialog.alert({
-                //      message:'提交成功'
-                //  })
-                //   },2000)
-                  console.log(this.$store.state.data.uId);
+      } else if (
+        this.$store.state.MyRepair.addresses != 0 &&
+        this.$store.state.MyRepair.answers != 0
+      ) {
+        //提交判断条件
+        this.$dialog
+          .confirm({
+            message: "是否确认提交报修内容?"
+          })
+          .then(() => {
+            var btype = this.$store.state.MyRepair.answers.join();        //必选提交
+            var bhouse = this.$store.state.MyRepair.addresses.join();     //必选提交
+            let umessage = {
+              u_id: this.$store.state.loginData.data.uId,
+              bType: btype,
+              bHouse: bhouse,
+              bText: this.$store.state.MyRepair.messContent
+            };
 
-             }).catch( () => {
-            
-             })
-             
+            axios.post("/repairs/report", qs.stringify(umessage)).then(res => {
+              console.log(res);
+              console.log(res.data.data.bId);
+              this.update = res.data.data.bId;
+              if (this.update != 0) {
+                this.$dialog.alert({
+                  message: "提交成功"
+                });
+              }
+            });
+          });
       }
-    //  console.log(this.$store.state.MyRepair.addresses);
-    //  console.log(this.$store.state.MyRepair.answers);
     }
   },
- 
+
   components: {
     repairSelect,
     repairhouse,

@@ -9,6 +9,7 @@
                <hr/>
 
                 <div class="content-photo">
+                   <img src="../../../public/images/repair2.jpg" style="width:80px;height:80px" />
                </div>
 
                 <div class="content-text">

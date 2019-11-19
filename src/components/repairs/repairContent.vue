@@ -3,7 +3,7 @@
     <div class="content-nav">
       <div class="content-navtext">
         <van-cell-group>
-          <van-field
+          <van-field 
             v-model="message"
             rows="2"
             autosize
@@ -12,7 +12,7 @@
             maxlength="50"
             placeholder="请输入报修内容"
             show-word-limit
-            class="vanfield"
+            class="vanfield" @change="sendcontent(message)"
           />
         </van-cell-group>
       </div>
@@ -25,8 +25,13 @@ export default {
   name: "repairContent",
   data() {
     return {
-      message: ""
+      message: "",
     };
+  },
+  methods: {
+       sendcontent(message) {
+              this.$store.dispatch('MyRepair/getContent',message);
+       }
   }
 };
 </script>

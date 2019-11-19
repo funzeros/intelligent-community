@@ -13,6 +13,7 @@
                <hr/>
 
                <div class="content-photo">
+                 <img src="../../../public/images/repair3.jpg"  style="width:80px;height:80px"/>
                </div>
 
                <div class="content-text">
@@ -39,8 +40,8 @@ export default {
     return {
         repairContent:[
           {
-             id:1,repairStyle:"家庭报修", time1:"2019/11/13",time2:'13:00',content:'洗手间水管坏了，麻烦物业抓紧时间安排上门维修。',
-              repairMark:11234567
+             id:1,repairStyle:"家庭报修", time1:"2019/11/13",time2:'13:00',content:'家里的水龙头漏水了，需要维修',
+              repairMark:11234570
           }
         ],
         states:["撤销报修"],
@@ -51,9 +52,24 @@ export default {
       this.$router.push({name:'repairDetail'})
     },
     cancel() {
-      this.states.length = 0;
-      this.states.push("已撤销");
-      // console.log(this.states)
+       this.$dialog
+          .confirm({
+            message: "是否确认撤销报修?"
+          })
+          .then( () => {
+              
+               setTimeout( () => {
+                       this.$dialog.alert({
+                         message: "撤销成功"
+                      });
+                     this.states.length = 0;
+                   this.states.push("已撤销");
+               },2000)
+          })
+          .then( () => {
+                
+          })
+     
     }
   },
 }

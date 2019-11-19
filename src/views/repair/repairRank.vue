@@ -12,10 +12,7 @@
              
                      <label v-for="item in list" :key="item.id">
                            <input  type="radio"  :value="item.id" v-model="picked" @click="getType(item.type)"/>  {{item.type}}
-                     </label>
-                      
-            
-                  
+                     </label>        
       </div>
     </div>
     <hr />
@@ -42,6 +39,8 @@
 
 <script>
 import { async } from "q";
+import axios from 'axios'
+import qs from 'qs'
 export default {
   name: "repairDetail",
   data() {
@@ -49,7 +48,7 @@ export default {
       list:[{
         id:1,type:'已解决'
       },{
-        id:2,type:'未解决'
+        id:0,type:'未解决'
       }
       ],
       picked:[],  //绑定radio数据
@@ -71,8 +70,23 @@ export default {
     commit() {
         //  console.log(this.newMess)
          var str = this.newMess.join(',');
-         console.log(str);
+          // console.log(str);
          var numbers = this.value;
+        //  console.log(numbers);
+        if(numbers <=3) {                   //判断传的解决状态，0 为未解决   1为已解决
+            var i = 0;
+            console.log(i);
+        } else if( numbers> 3){
+            var i = 1;
+            console.log(i);
+        }
+
+         const sendstar = {
+             uid: this.$store.state.loginData.data.uId,
+             reslove: i ,
+             stars: numbers,
+         }
+
         if(this.newMess.length == 0 &&this.value == 0) {
               this.$dialog.alert({
                 title:'没选择必选信息'
@@ -81,7 +95,7 @@ export default {
               })
         } else if( str == '已解决' && this.value <=3) {
                this.$dialog.alert({
-                 title:'求求你，不要乱评价'
+                   title:'求求你，不要乱评价'
                })
         } else if(str == '未解决' && this.value >3) {
           this.$dialog.alert({
@@ -93,6 +107,10 @@ export default {
                title:'是否解决：'+str,
                message: '给个评价等级:'+ numbers + '颗星'
                }).then(() => {
+                  axios.post('/repairs/evaluate',qs.stringify(sendstar))
+                  .then( res => {
+                     console.log(res);
+                  })
                   setTimeout( () => {
                      this.$router.go(-1)
                },1000)

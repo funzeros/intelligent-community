@@ -9,6 +9,7 @@
                <hr/>
 
                 <div class="content-photo">
+                  <img src="../../../public/images/repair2.jpg" style="width:80px;height:80px"/>
                </div>
 
                 <div class="content-text">
@@ -22,7 +23,7 @@
                   报修编号：{{item.repairMark}}
                </div>
 
-                <button class="content-btn">撤销报修</button>
+                <button class="content-btn">报修评价</button>
                   
              </div>
              
@@ -38,7 +39,7 @@ export default {
     return {
         repairContent:[
           {
-             id:1,repairStyle:"家庭报修", time1:"2019/11/13",time2:'13:00',content:'洗手间水管坏了，麻烦物业抓紧时间安排上门维修。',
+             id:1,repairStyle:"家庭报修", time1:"2019/11/13",time2:'14:00',content:'洗手间水管坏了，麻烦物业抓紧时间安排上门维修。',
               repairMark:11234567
           }
         ]
@@ -84,7 +85,7 @@ export default {
   display: inline-block;
   width: 80px;
   height: 80px;
-  background-color: green;
+ 
 }
 
 .content-text {

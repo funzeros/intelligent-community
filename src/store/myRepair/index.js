@@ -5,6 +5,7 @@ export default {
     answers:[],     //报修类型
     checkAddress:'',
     addresses:[],    //小区地址
+    messContent:'',   //报修内容
   },
   mutations: {
        sends(state,answer) {    //报修
@@ -18,15 +19,24 @@ export default {
           state.checkAddress = address;
           state.addresses.push(state.checkAddress);
        },
+       GetContent(state,contentMessage) {
+          state.messContent = '';
+          state.messContent = contentMessage;
+          console.log(state.messContent);
+       }
   },
   actions: {
-  checkMess({commit},type) {
+  checkMess({commit},type) {    //报修类型
     commit("sends",type);
     console.log(type)
   },
-  getAddress({commit},address) {
+  getAddress({commit},address) {  //报修地址
     commit("GetAdd",address);
   },
+  getContent({commit},contentMessage) {  //报修内容
+       commit("GetContent",contentMessage);
+  }
+
  
   },
 }
