@@ -64,7 +64,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 /* 标题 */
 /* van-field{
     height: 30px;

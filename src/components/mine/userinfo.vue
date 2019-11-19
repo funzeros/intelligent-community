@@ -26,7 +26,7 @@
                 type="date"
                 :min-date="minDate"
                 @confirm="getTime"
-                @cancel="cancel('showBir')"
+                @cancel="onCancel('showBir')"
             />
         </van-popup>
 
@@ -36,8 +36,9 @@
                 :columns="columns"
                 show-toolbar
                 title="性别"
-                @cancel="cancel('showSex')"
                 @confirm="onConfirmSex"
+                @cancel="onCancel('showSex')"
+
             />
         </van-popup>
 
@@ -85,7 +86,7 @@ export default {
                 name:"mineindex"
             });
         },
-        cancel(attr) {
+        onCancel(attr) {
             this[attr] = false;
         },
         showPopup(attr) {
@@ -117,9 +118,13 @@ export default {
                             headers: { "Content-Type": "multipart/form-data" }
                         };
                         let result = await axios.post("/user/editInform",param,config);
+                        result.data.errno?this.$toast('保存失败'):this.$toast('保存成功');
                         for (let attr in this.info) {
                             this.setUserAttr([attr, this.info[attr]]);
-                        }
+                        };
+                        this.$router.push({name:'mineindex'});
+                        
+
                     },
                     () => {
                         return;

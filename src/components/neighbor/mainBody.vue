@@ -9,7 +9,7 @@
         <p class="time">{{details.tTime}}</p>
         <h4 class="title">{{details.tTitle}}</h4>
         <p class="body">{{details.tDet}}</p>
-        <van-image-preview v-model="show" :images="details.tImg " @change="onChange" :start-position="page">
+        <van-image-preview v-model="show" :images="details.tImg?details.tImg.split(','):details.tImg " @change="onChange" :start-position="page">
           <template v-slot:index>第{{ index }}页</template>
         </van-image-preview>
         <div class="artPic">
@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.push({ name: "neighborhood" });
+      this.$router.go(-1);
     },
     onChange(index) {
       this.index = index+1;

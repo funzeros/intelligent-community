@@ -1,10 +1,10 @@
 <template>
   <div class="favorite">
     <van-nav-bar title="我的收藏" left-text="返回" left-arrow @click-left="onClickLeft" />
-    <div class="fav" v-for="item in collection" :key="item.post.tId">
-      <van-swipe-cell :on-close="onClose">
+    <div class="fav"  v-for="item in collections" @click="jump(item.post.tId)" :key="item.post.tId">
+      <van-swipe-cell :name="item.post.tId" :on-close="onClose">
         <van-cell :border="false" value="内容">
-          <img src="https://profile.csdnimg.cn/2/D/8/2_adrian503" alt />
+          <img src="https://imgsa.baidu.com/news/q%3D100/sign=acdb424203f3d7ca0af63b76c21ebe3c/d1a20cf431adcbef42f07b7aa3af2edda2cc9f81.jpg" alt />
           <p class="name">{{item.post.uId}}</p>
           <p class="time">{{item.post.tTime}}</p>
           <p class="title">{{item.post.tTitle}}</p>
@@ -42,7 +42,8 @@ export default {
           time: date.toLocaleString(),
           title: "阿达UI阿斯顿撒uUI遇到过撒打算考打开玩家奥斯卡的吉安市"
         }
-      ]
+      ],
+      collections:[]
     };
   },
   methods: {
@@ -51,7 +52,8 @@ export default {
         name: "neighborhood"
       });
     },
-    onClose(clickPosition, instance) {
+    onClose(clickPosition, instance,detail  ) {
+      console.log(detail);
       switch (clickPosition) {
         case "left":
         case "cell":
@@ -64,22 +66,36 @@ export default {
               message: "确定删除吗？"
             })
             .then(() => {
+              // console.log(this.collections);
+              this.collections.forEach((item)=>{
+                if(item.post.tId==detail.name){
+                  this.collections=[...this.collections.splice(detail.name,1)]  ;
+                  console.log(this.collections);
+                }
+              });
               instance.close();
             });
           break;
       }
     },
-  },
-  computed: {
-    collection(){
-       return this.$store.state.neighbor.collection.data.data;
+    jump(url){
+       this.$router.push({
+        name: "mainBody",
+        params: { id: url }
+      });
     }
   },
-  mounted() {
-    // console.log(this.$store.state.neighbor.collection);
-    console.log(this.$store.state.loginData.data.uId)
-    this.$store.dispatch("neighbor/appendMyCollection",this.$store.state.loginData.data.uId);
+  computed: {
+    // collection(){
+    //    return this.collections=this.$store.state.neighbor.collection.data.data;
+    // }
   },
+  async mounted() {
+    // console.log(this.$store.state.neighbor.collection);
+    // console.log(this.$store.state.loginData.data.uId)
+   await this.$store.dispatch("neighbor/appendMyCollection",this.$store.state.loginData.data.uId);
+    this.collections=this.$store.state.neighbor.collection.data.data;
+  }
 };
 </script>
 

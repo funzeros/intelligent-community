@@ -100,6 +100,7 @@ export default {
                 })
                 .then(
                     () => {
+                        this.$store.state.knockdoor.ws.close();
                         this.$router.push("/");
                         this.$store.state.guardflag=false;
                     },

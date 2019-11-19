@@ -20,7 +20,7 @@
         <!-- 访客名称 -->
         <van-cell-group>
           <van-field
-            placeholder="请输入用户名"
+            placeholder="请输入真实姓名"
             label="访客姓名"
             v-model="visname"
             @blur="changname"

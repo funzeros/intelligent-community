@@ -33,7 +33,7 @@
         <h3 class="title">{{item.tTitle}}</h3>
         <van-image-preview
           v-model="show"
-          :images="item.tImg?item.tImg.split(','):item.tImg"
+          :images="item.tImg?item.tImg.split(','):[]"
           @change="onChange"
           :start-position="page"
         >
