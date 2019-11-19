@@ -32,20 +32,37 @@
     <img src="/images/weather.png" alt class="weather" />
     <div class="vote">
       <h4>投票选举</h4>
-      <ul @click="goToVote">
-        <li v-for="vote of comvotes">
-          <img :src="vote.src" alt />
+      <ul @click="goToVote()">
+        <li v-for="vote of comvoted">
+          <img src="/images/vote.png" alt />
           <section>
             <div class="left">
-              <h3>{{startdate[vote.id-1]}}</h3>
-              <p>{{startmonth[vote.id-1]}}</p>
+              <h3>{{vote.pStartTime.split(" ")[0].split("-")[2]}}</h3>
+              <p>{{vote.pStartTime.split(" ")[0].split("-")[1]}}月</p>
             </div>
             <div class="right">
-              <p>{{vote.type}}</p>
-              <p>{{vote.content}}</p>
+              <p>#投票#</p>
+              <p>{{vote.pInfo}}</p>
               <p>
                 <van-icon name="underway-o" />
-                {{startday[vote.id-1]}}至{{endday[vote.id-1]}}
+                {{vote.pStartTime.split(" ")[0]}}至{{vote.pEndTime.split(" ")[0]}}
+              </p>
+            </div>
+          </section>
+        </li>
+        <li v-for="vote of comvoting">
+          <img src="/images/vote.png" alt />
+          <section>
+            <div class="left">
+              <h3>{{vote.pStartTime.split(" ")[0].split("-")[2]}}</h3>
+              <p>{{vote.pStartTime.split(" ")[0].split("-")[1]}}月</p>
+            </div>
+            <div class="right">
+              <p>#投票#</p>
+              <p>{{vote.pInfo}}</p>
+              <p>
+                <van-icon name="underway-o" />
+                {{vote.pStartTime.split(" ")[0]}}至{{vote.pEndTime.split(" ")[0]}}
               </p>
             </div>
           </section>
@@ -102,80 +119,25 @@ export default {
       ]
     };
   },
+  created() {
+    this.$store.dispatch("comvote/getcomvoted",this.$store.state.loginData.data.uId);
+    this.$store.dispatch("comvote/getcomvoting",this.$store.state.loginData.data.uId);
+  },
   computed: {
-    comvotes() {
-      for (let obj of this.$store.state.comvote.comvotes) {
-        this.start.push(obj.start);
-        this.end.push(obj.end);
-      }
-      return this.$store.state.comvote.comvotes;
+    comvoted() {
+      return this.$store.state.comvote.comvoted;
     },
-    startday() {
-      for (let i in this.start) {
-        this.start[i] = this.start[i].split("-");
-        switch (this.start[i][1]) {
-          case "01":
-            this.startmonth.push("一月");
-            break;
-          case "02":
-            this.startmonth.push("二月");
-            break;
-          case "03":
-            this.startmonth.push("三月");
-            break;
-          case "04":
-            this.startmonth.push("四月");
-            break;
-          case "05":
-            this.startmonth.push("五月");
-            break;
-          case "06":
-            this.startmonth.push("六月");
-            break;
-          case "07":
-            this.startmonth.push("七月");
-            break;
-          case "08":
-            this.startmonth.push("八月");
-            break;
-          case "09":
-            this.startmonth.push("九月");
-            break;
-          case "10":
-            this.startmonth.push("十月");
-            break;
-          case "11":
-            this.startmonth.push("十一月");
-            break;
-          case "12":
-            this.startmonth.push("十二月");
-            break;
-        }
-        this.start[i][1] = Number(this.start[i][1]) + "月";
-        this.startdate.push(Number(this.start[i][2]));
-        this.start[i][2] = Number(this.start[i][2]) + "日";
-        this.start[i] = this.start[i][1] + this.start[i][2];
-      }
-      return this.start;
+    comvoting() {
+      return this.$store.state.comvote.comvoting;
     },
-    endday() {
-      for (let i in this.end) {
-        this.end[i] = this.end[i].split("-");
-        this.end[i][1] = Number(this.end[i][1]) + "月";
-        this.end[i][2] = Number(this.end[i][2]) + "日";
-        this.end[i] = this.end[i][1] + this.end[i][2];
-      }
-      return this.end;
-    },
-    getdata(){
+    getdata() {
       this.$store.state.knockdoor.ws.onmessage = ev => {
         let data = JSON.parse(ev.data);
         this.$store.state.knockdoor.data.push(data);
         this.$store.state.knockdoor.hdata.push(data);
-        console.log(this.$store.state.knockdoor.data)
-      }  
+        console.log(this.$store.state.knockdoor.data);
+      };
       return Boolean(this.$store.state.knockdoor.data.length);
-      
     }
   },
   methods: {
@@ -231,8 +193,8 @@ export default {
 <style scoped>
 /* 消息提示 */
 
-.mes::after{
-  content: '';
+.mes::after {
+  content: "";
   display: block;
   background: red;
   width: 8px;

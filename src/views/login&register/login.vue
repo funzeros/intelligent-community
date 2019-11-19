@@ -55,18 +55,11 @@ export default {
         if(this.phone == ''){
           this.$toast("手机号不能为空");
           return false;
-        } else if(this.phone.length<4) {
-          this.$toast("手机号格式不正确");
-          return false;
         }
-        // else if(!req2.test(this.phone)) {   // 用户名不能为不合法字符
-        //    this.$toast("字符不合法");
-        //    return false;
-        // }
-        // else if(this.phone.length >= 20) {
-        //   this.$toast("用户名长度大于20");
-        //   return false;
-        // }
+        else if(!req2.test(this.phone)) {
+           this.$toast("手机号格式不正确");
+           return false;
+        }
         if(this.password == ''){
           this.$toast("密码不能为空");
           return false;
@@ -80,34 +73,13 @@ export default {
         }
 
 
-        //敲门测试用例，账号登录绑定门牌号
-         switch(this.phone){
-          case 'aaaaaaa': this.$store.state.knockdoor.selfhid='0000';
-          break;
-          case 'bbbbbbb': this.$store.state.knockdoor.selfhid='0001';
-          break;
-          case 'ccccccc': this.$store.state.knockdoor.selfhid='0002';
-          break;
-          case 'ddddddd': this.$store.state.knockdoor.selfhid='0003';
-          break;
-          case 'eeeeeee': this.$store.state.knockdoor.selfhid='0004';
-          break;
-          case 'fffffff': this.$store.state.knockdoor.selfhid='0005';
-          break;
-          case 'ggggggg': this.$store.state.knockdoor.selfhid='0006';
-          break;
-          case 'hhhhhhh': this.$store.state.knockdoor.selfhid='0007';
-          break;
-          case 'iiiiiii': this.$store.state.knockdoor.selfhid='0008';
-          break;
-          default:;
-          break;
-        }
+ 
 
         
        await this.$store.dispatch('loginon',{phone:this.phone,pwd:this.password});
        if(!this.$store.state.guardflag){
          this.$toast('登录失败,请确认账号密码无误');
+         return;
        }
         this.$router.push({path:'/main/community',name:'community'});
 

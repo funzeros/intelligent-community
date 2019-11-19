@@ -37,6 +37,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import axios from "axios";
 export default {
     data() {
         return {
@@ -100,7 +101,8 @@ export default {
                     message: "你确定要删除吗?"
                 })
                 .then(
-                    () => {
+                    async () => {
+                        let result = await axios.get(`/house/delHouse?fId=${fId}`);
                         this.delete(["per_houseList", "fId", fId]);
                     },
                     () => {

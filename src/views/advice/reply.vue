@@ -1,50 +1,73 @@
 <template>
-<!-- 回复 待回复部分  魏珍君 -->
-    <div>
-        <van-nav-bar :title= replylist.reply  left-text="返回" left-arrow @click-left="onClickLeft" />
-        <div class="center">
-          <p class="textsty">{{replylist.text}}</p>
-          <div>
-            <img v-for="(eimg,index) of replylist.img" :key="index" :src=eimg alt="">
-          </div>
-          <div class="state">
-            <p ><span>{{replylist.state}}</span><span class="regit">{{replylist.jldata}}</span></p>
-            <p ><span>相关人员</span><span class="regit">{{replylist.corp}}</span></p>
-          </div>
-          <div class="revert" v-if="isshow">
-            <p>回复：您的反馈的情况我们已经出来了，非常感谢你的反馈</p>
-          </div>
-        </div>
+  <!-- 回复 待回复部分  魏珍君 -->
+  <div>
+    <van-nav-bar :title="type[replylist.pImgs]" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <div class="center">
+      <p class="textsty">{{replylist.pDetail}}</p>
+      <div>
+        <img v-for="(eimg,index) of imgaee " :key="index" :src="eimg" alt />
+      </div>
+      <div class="state">
+        <p>
+          <span>{{replylist.state}}</span>
+          <span class="regit">{{replylist.pTime}}</span>
+        </p>
+        <p>
+          <span>相关人员</span>
+          <span class="regit">{{replylist.corp}}</span>
+        </p>
+      </div>
+      <div class="revert" v-if="isshow">
+        <p>回复：{{replylist.pResponse}}</p>
+      </div>
     </div>
+  </div>
 </template>
 <script>
-export default{
-    data(){
-        return{
-          replylist:'',
-          isshow:false
-        }
-    },
-    mounted () {
-      let id =this.$route.params.id
-      let list =  this.$store.state.visitor.recordlist
-      let filterlist = list.filter(item=>{
-        return item.id == id
-     })
-      this.replylist = filterlist[0]
-      if(this.replylist.reply =='已回复'){
-        this.isshow = true;
-      }
-    },
-    methods: {
-      onClickLeft() {
-        this.$router.go(-1);
+import axios from "axios";
+// 引入
+import { mapActions, mapState } from "vuex";
+export default {
+  data() {
+    return {
+      replylist: {},
+      isshow: false,
+      type:{
+        1:"已回复",
+        0:"未回复"
       },
+      imgaee:[]
+    };
+  },
+  methods: {
+    ...mapActions({ getreplied: "visitor/getreplied" }),
+    onClickLeft() {
+      this.$router.go(-1);
     }
-}
+  },
+  async mounted() {
+    // 已回复 待回复数据请求
+    await this.getreplied();
+    let id = this.$route.params.id;
+    let list = this.$store.state.visitor.getalllist;
+    // console.log(list)
+    let filterlist = list.filter(item => {
+      return item[0].pId == id;
+    });
+    this.replylist = filterlist[0][0];
+    this.imgaee = this.replylist.pType.split(',')
+    console.log(this.imgaee)
+    if (this.replylist.pImgs == "1") {
+      this.isshow = true;
+    }
+  },
+  computed: {
+    // ...mapState({ replylist: state => state.visitor.repliedlist })
+  }
+};
 </script>
 <style scoped>
-    /* 标题 */
+/* 标题 */
 .van-nav-bar {
   width: 100%;
   height: 72px;
@@ -76,28 +99,27 @@ export default{
   font-size: 16px;
 }
 /* 主要内容 */
-.center{
+.center {
   padding: 20px;
 }
-.textsty{
+.textsty {
   font-size: 14px;
-
 }
-img{
+img {
   padding: 10px;
   width: 60px;
   height: 60px;
 }
 /* 投诉 */
-.state{
+.state {
   font-size: 13px;
   color: rgb(190, 188, 188);
 }
-.regit{
+.regit {
   float: right;
 }
 /* 回复 */
-.revert{
+.revert {
   margin: 50px 0 10px;
   background: #d6d6d6;
   font-size: 12px;

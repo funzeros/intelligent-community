@@ -1,3 +1,4 @@
+import axios from "axios";
 export default ({
     namespaced: true,
     state: {
@@ -5,8 +6,16 @@ export default ({
         record: []
     },
     mutations: {
+        record(state, record) {
+            state.record = [...state.record,...record];
+        }
     },
     actions: {
+        opendoor(context) {
+            axios.get("/api/men/kaimen").then((result) => {
+                context.commit("record", result.data.data);
+            })
+        }
     },
     modules: {
     }

@@ -1,9 +1,15 @@
 <template>
     <section class="contain">
-        <van-nav-bar title="更换头像" left-text="返回" left-arrow @click-left="onClickLeft" class="title" />
+        <van-nav-bar
+            title="更换头像"
+            left-text="返回"
+            left-arrow
+            @click-left="onClickLeft"
+            class="title"
+        />
 
         <div class="body">
-            <van-uploader :after-read="afterRead" image-fit="cover" accept="image/*">
+            <van-uploader :after-read="afterRead" image-fit="cover" accept="image/*" ref="image">
                 <van-image round width="150px" height="150px" :src="url" />
             </van-uploader>
 
@@ -13,7 +19,8 @@
 </template>
 
 <script>
-import { mapState,mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
+import axios from "axios";
 export default {
     data() {
         return {
@@ -21,22 +28,31 @@ export default {
         };
     },
     mounted() {
-        this.url = this.userInfo.u_imge;
+        this.url = this.userInfo.uImge;
     },
     computed: {
         ...mapState({
-            userInfo: state => state.mine.userInfo
+            userInfo: state => state.mine.per_userInfo,
         })
     },
     methods: {
         ...mapActions({
-            setUserAttr:"mine/setUserAttr"
+            setUserAttr: "mine/setUserAttr"
         }),
         onClickLeft() {
-            this.$router.go(-1);
+            this.$router.push({
+                name:"userinfo"
+            });
         },
-        afterRead(file) {
-            this.url = file.content;
+        async afterRead(file) {
+            // this.url = file.content;
+            let param = new FormData();
+            param.append("file",file.file);
+            let config = {
+                headers: { "Content-Type": "multipart/form-data" }
+            };
+            let result = await axios.post("/uploadImage", param, config);
+            this.url = "http://116.62.38.213:8888/"+result.data.data;    
         },
         submit() {
             this.$dialog
@@ -48,8 +64,8 @@ export default {
                     () => {
                         // 可验证数据是否修改后提交(优化)
                         //数据提交请求
-                        this.setUserAttr(['u_imge',this.url]);
-                        this.$router.push({name:"userinfo"});
+                        this.setUserAttr(["uImge", this.url]);
+                        this.$router.push({ name: "userinfo" });
                     },
                     () => {
                         return;
@@ -72,8 +88,7 @@ export default {
     left: 8%;
     width: 84%;
 }
-.contain{
-    height: 100%;;
+.contain {
+    height: 100%;
 }
-
 </style>
