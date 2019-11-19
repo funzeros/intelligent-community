@@ -58,17 +58,12 @@ export default {
       state.visobj = payload
     },
     getreplied(state,result){
-      // console.log(result)
       state.repliedlist = result
     },
     // 获取全部回复记录
     getallrecord(state,getall){
-      // console.log(getall)
-      //  getall.forEach(item=>{
-      //  item[0][0].pImgs = item[0][0].pImgs.split(',')
-      // })
       state.getalllist = getall
-      console.log(state.getalllist)
+      // console.log(state.getalllist)
     }
   },
   actions: {
@@ -78,16 +73,27 @@ export default {
       })
       commit('getewm', payload)
     },
+    // 回复获取数据
     async getreplied({ commit }) {
       let result = await axios.get("/response?pId=5")
      let detailobj = result.data.data[0]
       commit('getreplied',detailobj)
     },
+    // 
     async getallrecord({commit}){
-      let result = await axios.get("/myadvice?pUser=root")
+      // let result = await axios.get("/allAdvice?uId=13")
+      let alllist = null
       // console.log(result)
-      commit("getallrecord",result.data.data)
-      
+      await axios.all([
+          axios.get("/myadvice?uId=13&pStatus=1").then(res => res.data),
+          axios.get('/myadvice?uId=13&pStatus=2').then(res => res.data),
+          axios.get('/myadvice?uId=13&pStatus=3').then(res => res.data),
+      ]).then(
+         axios.spread((val1,val2,val3)=>{
+           alllist = [...val1.data,...val2.data,...val3.data]
+          commit("getallrecord",alllist)
+        })
+      )
     }
   },
   getters: {

@@ -2,6 +2,11 @@ module.exports = {
     publicPath:'/',
     devServer: {
         proxy: {
+            '/myadvice':{
+                target:"http://106.13.93.13:9021/",
+                ws:true,
+                changeOrigin:true,
+             },
             '/user': {
                 target: 'http://106.13.93.13:9081/api/',
                 ws: true,
@@ -27,12 +32,15 @@ module.exports = {
                 target:" http://106.13.93.13:9031/api/",
                 ws:true,
                 changeOrigin:true
-            },// 投诉建议
-           '/myadvice':{
-               target:"http://106.13.93.13:9021",
+            },
+            // 投诉建议
+           
+           "/allAdvice":{
+            target:"http://106.13.93.13:9021/",
                ws:true,
                changeOrigin:true
            },
+           
             //回复接口
            '/response':{
                 target:"http://106.13.93.13:9021/",

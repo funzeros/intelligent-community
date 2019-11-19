@@ -9,12 +9,12 @@
       </div>
       <div class="state">
         <p>
-          <span>{{replylist.state}}</span>
+          <span>{{typesuggest[replylist.pStatus]}}</span>
           <span class="regit">{{replylist.pTime}}</span>
         </p>
         <p>
           <span>相关人员</span>
-          <span class="regit">{{replylist.corp}}</span>
+          <span class="regit">小刘</span>
         </p>
       </div>
       <div class="revert" v-if="isshow">
@@ -35,6 +35,11 @@ export default {
       type:{
         1:"已回复",
         0:"未回复"
+      },
+      typesuggest:{
+        1:'投诉',
+        3:"建议",
+        2:"表扬"
       },
       imgaee:[]
     };

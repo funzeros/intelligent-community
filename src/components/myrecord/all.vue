@@ -13,7 +13,7 @@
         <div>
             <img v-for="(eimg,index) of item[1]" :key="index" :src=eimg alt="">
         </div>
-        <p>{{type[item[0].pImgs]}} <span class="statesty"> 投诉 </span> <span> {{item[0].pTime}}</span></p>
+        <p>{{type[item[0].pImgs]}} <span class="statesty">{{typesuggest[item[0].pStatus]}}</span> <span> {{item[0].pTime}}</span></p>
         <p><span>相关人员</span><span style="float:right;padding-right:40px;">小刘</span></p>
       </li>
     </ul>
@@ -27,6 +27,11 @@ export default {
       type:{
         1:"已回复",
         0:"未回复"
+      },
+      typesuggest:{
+        1:'投诉',
+        3:"建议",
+        2:"表扬"
       }
     }
   },

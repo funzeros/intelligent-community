@@ -65,7 +65,7 @@ export default {
   },
   actions: {
     async getpaylist({ commit,state}) {
-      let result = await axios.get(`/api/user/life?uId=${state.a}&sStatus=1`);
+      let result = await axios.get(`/user/life?uId=${state.a}&sStatus=1`);
       commit('getpaylist', result.data)
       // console.log(result.data)
     }
