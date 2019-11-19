@@ -32,7 +32,7 @@
     <img src="/images/weather.png" alt class="weather" />
     <div class="vote">
       <h4>投票选举</h4>
-      <ul @click="goToVote">
+      <ul @click="goToVote()">
         <li v-for="vote of comvoted">
           <img src="/images/vote.png" alt />
           <section>
@@ -120,8 +120,8 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("comvote/getcomvoted");
-    this.$store.dispatch("comvote/getcomvoting");
+    this.$store.dispatch("comvote/getcomvoted",this.$store.state.loginData.data.uId);
+    this.$store.dispatch("comvote/getcomvoting",this.$store.state.loginData.data.uId);
   },
   computed: {
     comvoted() {

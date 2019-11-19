@@ -45,7 +45,7 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch("comvote/getdetails");
+    await this.$store.dispatch("comvote/getdetails",this.$store.state.loginData.data.uId);
   },
   computed: {
     votedetails() {
@@ -59,7 +59,7 @@ export default {
       });
     },
     toupiao(tt_id) {
-      axios.get(`/api/toupiao/vote?uId=1&pId=1&tt_id=1`).then(result => {
+      axios.get(`/toupiao/vote?uId=1&pId=1&tt_id=1`).then(result => {
         console.log(result);
       });
     }

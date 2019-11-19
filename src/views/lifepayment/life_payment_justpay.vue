@@ -11,37 +11,37 @@
     <div style="width:90%;margin:0 auto">
       <div class="housenum">
         <div>房屋号</div>
-        <div>{{paymentone.homenumber}}</div>
+        <div>{{paymentone.house}}室</div>
       </div>
       <!-- 电费 -->
       <div class="infostyle">
-        <div>{{paymentone.paystyle}}</div>
-        <div>{{paymentone.price}}</div>
+        <div>{{type[paymentone.lives[0].sType]}}</div>
+        <div>{{paymentone.lives[0].sMoney}}</div>
       </div>
       <!-- 订单编号 -->
       <div class="infostyle" style="border:none;">
         <div>账单编号</div>
-        <div>{{paymentone.ordernumber}}</div>
+        <div>2019{{paymentone.fId}}290001</div>
       </div>
       <!-- 缴费期间 -->
       <div class="infostyle" style="border:none;">
         <div>缴费期间</div>
-        <div>{{paymentone.date}}</div>
+        <div>{{paymentone.lives[0].sArea}}</div>
       </div>
       <!-- 金额 -->
       <div class="infostyle" style="border:none;">
         <div>金额</div>
-        <div>{{paymentone.money}}</div>
+        <div>{{paymentone.lives[0].sMoney}}</div>
       </div>
       <!-- 上月度数 -->
       <div class="infostyle" style="border:none;">
         <div>上月度数</div>
-        <div>{{paymentone.premonth}}</div>
+        <div>{{paymentone.lives[0].sLastuse}}</div>
       </div>
       <!-- 本月度数 -->
       <div class="infostyle">
         <div>本月度数</div>
-        <div>{{paymentone.nowmonth}}</div>
+        <div>{{paymentone.lives[0].sThisuse}}</div>
       </div>
     </div>
     <!-- 缴费按钮 -->
@@ -56,7 +56,14 @@
 export default {
   name: "life_payment_justpay",
   data() {
-    return {};
+    return {
+      type:{
+        0: "缴费项目",
+        1: "煤气费",
+        2: "水费",
+        3: "电费"
+      },
+    };
   },
   methods: {
     // 返回<生活缴费>
@@ -77,15 +84,15 @@ export default {
     // 获取全局数据
     paymentone() {
       return this.$store.state.life_payment.paymentone;
-    }
+    },
   },
 
   async mounted() {
-    // console.log(this.$route);
-    await this.$store.dispatch(
-      "life_payment/justpayment",
-      this.$route.params.id
-    );
+   
+    //await this.$store.dispatch(
+     // "life_payment/detailpay",
+     //this.$store.state.life_payment.userpayments[index]
+    //);
   }
 };
 </script>

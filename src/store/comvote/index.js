@@ -5,8 +5,7 @@ export default {
         comvoting: [],
         comvoted: [],
         details:[],
-        pId:1,
-        uId:1
+        pId:1
     },
     mutations: {
         comvoting(state, comvoting) {
@@ -20,18 +19,18 @@ export default {
         }
     },
     actions: {
-        getcomvoting(context) {
-            axios.get(`/api/toupiao/onGoing?uId=${context.state.uId}`).then((result) => {
+        getcomvoting(context,uId) {
+            axios.get(`/toupiao/onGoing?uId=${uId}`).then((result) => {
                 context.commit("comvoting", result.data.data);
             })
         },
-        getcomvoted(context) {
-            axios.get(`/api/toupiao/historyVote?uId=${context.state.uId}`).then((result) => {
+        getcomvoted(context,uId) {
+            axios.get(`/toupiao/historyVote?uId=${uId}`).then((result) => {
                 context.commit("comvoted", result.data.data);
             })
         },
-        getdetails(context) {
-            axios.get(`/api/toupiao/count?uId=${context.state.uId}&pId=${context.state.pId}`).then((result) => {
+        getdetails(context,uId) {
+            axios.get(`/toupiao/count?uId=${uId}&pId=${context.state.pId}`).then((result) => {
                 context.commit("details", result.data.data);
             })
         }

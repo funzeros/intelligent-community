@@ -49,14 +49,14 @@ export default {
         this.$toast('请填写注册信息');
         this.$router.push({ path:'/register'});
       },
-      onClickButtonSubmit: function () {
+      async onClickButtonSubmit () {
         const req1 =  /[a-zA-Z]+/;
-        const req2 =/^\w{6,20}$/;
+        const req2 =/^\w{4,20}$/;
         if(this.username == ''){
           this.$toast("用户名不能为空");
           return false;
-        } else if(this.username.length<=6) {
-          this.$toast("用户名长度必须大于6");
+        } else if(this.username.length<4) {
+          this.$toast("用户名长度必须大于等于4");
           return false;
         }
         else if(!req2.test(this.username)) {   // 用户名不能为不合法字符
@@ -78,7 +78,6 @@ export default {
             this.$toast("密码必须包含字母");
             return false;
         }
-        this.$store.state.guardflag=true;
 
 
         //敲门测试用例，账号登录绑定门牌号
@@ -105,10 +104,13 @@ export default {
           break;
         }
 
-        this.$store.dispatch('knockdoor/userOnLine',this.$store.state.knockdoor.selfhid);//上线连接到聊天服务器
         
-
+       await this.$store.dispatch('loginon',{usernm:this.username,pwd:this.password});
         this.$router.push({path:'/main/community',name:'community'});
+
+        // console.log(this.$store.state.guardflag)
+        
+       
       
       },
       gotoReg() {

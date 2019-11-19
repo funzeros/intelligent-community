@@ -10,31 +10,31 @@
         <div class="body">
             <van-cell-group>
                 <van-field
-                    v-model="getInfo().cVehicleNumber"
+                    v-model="info.cNumber"
                     label="车辆号码"
                     placeholder="请输入车牌号码"
                     input-align="right"
                 />
                 <van-field
-                    v-model="getInfo().cNumber"
+                    v-model="info.cType"
                     label="车辆类型"
                     placeholder="请输入车牌类型"
                     input-align="right"
                 />
                 <van-field
-                    v-model="getInfo().cColor"
+                    v-model="info.cColor"
                     label="车辆颜色"
                     placeholder="请输入车牌颜色"
                     input-align="right"
                 />
                 <van-field
-                    v-model="getInfo().cFrameNumber"
+                    v-model="info.cFrameNumber"
                     label="车架号"
                     placeholder="请输入车架号"
                     input-align="right"
                 />
                 <van-field
-                    v-model="getInfo().cNumber"
+                    v-model="info.cVehicleNumber"
                     label="车辆编号"
                     placeholder="请输入车辆编号"
                     input-align="right"
@@ -47,12 +47,31 @@
 
 <script>
 import { mapState } from "vuex";
+import axios from "axios";
 export default {
     data() {
         return {
             cId: this.$route.params.cId,
-            info: {}
+            info: {
+                cColor:"",
+                cType:"",
+                cVehicleNumber:"",
+                cNumber:"",
+                cFrameNumber:"",
+                cId:"",
+                uId:""
+            }
         };
+    },
+    mounted() {
+        for (let car of this.carList) {
+            if (car.cId == this.cId) {
+                for (let key in car) {
+                    this.info[key] = car[key];
+                }
+            }
+        }
+        console.log(this.info);
     },
     computed: {
         getAttr(attr) {
@@ -61,19 +80,7 @@ export default {
         ...mapState({
             carList: state => state.mine.per_carList,
             oldCarList: state => state.mine.carList
-        }),
-        getInfo() {
-            return () => {
-                for (let car of this.carList) {
-                    if (car.cId == this.cId) {
-                        for (let key in car) {
-                            this.info[key] = car[key];
-                        }
-                    }
-                }
-                return this.info;
-            };
-        }
+        })
     },
     methods: {
         onClickLeft() {
@@ -90,6 +97,8 @@ export default {
                 })
                 .then(
                     () => {
+                        let url = `?uId=${this.info.uId}&cId=${this.info.cId}&cColor=${this.info.cColor}&cType=${this.info.cType}&cNumber=${this.info.cNumber}&cVehicleNumber=${this.info.cVehicleNumber}&cFrameNumber=${this.info.cFrameNumber}`;
+                        let result = axios.get("/my/editCar" + url);
                         for (let car of this.carList) {
                             if (car.cId == this.cId) {
                                 for (let key in car) {

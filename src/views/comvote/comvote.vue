@@ -60,8 +60,8 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("comvote/getcomvoting");
-    await this.$store.dispatch("comvote/getcomvoted");
+    await this.$store.dispatch("comvote/getcomvoting",this.$store.state.loginData.data.uId);
+    await this.$store.dispatch("comvote/getcomvoted",this.$store.state.loginData.data.uId);
   },
   computed: {
     comvoting() {

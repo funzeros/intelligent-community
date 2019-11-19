@@ -16,7 +16,6 @@ import neighbor from "./neighbor";
 import knockdoor from "./knockdoor";  // 敲门
 import MyRepair from "./myRepair"
 
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -63,7 +62,8 @@ export default new Vuex.Store({
         title: "我的"
       }
     ],
-    selectTab:null
+    selectTab:null,
+    loginData:{}
   },
   mutations: {
     setSuggest(state, infoID) {
@@ -91,6 +91,16 @@ export default new Vuex.Store({
   },
     setInitTab({commit}){
       commit('setInitTab');
+    },
+    async loginon({commit,dispatch,state},info){
+      let result=await axios.post(`/user/logingo?username=${info.usernm}&passward=${info.pwd}&type=1`);
+      console.log(result);
+      if(!result.data.errno){
+        state.guardflag=true;
+        state.loginData=result.data;
+        console.log(state);
+        dispatch('knockdoor/userOnLine',state.knockdoor.selfhid);//上线连接到聊天服务器
+      }
     }
   },
   modules: {
