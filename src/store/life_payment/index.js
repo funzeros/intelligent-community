@@ -19,18 +19,18 @@ export default {
 
     // 获取所有的未缴费数据
     async justpayment({ commit, state }, paymentId) {
-   
-      const result = await axios.get('/user/life?uId=13&sStatus=0');
+      
+      const result = await axios.get(`/user/life?uId=${paymentId}&sStatus=0`);
       const userpaylist=result.data.data;
       commit('setUserPay',userpaylist);
-      //console.log(state.userpayments)
+      // 
 
   
     },
     // 对应ID的详情数据
-   async detailpay({ commit, state }, detailId){
+   async detailpay({ commit, state }, {detailId,userId}){
     
-        const datailinfo = await axios.get('/user/life?uId=13&sStatus=0');
+        const datailinfo = await axios.get(`/user/life?uId=${userId}&sStatus=0`);
         const dataillist=datailinfo.data.data[detailId];
         commit('setNowPay',dataillist);
     //console.log(dataillist)

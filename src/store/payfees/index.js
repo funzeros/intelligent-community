@@ -3,7 +3,6 @@ export default {
   // 状态管理  visitor 和  投诉建议 我的记录共有  魏珍君
   namespaced: true,
   state: {
-    a:13,
     userpayments: [
       // {
       //   id: "110",
@@ -56,18 +55,22 @@ export default {
   },
   mutations: {
     getpaylist(state, conten) {
-      state.userpayments = conten.data[0].lives.map(item=>{
-        item.homenumber = `${conten.data[0].area}${conten.data[0].house}`
-        return item; 
-      })
+      if(conten.data.length !== 0 ){
+        state.userpayments = conten.data[0].lives.map(item=>{
+          item.homenumber = `${conten.data[0].area}${conten.data[0].house}`
+          return item; 
+        })
+      }
+     
     }
 
   },
   actions: {
     async getpaylist({ commit,state}) {
-      let result = await axios.get(`/user/life?uId=${state.a}&sStatus=1`);
+      let result = await axios.get(`/user/life?uId=${this.state.loginData.data.uId}&sStatus=1`);
+      console.log(result.data)
       commit('getpaylist', result.data)
-      // console.log(result.data)
+      
     }
   },
   getters: {

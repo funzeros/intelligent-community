@@ -36,13 +36,12 @@ export default {
   data() {
     return {
       checked: [],
-      type:{
+      type: {
         0: "缴费项目",
         1: "煤气费",
         2: "水费",
         3: "电费"
-      },
-      
+      }
     };
   },
   computed: {
@@ -63,19 +62,21 @@ export default {
       });
     },
     // 点击进入立即缴纳页面
-    justpay(userpayments,index){
+    justpay(userpayments, index) {
       this.$router.push({
         name: "payment_justpay",
-        params: {id:index+1}
+        params: { id: index + 1 }
       });
-    this.$store.dispatch("life_payment/detailpay",index);
+      const userId = this.$store.state.loginData.data.uId;
+      //console.log(userId)
+      this.$store.dispatch("life_payment/detailpay", {index,userId});
     }
   },
-mounted(){
-     this.$store.dispatch("life_payment/justpayment");
+  mounted() {
+    const userId = this.$store.state.loginData.data.uId;
+     this.$store.dispatch("life_payment/justpayment",userId);
+    // console.log(userId)
   }
-    
- 
 };
 </script>
 <style scoped>

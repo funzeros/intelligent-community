@@ -68,29 +68,31 @@ export default {
   },
   actions: {
     getewm({ commit }, payload) {
-      axios.post("/api/vistor",payload).then(result=>{
-        // console.log(result)
-      })
+      // axios.post("/api/vistor",payload).then(result=>{
+      //   // console.log(result)
+      // })
       commit('getewm', payload)
     },
     // 回复获取数据
-    async getreplied({ commit }) {
-      let result = await axios.get("/response?pId=5")
+    async getreplied({ commit },id) {
+      let result = await axios.get(`/response?pId=${id}`)
      let detailobj = result.data.data[0]
       commit('getreplied',detailobj)
     },
-    // 
+    // 获取所有数据
     async getallrecord({commit}){
       // let result = await axios.get("/allAdvice?uId=13")
       let alllist = null
+
       // console.log(result)
       await axios.all([
-          axios.get("/myadvice?uId=13&pStatus=1").then(res => res.data),
-          axios.get('/myadvice?uId=13&pStatus=2').then(res => res.data),
-          axios.get('/myadvice?uId=13&pStatus=3').then(res => res.data),
+          axios.get(`/myadvice?uId=${this.state.loginData.data.uId}&pStatus=1`).then(res => res.data),
+          axios.get(`/myadvice?uId=${this.state.loginData.data.uId}&pStatus=2`).then(res => res.data),
+          axios.get(`/myadvice?uId=${this.state.loginData.data.uId}&pStatus=3`).then(res => res.data),
       ]).then(
          axios.spread((val1,val2,val3)=>{
            alllist = [...val1.data,...val2.data,...val3.data]
+          //  console.log(alllist)
           commit("getallrecord",alllist)
         })
       )

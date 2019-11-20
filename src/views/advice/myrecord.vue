@@ -61,15 +61,17 @@ export default {
   },
   computed: {
     complaintdata(myrec) {
-      console.log(myrec)
-      this.filtegetrecordlist = this.$store.state.visitor.getalllist;
-      console.log(this.filtegetrecordlist)
+      console.log(myrec);
+      if (myrec !== null) {
+        this.filtegetrecordlist = this.$store.state.visitor.getalllist;
+        // console.log(this.filtegetrecordlist);
         return myrec => {
           return this.filtegetrecordlist.filter(item => {
             return item[0].pStatus == myrec;
           });
         };
-      
+      }
+
       // console.log(this.filtegetrecordlist)
     },
     getalllist() {

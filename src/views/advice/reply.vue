@@ -52,7 +52,7 @@ export default {
   },
   async mounted() {
     // 已回复 待回复数据请求
-    await this.getreplied();
+    await this.getreplied(this.$route.params.id);
     let id = this.$route.params.id;
     let list = this.$store.state.visitor.getalllist;
     // console.log(list)
